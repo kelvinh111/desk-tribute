@@ -83,6 +83,14 @@ function pick(desk) {
   const deskElement = containerRef.value.querySelector(`.grid-item[data-desk-id="${desk.id}"]`)
   if (!deskElement) return
 
+  // --- Flickity scroll to center the desk in the carousel ---
+  if (flickityInstance) {
+    const index = desks.value.findIndex(d => d.id === desk.id)
+    if (index !== -1) {
+      flickityInstance.select(index, true, true) // select(index, isWrapped, isInstant)
+    }
+  }
+
   // If already cloned, pop-in animation
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
     const { originalRect, cloneEl } = selectedDeskClone
@@ -91,8 +99,6 @@ function pick(desk) {
     const dy = originalRect.top - currentRect.top
 
     gsap.to(cloneEl, {
-      // x: dx,
-      // y: dy,
       opacity: 0,
       duration: 0.6,
       ease: 'power2.inOut',
