@@ -5,6 +5,7 @@ import Flickity from 'flickity'
 import itemsData from '../model/desk.json'
 import { useRouter, useRoute } from 'vue-router'
 import 'flickity/css/flickity.css'
+import { gsap } from 'gsap'
 
 const containerRef = ref(null)
 const desks = ref(itemsData)
@@ -79,65 +80,67 @@ onBeforeUnmount(() => {
 })
 
 function pick(desk) {
-  // Get the original desk element from the grid.
   const deskElement = containerRef.value.querySelector(`.grid-item[data-desk-id="${desk.id}"]`)
   if (!deskElement) return
 
-  // If this desk is already cloned, reverse the animation.
+  // If already cloned, pop-in animation
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
     const { originalRect, cloneEl } = selectedDeskClone
-    cloneEl.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease'
-    cloneEl.style.opacity = '0'
-    cloneEl.addEventListener('transitionend', () => {
-      cloneEl.remove()
-      selectedDeskClone = null
-      deskElement.style.visibility = 'visible'
-      containerRef.value.classList.remove('faded-queue', 'unclickable')
-      // Restore URL to root
-      if (route.params.deskId) {
-        router.push({ path: '/' })
+    const currentRect = cloneEl.getBoundingClientRect()
+    const dx = originalRect.left - currentRect.left
+    const dy = originalRect.top - currentRect.top
+
+    gsap.to(cloneEl, {
+      // x: dx,
+      // y: dy,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        cloneEl.remove()
+        deskElement.style.visibility = 'visible'
+        containerRef.value.classList.remove('faded-queue', 'unclickable')
+        selectedDeskClone = null
+        if (masonryInstance) {
+          masonryInstance.reloadItems()
+          masonryInstance.layout()
+        }
       }
-      if (masonryInstance) {
-        masonryInstance.reloadItems()
-        masonryInstance.layout()
-      }
-    }, { once: true })
+    })
     return
   }
 
-  // Otherwise, create a clone of the clicked desk.
+  // Pop-out animation
   const rect = deskElement.getBoundingClientRect()
   const cloneEl = deskElement.cloneNode(true)
-
-  // Set styles so that the clone is positioned over the original.
   cloneEl.style.position = 'fixed'
   cloneEl.style.top = rect.top + 'px'
   cloneEl.style.left = rect.left + 'px'
   cloneEl.style.width = rect.width + 'px'
   cloneEl.style.height = rect.height + 'px'
   cloneEl.style.margin = '0'
-  cloneEl.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease'
   cloneEl.style.zIndex = '2000'
-
-  // Append the clone to the document body.
+  cloneEl.style.opacity = '1'
   document.body.appendChild(cloneEl)
   deskElement.style.visibility = 'hidden'
-
-  // Fade out the underlying queue.
+  containerRef.value.querySelectorAll(`.grid-item:not([data-desk-id="${desk.id}"])`)
+    .forEach(el => el.classList.add('fade-out'))
   containerRef.value.classList.add('faded-queue', 'unclickable')
-
-  // Save the clone info.
   selectedDeskClone = { desk, originalRect: rect, cloneEl }
 
-  // Animate the clone to the center.
-  updateCloneCenterTransform()
+  // Animate to center using GSAP
+  const cloneWidth = cloneEl.offsetWidth
+  const cloneHeight = cloneEl.offsetHeight
+  const targetLeft = (window.innerWidth - cloneWidth) / 2
+  const targetTop = (window.innerHeight - cloneHeight) / 2
+  const dx = targetLeft - rect.left
+  const dy = targetTop - rect.top
 
-  // Update the URL to /{desk.id}
-  if (route.params.deskId !== String(desk.id)) {
-    router.push({ path: `/${desk.id}` })
-  }
+  gsap.fromTo(cloneEl,
+    { x: 0, y: 0, opacity: 1 },
+    { x: dx, y: dy, opacity: 1, duration: 0.6, ease: 'power2.inOut' }
+  )
 
-  // When the clone is clicked, call pick() again to reverse.
   cloneEl.addEventListener('click', () => {
     pick(desk)
   })
