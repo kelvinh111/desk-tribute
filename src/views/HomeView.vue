@@ -1,27 +1,20 @@
 <script setup>
 // import TheWelcome from '../components/TheWelcome.vue'
 import { ref, onMounted, nextTick } from 'vue'
-import Masonry from 'masonry-layout'  // Added Masonry import
+import Masonry from 'masonry-layout'
+import itemsData from '../model/desk.json' // Import items from the JSON file
 
-const containerRef = ref(null) // Added container ref
-let masonryInstance = null  // Masonry instance variable
+const containerRef = ref(null)
+let masonryInstance = null
 
-const items = ref([
-  'Vue',
-  'JavaScript',
-  'CSS',
-  'HTML',
-  'React',
-  'Figma',
-  'GraphQL',
-  'Bootstrap',
-])
+// Renamed const items to desks
+const desks = ref(itemsData)
 
 const shuffleArray = () => {
-  items.value = items.value
-    .map(value => ({ value, sort: Math.random() }))
+  desks.value = desks.value
+    .map(desk => ({ desk, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value)
+    .map(({ desk }) => desk)
   nextTick(() => {
     if (masonryInstance) {
       masonryInstance.reloadItems()
@@ -43,55 +36,45 @@ onMounted(() => {
   })
 })
 
-function pick(item) {
-  console.log('Picked item:', item)
-  // You can add more logic here if needed
-  const itemElement = Array.from(containerRef.value.querySelectorAll('.grid-item'))
-    .find(el => el.textContent.trim() === item)
-
-  if (!itemElement) return
-
-  const rect = itemElement.getBoundingClientRect()
+function pick(desk) {
+  console.log('Picked desk:', desk)
+  const deskElement = containerRef.value.querySelector(`.grid-item[data-desk-id="${desk.id}"]`)
+  if (!deskElement) return
+  const rect = deskElement.getBoundingClientRect()
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
-
   const centerX = viewportWidth / 2
   const centerY = viewportHeight / 2
-
-  const itemCenterX = rect.left + rect.width / 2
-  const itemCenterY = rect.top + rect.height / 2
-
-  const translateX = centerX - itemCenterX
-  const translateY = centerY - itemCenterY
-
-  itemElement.style.zIndex = 1000
-  itemElement.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-  itemElement.style.transform = `translate(${translateX}px, ${translateY}px)`
-
+  const deskCenterX = rect.left + rect.width / 2
+  const deskCenterY = rect.top + rect.height / 2
+  const translateX = centerX - deskCenterX
+  const translateY = centerY - deskCenterY
+  deskElement.style.zIndex = 1000
+  deskElement.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+  deskElement.style.transform = `translate(${translateX}px, ${translateY}px)`
   const handleTransitionEnd = () => {
-    itemElement.removeEventListener('transitionend', handleTransitionEnd)
-    // Optionally keep it centered, or revert after a delay:
-    // setTimeout(() => {
-    //   itemElement.style.transform = ''
-    //   itemElement.style.zIndex = ''
-    // }, 1200)
+    deskElement.removeEventListener('transitionend', handleTransitionEnd)
   }
-  itemElement.addEventListener('transitionend', handleTransitionEnd)
+  deskElement.addEventListener('transitionend', handleTransitionEnd)
 }
 </script>
 
 <template>
   <main>
-    <div ref="containerRef" class="grid"> <!-- Added container wrapper -->
+    <div ref="containerRef" class="grid">
       <TransitionGroup name="grid" tag="div">
-        <div v-for="item in items" :key="item" class="grid-item" @click="pick(item)">
+        <!-- Removed duplicate v-for loop -->
+        <div v-for="desk in desks" :key="desk.id" class="grid-item" :data-desk-id="desk.id" @click="pick(desk)">
           <div class="grid-item-content">
-            {{ item }}
+            <div><img :src="desk.profileImg" alt="Desk Image" /></div>
+            <div>{{ desk.name }}</div>
+            <div>{{ desk.title }}</div>
           </div>
         </div>
       </TransitionGroup>
+      <!-- Moved button out of TransitionGroup to avoid key warning -->
+      <button @click="shuffleArray">Shuffle Array</button>
     </div>
-    <button @click="shuffleArray">Shuffle Array</button>
   </main>
 </template>
 
