@@ -1,15 +1,11 @@
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import Masonry from 'masonry-layout'
-import itemsData from '../model/desk.json' // Import items from the JSON file
+import itemsData from '../model/desk.json'
 
 const containerRef = ref(null)
-let masonryInstance = null
-
-// Renamed const items to desks
 const desks = ref(itemsData)
-
-// Stores info about the currently cloned desk
+let masonryInstance = null
 let selectedDeskClone = null
 
 const shuffleArray = () => {
@@ -30,10 +26,8 @@ const updateCloneCenterTransform = () => {
   const { originalRect, cloneEl } = selectedDeskClone
   const cloneWidth = cloneEl.offsetWidth
   const cloneHeight = cloneEl.offsetHeight
-  // New target position in viewport: centered
   const targetLeft = (window.innerWidth - cloneWidth) / 2
   const targetTop = (window.innerHeight - cloneHeight) / 2
-  // Calculate needed offset relative to the stored original position
   const dx = targetLeft - originalRect.left
   const dy = targetTop - originalRect.top
   cloneEl.style.transform = `translate(${dx}px, ${dy}px)`
@@ -49,6 +43,7 @@ onMounted(() => {
   })
 
   window.addEventListener('resize', () => {
+    console.log('Window resized, updating clone position')
     // Update Masonry layout
     if (masonryInstance) masonryInstance.layout()
     // If a clone exists, keep it centered.
@@ -66,16 +61,7 @@ function pick(desk) {
   // If this desk is already cloned, reverse the animation.
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
     const { originalRect, cloneEl } = selectedDeskClone
-    // Animate clone back to its original position.
     cloneEl.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease'
-    // Calculate offset from current position back to original position.
-    // const currentRect = cloneEl.getBoundingClientRect()
-    // // const dx = originalRect.left - currentRect.left
-    // // const dy = originalRect.top - currentRect.top
-    // const dx = deskElement.left - currentRect.left
-    // const dy = deskElement.top - currentRect.top
-
-    // cloneEl.style.transform = `translate(${dx}px, ${dy}px)`
     cloneEl.style.opacity = '0'
     cloneEl.addEventListener('transitionend', () => {
       // Remove the clone and fade in the queue.
@@ -137,16 +123,16 @@ function pick(desk) {
           </div>
         </div>
       </TransitionGroup>
-      <button @click="shuffleArray">Shuffle Array</button>
+      <!-- <button @click="shuffleArray">Shuffle Array</button> -->
     </div>
   </main>
 </template>
 
 <style scoped lang="scss">
 .grid {
-  // display: grid;
-  // grid-template-columns: repeat(4, minmax(0, 1fr));
-  // gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
   position: relative;
   /* When the queue is fading out, reduce its opacity */
   transition: opacity 0.6s ease;
@@ -160,14 +146,14 @@ function pick(desk) {
   // padding: 1.5rem;
   width: 200px;
   height: 200px;
-  float: left;
+  // float: left;
   margin: 10px;
   background-color: pink;
   border-radius: 1rem;
   text-align: center;
   font-size: 15px;
   opacity: 1;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+  // transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
 }
 
 button {
