@@ -1,12 +1,20 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import Masonry from 'masonry-layout'
+import Flickity from 'flickity'
 import itemsData from '../model/desk.json'
+import { useRouter, useRoute } from 'vue-router'
+import 'flickity/css/flickity.css'
 
 const containerRef = ref(null)
 const desks = ref(itemsData)
 let masonryInstance = null
 let selectedDeskClone = null
+const carouselRef = ref(null)
+let flickityInstance = null
+
+const router = useRouter()
+const route = useRoute()
 
 const shuffleArray = () => {
   desks.value = desks.value
@@ -40,6 +48,16 @@ onMounted(() => {
       columnWidth: 200,
       gutter: 20
     })
+
+    // Initialize Flickity
+    if (carouselRef.value) {
+      flickityInstance = new Flickity(carouselRef.value, {
+        freeScroll: true,
+        contain: true,
+        prevNextButtons: true,
+        pageDots: false,
+      })
+    }
   })
 
   window.addEventListener('resize', () => {
@@ -53,6 +71,13 @@ onMounted(() => {
   })
 })
 
+onBeforeUnmount(() => {
+  if (flickityInstance) {
+    flickityInstance.destroy()
+    flickityInstance = null
+  }
+})
+
 function pick(desk) {
   // Get the original desk element from the grid.
   const deskElement = containerRef.value.querySelector(`.grid-item[data-desk-id="${desk.id}"]`)
@@ -64,11 +89,14 @@ function pick(desk) {
     cloneEl.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease'
     cloneEl.style.opacity = '0'
     cloneEl.addEventListener('transitionend', () => {
-      // Remove the clone and fade in the queue.
       cloneEl.remove()
       selectedDeskClone = null
       deskElement.style.visibility = 'visible'
       containerRef.value.classList.remove('faded-queue', 'unclickable')
+      // Restore URL to root
+      if (route.params.deskId) {
+        router.push({ path: '/' })
+      }
       if (masonryInstance) {
         masonryInstance.reloadItems()
         masonryInstance.layout()
@@ -104,6 +132,11 @@ function pick(desk) {
   // Animate the clone to the center.
   updateCloneCenterTransform()
 
+  // Update the URL to /{desk.id}
+  if (route.params.deskId !== String(desk.id)) {
+    router.push({ path: `/${desk.id}` })
+  }
+
   // When the clone is clicked, call pick() again to reverse.
   cloneEl.addEventListener('click', () => {
     pick(desk)
@@ -124,6 +157,14 @@ function pick(desk) {
         </div>
       </TransitionGroup>
       <!-- <button @click="shuffleArray">Shuffle Array</button> -->
+    </div>
+
+    <!-- Flickity carousel at the bottom -->
+    <div ref="carouselRef" class="carousel" style="margin-top: 40px;">
+      <div class="carousel-cell" v-for="desk in desks" :key="desk.id">
+        <img :src="desk.profileImg" :alt="desk.name" style="width: 100px; height: 100px; border-radius: 8px;" />
+        <div>{{ desk.name }}</div>
+      </div>
     </div>
   </main>
 </template>
@@ -175,5 +216,23 @@ button {
 
 .unclickable {
   pointer-events: none;
+}
+
+.carousel {
+  background: #f3f4f6;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+
+  .carousel-cell {
+    width: 120px;
+    margin-right: 10px;
+    background: #fff;
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
 }
 </style>
