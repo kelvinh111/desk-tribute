@@ -68,7 +68,7 @@ function pick(desk) {
       cloneEl.remove()
       selectedDeskClone = null
       deskElement.style.visibility = 'visible'
-      containerRef.value.classList.remove('faded-queue')
+      containerRef.value.classList.remove('faded-queue', 'unclickable')
       if (masonryInstance) {
         masonryInstance.reloadItems()
         masonryInstance.layout()
@@ -96,7 +96,7 @@ function pick(desk) {
   deskElement.style.visibility = 'hidden'
 
   // Fade out the underlying queue.
-  containerRef.value.classList.add('faded-queue')
+  containerRef.value.classList.add('faded-queue', 'unclickable')
 
   // Save the clone info.
   selectedDeskClone = { desk, originalRect: rect, cloneEl }
@@ -171,5 +171,9 @@ button {
 
 .btn:active {
   background-color: #6B7280;
+}
+
+.unclickable {
+  pointer-events: none;
 }
 </style>
