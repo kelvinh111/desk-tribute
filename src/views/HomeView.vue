@@ -67,23 +67,41 @@ onMounted(() => {
 
     gsap.set(cells, {
       width: cellWidth,
-      x: (i) => initialX[i]
+      x: (i) => initialX[i],
+      scale: 0.6 // Set base scale
     });
 
     positionCells = (dragX) => {
-      const pickerWidth = picker.offsetWidth;
+      // This function now only handles positioning, not scaling.
       cells.forEach((cell, i) => {
         const x = gsap.utils.wrap(-cellWidth, wrapWidth - cellWidth, initialX[i] + dragX);
-        const center = pickerWidth / 2 - cellWidth / 2;
-        const dist = Math.abs(x - center);
-
-        // Only scale items that are close to the center.
-        // Scale is 1 at center, and drops to a minimum of 0.6 at 1.5 cell widths away.
-        const scale = gsap.utils.mapRange(0, cellWidth * 1.5, 1, 0.6, dist);
-
-        gsap.set(cell, { x, scale: Math.max(0.6, scale) });
+        gsap.set(cell, { x });
       });
     }
+
+    // Add hover listeners for scaling effect
+    cells.forEach((cell, index) => {
+      cell.addEventListener('mouseenter', () => {
+        // Scale up the hovered cell and its neighbors
+        gsap.to(cell, { scale: 1, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+        const prevCell = cells[(index - 1 + numCells) % numCells];
+        const nextCell = cells[(index + 1) % numCells];
+        gsap.to(prevCell, { scale: 0.8, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+        gsap.to(nextCell, { scale: 0.8, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+
+        // Reset other cells to base scale
+        cells.forEach((otherCell) => {
+          if (otherCell !== cell && otherCell !== prevCell && otherCell !== nextCell) {
+            gsap.to(otherCell, { scale: 0.6, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+          }
+        });
+      });
+    });
+
+    picker.addEventListener('mouseleave', () => {
+      // When mouse leaves the picker, reset all cells to base scale
+      gsap.to(cells, { scale: 0.6, duration: 0.3, ease: 'power2.out' });
+    });
 
     draggableInstance = Draggable.create(proxy, {
       type: "x",
