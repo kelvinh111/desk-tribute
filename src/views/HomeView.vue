@@ -1,18 +1,18 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import Masonry from 'masonry-layout'
-import Flickity from 'flickity'
 import itemsData from '../model/desk.json'
 import { useRouter, useRoute } from 'vue-router'
-import 'flickity/css/flickity.css'
 import { gsap } from 'gsap'
+import Draggable from 'gsap/Draggable'
+import InertiaPlugin from 'gsap/InertiaPlugin'
+gsap.registerPlugin(Draggable, InertiaPlugin)
 
 const containerRef = ref(null)
 const desks = ref(itemsData)
 let masonryInstance = null
 let selectedDeskClone = null
-const carouselRef = ref(null)
-let flickityInstance = null
+const pickerRef = ref(null)
 
 const router = useRouter()
 const route = useRoute()
@@ -43,53 +43,82 @@ const updateCloneCenterTransform = () => {
 }
 
 onMounted(() => {
+  let draggableInstance;
+  let positionCells;
+
   nextTick(() => {
     masonryInstance = new Masonry(containerRef.value, {
       itemSelector: '.grid-item',
       columnWidth: 200,
       gutter: 20
-    })
+    });
 
-    // Initialize Flickity
-    if (carouselRef.value) {
-      flickityInstance = new Flickity(carouselRef.value, {
-        freeScroll: true,
-        contain: true,
-        prevNextButtons: true,
-        pageDots: false,
-      })
+    // Initialize GSAP Picker
+    const picker = pickerRef.value;
+    if (!picker) return;
+
+    const cells = gsap.utils.toArray(picker.querySelectorAll('.cell'));
+    const proxy = document.createElement("div");
+    const cellWidth = 120;
+    const numCells = cells.length;
+    const wrapWidth = cellWidth * numCells;
+
+    const initialX = cells.map((_, i) => i * cellWidth);
+
+    gsap.set(cells, {
+      width: cellWidth,
+      x: (i) => initialX[i]
+    });
+
+    positionCells = (dragX) => {
+      const pickerWidth = picker.offsetWidth;
+      cells.forEach((cell, i) => {
+        const x = gsap.utils.wrap(-cellWidth, wrapWidth - cellWidth, initialX[i] + dragX);
+        const center = pickerWidth / 2 - cellWidth / 2;
+        const dist = Math.abs(x - center);
+
+        // Only scale items that are close to the center.
+        // Scale is 1 at center, and drops to a minimum of 0.6 at 1.5 cell widths away.
+        const scale = gsap.utils.mapRange(0, cellWidth * 1.5, 1, 0.6, dist);
+
+        gsap.set(cell, { x, scale: Math.max(0.6, scale) });
+      });
     }
-  })
+
+    draggableInstance = Draggable.create(proxy, {
+      type: "x",
+      trigger: picker,
+      inertia: true,
+      onDrag: function () { positionCells(this.x); },
+      onThrowUpdate: function () { positionCells(this.x); },
+      snap: {
+        x: (value) => Math.round(value / cellWidth) * cellWidth
+      }
+    })[0];
+
+    positionCells(0);
+  });
 
   window.addEventListener('resize', () => {
-    console.log('Window resized, updating clone position')
     // Update Masonry layout
     if (masonryInstance) masonryInstance.layout()
     // If a clone exists, keep it centered.
     if (selectedDeskClone) {
       updateCloneCenterTransform()
     }
+    // Reposition picker cells on resize
+    if (positionCells && draggableInstance) {
+      positionCells(draggableInstance.x);
+    }
   })
 })
 
 onBeforeUnmount(() => {
-  if (flickityInstance) {
-    flickityInstance.destroy()
-    flickityInstance = null
-  }
 })
 
 function pick(desk) {
   const deskElement = containerRef.value.querySelector(`.grid-item[data-desk-id="${desk.id}"]`)
   if (!deskElement) return
-
-  // --- Flickity scroll to center the desk in the carousel ---
-  if (flickityInstance) {
-    const index = desks.value.findIndex(d => d.id === desk.id)
-    if (index !== -1) {
-      flickityInstance.select(index, true, true) // select(index, isWrapped, isInstant)
-    }
-  }
 
   // If already cloned, pop-in animation
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
@@ -168,11 +197,13 @@ function pick(desk) {
       <!-- <button @click="shuffleArray">Shuffle Array</button> -->
     </div>
 
-    <!-- Flickity carousel at the bottom -->
-    <div ref="carouselRef" class="carousel" style="margin-top: 40px;">
-      <div class="carousel-cell" v-for="desk in desks" :key="desk.id">
-        <img :src="desk.profileImg" :alt="desk.name" style="width: 100px; height: 100px; border-radius: 8px;" />
-        <div>{{ desk.name }}</div>
+    <!-- GSAP picker at the bottom -->
+    <div ref="pickerRef" class="picker">
+      <div class="cell" v-for="desk in desks" :key="desk.id">
+        <div class="cell-content">
+          <img :src="desk.profileImg" :alt="desk.name" style="width: 100px; height: 100px; border-radius: 8px;" />
+          <div>{{ desk.name }}</div>
+        </div>
       </div>
     </div>
   </main>
@@ -227,21 +258,33 @@ button {
   pointer-events: none;
 }
 
-.carousel {
-  background: #f3f4f6;
-  width: 100%;
+.picker {
   position: fixed;
   left: 0;
   bottom: 0;
+  width: 100%;
+  height: 200px;
+  background: #f3f4f6;
+  overflow: hidden;
+}
 
-  .carousel-cell {
-    width: 120px;
-    margin-right: 10px;
-    background: #fff;
-    border-radius: 8px;
-    text-align: center;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  }
+.cell {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+}
+
+.cell-content {
+  background: #fff;
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 </style>
