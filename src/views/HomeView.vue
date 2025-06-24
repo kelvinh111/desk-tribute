@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick, reactive } from 'vue'
 import Masonry from 'masonry-layout'
 import itemsData from '../model/desk.json'
 import { useRouter, useRoute } from 'vue-router'
@@ -13,6 +13,13 @@ const desks = ref(itemsData)
 let masonryInstance = null
 let selectedDeskClone = null
 const pickerRef = ref(null)
+let draggableInstance = null
+let positionCells = null
+const selectionState = reactive({
+  selectedIndex: null,
+  progress: 0,
+  hoverStates: []
+})
 
 const router = useRouter()
 const route = useRoute()
@@ -42,9 +49,14 @@ const updateCloneCenterTransform = () => {
   cloneEl.style.transform = `translate(${dx}px, ${dy}px)`
 }
 
+function onTick() {
+  if (positionCells && draggableInstance) {
+    positionCells(draggableInstance.x);
+  }
+}
+
 onMounted(() => {
-  let draggableInstance;
-  let positionCells;
+  gsap.ticker.add(onTick);
 
   nextTick(() => {
     masonryInstance = new Masonry(containerRef.value, {
@@ -56,51 +68,89 @@ onMounted(() => {
     // Initialize GSAP Picker
     const picker = pickerRef.value;
     if (!picker) return;
+    gsap.set(picker, { autoAlpha: 0 }); // Hide picker initially
 
     const cells = gsap.utils.toArray(picker.querySelectorAll('.cell'));
     const proxy = document.createElement("div");
-    const cellWidth = 120;
+    const baseCellWidth = 120;
+    const expandedCellWidth = 240; // The width of the selected cell
     const numCells = cells.length;
-    const wrapWidth = cellWidth * numCells;
+    const wrapWidth = baseCellWidth * numCells;
 
-    const initialX = cells.map((_, i) => i * cellWidth);
+    selectionState.hoverStates = cells.map(() => ({ progress: 0 }));
 
     gsap.set(cells, {
-      width: cellWidth,
-      x: (i) => initialX[i],
+      width: baseCellWidth,
+      x: (i) => i * baseCellWidth,
       scale: 0.6 // Set base scale
     });
 
     positionCells = (dragX) => {
-      // This function now only handles positioning, not scaling.
+      const totalHoverProgress = selectionState.hoverStates.reduce((sum, state) => sum + state.progress, 0);
+      const suppressionFactor = 1 - Math.min(1, totalHoverProgress);
+      const effectiveSelectedProgress = selectionState.progress * suppressionFactor;
+
+      const cellData = cells.map((cell, i) => {
+        const hoverProgress = selectionState.hoverStates[i].progress;
+        let width = baseCellWidth;
+        let scale = 0.6;
+
+        if (hoverProgress > 0) {
+          width = baseCellWidth + (expandedCellWidth - baseCellWidth) * hoverProgress;
+          scale = 0.6 + (0.4 * hoverProgress);
+        } else if (i === selectionState.selectedIndex) {
+          width = baseCellWidth + (expandedCellWidth - baseCellWidth) * effectiveSelectedProgress;
+          scale = 0.6 + (0.4 * effectiveSelectedProgress);
+        }
+        return { width, scale };
+      });
+
+      let dynamicInitialX = [];
+      let currentX = 0;
+      cellData.forEach(data => {
+        dynamicInitialX.push(currentX);
+        currentX += data.width;
+      });
+      const dynamicWrapWidth = currentX;
+
+      const virtualProgress = dragX / wrapWidth;
+      const dynamicDragX = virtualProgress * dynamicWrapWidth;
+
       cells.forEach((cell, i) => {
-        const x = gsap.utils.wrap(-cellWidth, wrapWidth - cellWidth, initialX[i] + dragX);
-        gsap.set(cell, { x });
+        const data = cellData[i];
+        const x = gsap.utils.wrap(0, dynamicWrapWidth, dynamicInitialX[i] + dynamicDragX);
+        gsap.set(cell, { x, width: data.width, scale: data.scale });
       });
     }
 
     // Add hover listeners for scaling effect
     cells.forEach((cell, index) => {
       cell.addEventListener('mouseenter', () => {
-        // Scale up the hovered cell and its neighbors
-        gsap.to(cell, { scale: 1, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
-        const prevCell = cells[(index - 1 + numCells) % numCells];
-        const nextCell = cells[(index + 1) % numCells];
-        gsap.to(prevCell, { scale: 0.8, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
-        gsap.to(nextCell, { scale: 0.8, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+        if (selectionState.selectedIndex === null) return;
 
-        // Reset other cells to base scale
-        cells.forEach((otherCell) => {
-          if (otherCell !== cell && otherCell !== prevCell && otherCell !== nextCell) {
-            gsap.to(otherCell, { scale: 0.6, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+        // If hovering over the selected cell, cancel any other hover effects.
+        if (index === selectionState.selectedIndex) {
+          selectionState.hoverStates.forEach(state => {
+            gsap.to(state, { progress: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+          });
+          return;
+        }
+
+        // If hovering a non-selected cell, make it the new hover target.
+        gsap.to(selectionState.hoverStates[index], { progress: 1, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+        selectionState.hoverStates.forEach((state, i) => {
+          if (i !== index) {
+            gsap.to(state, { progress: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
           }
         });
       });
     });
 
     picker.addEventListener('mouseleave', () => {
-      // When mouse leaves the picker, reset all cells to base scale
-      gsap.to(cells, { scale: 0.6, duration: 0.3, ease: 'power2.out' });
+      if (selectionState.selectedIndex === null) return;
+      selectionState.hoverStates.forEach(state => {
+        gsap.to(state, { progress: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+      });
     });
 
     draggableInstance = Draggable.create(proxy, {
@@ -110,11 +160,22 @@ onMounted(() => {
       onDrag: function () { positionCells(this.x); },
       onThrowUpdate: function () { positionCells(this.x); },
       snap: {
-        x: (value) => Math.round(value / cellWidth) * cellWidth
+        x: (value) => Math.round(value / baseCellWidth) * baseCellWidth
       }
     })[0];
 
     positionCells(0);
+
+    // Check for deskId in route on initial load
+    if (route.params.deskId) {
+      const desk = desks.value.find(d => d.id === route.params.deskId);
+      if (desk) {
+        // Use a small timeout to ensure the masonry layout is complete before picking
+        setTimeout(() => {
+          pick(desk);
+        }, 150);
+      }
+    }
   });
 
   window.addEventListener('resize', () => {
@@ -132,11 +193,67 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  gsap.ticker.remove(onTick);
 })
 
 function pick(desk) {
   const deskElement = containerRef.value.querySelector(`.grid-item[data-desk-id="${desk.id}"]`)
   if (!deskElement) return
+
+  // --- Carousel scroll and expansion logic ---
+  if (pickerRef.value && draggableInstance && positionCells) {
+    const index = desks.value.findIndex(d => d.id === desk.id);
+    if (index !== -1) {
+      const isClosing = selectedDeskClone && selectedDeskClone.desk.id === desk.id;
+
+      if (isClosing) {
+        router.push('/'); // Update URL when closing
+        selectionState.hoverStates.forEach(state => { state.progress = 0; });
+        gsap.to(pickerRef.value, { autoAlpha: 0, duration: 0.6, ease: 'power2.inOut' });
+        gsap.to(selectionState, {
+          progress: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => { selectionState.selectedIndex = null; }
+        });
+      } else {
+        if (route.path !== '/' + desk.id) {
+          router.push('/' + desk.id); // Update URL when selecting
+        }
+        gsap.to(pickerRef.value, { autoAlpha: 1, duration: 0.6, ease: 'power2.inOut' });
+        selectionState.selectedIndex = index;
+
+        const picker = pickerRef.value;
+        const baseCellWidth = 120;
+        const expandedCellWidth = 240;
+        const pickerWidth = picker.offsetWidth;
+        const numCells = desks.value.length;
+        const wrapWidth = baseCellWidth * numCells;
+
+        let dynamicInitialX = [];
+        let currentX = 0;
+        for (let i = 0; i < numCells; i++) {
+          dynamicInitialX.push(currentX);
+          currentX += (i === index) ? expandedCellWidth : baseCellWidth;
+        }
+        const dynamicWrapWidth = currentX;
+
+        const targetDynamicX = (pickerWidth / 2 - expandedCellWidth / 2) - dynamicInitialX[index];
+
+        const currentVirtualX = draggableInstance.x;
+        const currentDynamicX = (currentVirtualX / wrapWidth) * dynamicWrapWidth;
+
+        const diff = targetDynamicX - currentDynamicX;
+        const wrappedDiff = gsap.utils.wrap(-dynamicWrapWidth / 2, dynamicWrapWidth / 2)(diff);
+        const closestTargetDynamicX = currentDynamicX + wrappedDiff;
+        const closestTargetVirtualX = (closestTargetDynamicX / dynamicWrapWidth) * wrapWidth;
+
+        const tl = gsap.timeline();
+        tl.to(selectionState, { progress: 1, duration: 0.6, ease: 'power2.inOut' }, 0);
+        tl.to(draggableInstance, { x: closestTargetVirtualX, duration: 0.6, ease: 'power2.inOut' }, 0);
+      }
+    }
+  }
 
   // If already cloned, pop-in animation
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
