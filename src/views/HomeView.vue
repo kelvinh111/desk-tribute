@@ -6,6 +6,13 @@ import { useRouter, useRoute } from 'vue-router'
 import { gsap } from 'gsap'
 // Draggable and InertiaPlugin are no longer needed since we built a custom carousel.
 
+// --- Configuration Constants ---
+const BASE_CELL_WIDTH = 120;
+const EXPANDED_CELL_WIDTH = 240;
+const ANIMATION_DURATION = 0.6;
+const HOVER_ANIMATION_DURATION = 0.4;
+const THROW_MULTIPLIER = 250;
+
 // --- Refs for DOM Elements ---
 const containerRef = ref(null) // Ref for the main masonry grid container.
 const desks = ref(itemsData) // Reactive ref holding the array of desk data.
@@ -80,8 +87,6 @@ function getCarouselBounds() {
   const picker = pickerRef.value;
   if (!picker) return { minX: 0, maxX: 0 };
 
-  const baseCellWidth = 120;
-  const expandedCellWidth = 240;
   const numCells = desks.value.length;
 
   // This logic is crucial. It calculates the carousel's total width at any given moment,
@@ -93,13 +98,13 @@ function getCarouselBounds() {
   let dynamicContentWidth = 0;
   for (let i = 0; i < numCells; i++) {
     const hoverProgress = selectionState.hoverStates[i]?.progress || 0;
-    let width = baseCellWidth;
+    let width = BASE_CELL_WIDTH;
     if (hoverProgress > 0) {
       // If a cell is hovered, calculate its width based on its hover progress.
-      width = baseCellWidth + (expandedCellWidth - baseCellWidth) * hoverProgress;
+      width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * hoverProgress;
     } else if (i === selectionState.selectedIndex) {
       // Otherwise, if it's the selected cell, calculate its width based on its selection progress.
-      width = baseCellWidth + (expandedCellWidth - baseCellWidth) * effectiveSelectedProgress;
+      width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * effectiveSelectedProgress;
     }
     dynamicContentWidth += width;
   }
@@ -174,7 +179,7 @@ function handlePointerUp() {
   window.removeEventListener('pointerup', handlePointerUp);
 
   // If the user was dragging, create a "flick" or "inertia" animation.
-  const throwDistance = carousel.velocityX * 250; // Calculate how far to throw based on final velocity.
+  const throwDistance = carousel.velocityX * THROW_MULTIPLIER; // Calculate how far to throw based on final velocity.
   let targetX = carousel.x + throwDistance;
 
   const bounds = getCarouselBounds(); // Get the final bounds.
@@ -183,7 +188,7 @@ function handlePointerUp() {
   // Animate the carousel to the final target position.
   gsap.to(carousel, {
     x: targetX,
-    duration: 0.6,
+    duration: ANIMATION_DURATION,
     ease: 'power3.out',
   });
 }
@@ -208,16 +213,14 @@ onMounted(() => {
     gsap.set(picker, { autoAlpha: 0 }); // Hide picker initially.
 
     const cells = gsap.utils.toArray(picker.querySelectorAll('.cell'));
-    const baseCellWidth = 120;
-    const expandedCellWidth = 240;
     const numCells = cells.length;
 
     selectionState.hoverStates = cells.map(() => ({ progress: 0 })); // Initialize hover state for each cell.
 
     // Set the initial visual state of all cells.
     gsap.set(cells, {
-      width: baseCellWidth,
-      x: (i) => i * baseCellWidth,
+      width: BASE_CELL_WIDTH,
+      x: (i) => i * BASE_CELL_WIDTH,
       scale: 0.6
     });
 
@@ -231,14 +234,14 @@ onMounted(() => {
 
       const cellData = cells.map((cell, i) => {
         const hoverProgress = selectionState.hoverStates[i].progress;
-        let width = baseCellWidth;
+        let width = BASE_CELL_WIDTH;
         let scale = 0.6;
 
         if (hoverProgress > 0) {
-          width = baseCellWidth + (expandedCellWidth - baseCellWidth) * hoverProgress;
+          width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * hoverProgress;
           scale = 0.6 + (0.4 * hoverProgress);
         } else if (i === selectionState.selectedIndex) {
-          width = baseCellWidth + (expandedCellWidth - baseCellWidth) * effectiveSelectedProgress;
+          width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * effectiveSelectedProgress;
           scale = 0.6 + (0.4 * effectiveSelectedProgress);
         }
         return { width, scale };
@@ -270,17 +273,17 @@ onMounted(() => {
         if (index === selectionState.selectedIndex) {
           selectionState.hoverStates.forEach((state, i) => {
             if (i !== index) {
-              gsap.to(state, { progress: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+              gsap.to(state, { progress: 0, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
             }
           });
           return;
         }
 
         // If hovering a new cell, animate its progress to 1 and all others to 0.
-        gsap.to(selectionState.hoverStates[index], { progress: 1, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+        gsap.to(selectionState.hoverStates[index], { progress: 1, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
         selectionState.hoverStates.forEach((state, i) => {
           if (i !== index) {
-            gsap.to(state, { progress: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+            gsap.to(state, { progress: 0, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
           }
         });
       });
@@ -290,7 +293,7 @@ onMounted(() => {
     picker.addEventListener('mouseleave', () => {
       if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
       selectionState.hoverStates.forEach(state => {
-        gsap.to(state, { progress: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+        gsap.to(state, { progress: 0, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
       });
     });
 
@@ -347,11 +350,11 @@ function pick(desk) {
       if (isClosing) {
         router.push('/'); // Change the URL back to the root.
         selectionState.hoverStates.forEach(state => { state.progress = 0; }); // Reset hovers.
-        gsap.to(pickerRef.value, { autoAlpha: 0, duration: 0.6, ease: 'power2.inOut' }); // Fade out the carousel.
+        gsap.to(pickerRef.value, { autoAlpha: 0, duration: ANIMATION_DURATION, ease: 'power2.inOut' }); // Fade out the carousel.
         // Animate the selection progress back to 0 to shrink the selected cell.
         gsap.to(selectionState, {
           progress: 0,
-          duration: 0.6,
+          duration: ANIMATION_DURATION,
           ease: 'power2.inOut',
           onComplete: () => { selectionState.selectedIndex = null; } // Reset selection on complete.
         });
@@ -359,12 +362,10 @@ function pick(desk) {
         if (route.path !== '/' + desk.id) {
           router.push('/' + desk.id); // Change the URL to the specific desk.
         }
-        gsap.to(pickerRef.value, { autoAlpha: 1, duration: 0.6, ease: 'power2.inOut' }); // Fade in the carousel.
+        gsap.to(pickerRef.value, { autoAlpha: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' }); // Fade in the carousel.
         selectionState.selectedIndex = index; // Set the new selected index.
 
         const picker = pickerRef.value;
-        const baseCellWidth = 120;
-        const expandedCellWidth = 240;
         const pickerWidth = picker.offsetWidth;
         const numCells = desks.value.length;
 
@@ -373,12 +374,12 @@ function pick(desk) {
         let currentX = 0;
         for (let i = 0; i < numCells; i++) {
           dynamicInitialX.push(currentX);
-          currentX += (i === index) ? expandedCellWidth : baseCellWidth;
+          currentX += (i === index) ? EXPANDED_CELL_WIDTH : BASE_CELL_WIDTH;
         }
         const dynamicContentWidth = currentX;
 
         // Calculate the target scroll position to perfectly center the selected cell.
-        const targetX = (pickerWidth / 2 - expandedCellWidth / 2) - dynamicInitialX[index];
+        const targetX = (pickerWidth / 2 - EXPANDED_CELL_WIDTH / 2) - dynamicInitialX[index];
 
         // Calculate the bounds for the final state.
         const finalBounds = {
@@ -389,8 +390,8 @@ function pick(desk) {
 
         // Create a timeline to synchronize the selection progress animation and the scroll animation.
         const tl = gsap.timeline();
-        tl.to(selectionState, { progress: 1, duration: 0.6, ease: 'power2.inOut' }, 0);
-        tl.to(carousel, { x: clampedTargetX, duration: 0.6, ease: 'power2.inOut' }, 0);
+        tl.to(selectionState, { progress: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' }, 0);
+        tl.to(carousel, { x: clampedTargetX, duration: ANIMATION_DURATION, ease: 'power2.inOut' }, 0);
       }
     }
   }
@@ -404,7 +405,7 @@ function pick(desk) {
     // Animate the clone back to its original position in the grid.
     gsap.to(cloneEl, {
       opacity: 0,
-      duration: 0.6,
+      duration: ANIMATION_DURATION,
       ease: 'power2.inOut',
       onComplete: () => {
         cloneEl.remove(); // Remove the clone from the DOM.
@@ -450,7 +451,7 @@ function pick(desk) {
 
   gsap.fromTo(cloneEl,
     { x: 0, y: 0, opacity: 1 },
-    { x: dx, y: dy, opacity: 1, duration: 0.6, ease: 'power2.inOut' }
+    { x: dx, y: dy, opacity: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' }
   )
 
   // Add a click listener to the clone so it can be closed.
