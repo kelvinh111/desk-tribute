@@ -12,6 +12,8 @@ const EXPANDED_CELL_WIDTH = 240;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 250;
+const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry grid.
+const GUTTER = 0; // The space between grid items in the Masonry layout.
 
 // --- Refs for DOM Elements ---
 const containerRef = ref(null) // Ref for the main masonry grid container.
@@ -203,8 +205,8 @@ onMounted(() => {
     // Initialize the Masonry grid layout.
     masonryInstance = new Masonry(containerRef.value, {
       itemSelector: '.grid-item',
-      columnWidth: 200,
-      gutter: 20
+      columnWidth: COLUMN_WIDTH,
+      gutter: GUTTER,
     });
 
     // --- Carousel Initialization ---
@@ -466,10 +468,16 @@ function pick(desk) {
     <div ref="containerRef" class="grid">
       <TransitionGroup name="grid" tag="div">
         <div v-for="desk in desks" :key="desk.id" class="grid-item" :data-desk-id="desk.id" @click="pick(desk)">
-          <div class="grid-item-content">
-            <div><img :src="desk.profileImg" alt="Desk Image" /></div>
-            <div>{{ desk.name }}</div>
-            <div>{{ desk.title }}</div>
+          <div class="grid-item-content" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
+            <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
+            <div class="desk-monitor"
+              :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y + 'px', left: desk.monitor.x + 'px', width: desk.monitor.width + 'px', height: desk.monitor.height + 'px' }">
+            </div>
+            <div class="desk-screen"
+              :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y + 'px', left: desk.screen.x + 'px', width: desk.screen.width + 'px', height: desk.screen.height + 'px' }">
+            </div>
+            <div class="desk-name">{{ desk.name }}</div>
+            <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
           </div>
         </div>
       </TransitionGroup>
@@ -503,17 +511,57 @@ function pick(desk) {
 }
 
 .grid-item {
-  // padding: 1.5rem;
-  width: 200px;
-  height: 200px;
-  // float: left;
-  margin: 10px;
-  background-color: pink;
-  border-radius: 1rem;
-  text-align: center;
+  // margin: 30px;
+  // background-color: pink;
+  // border-radius: 1rem;
+  // text-align: center;
   font-size: 15px;
   opacity: 1;
   // transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+
+  .grid-item-content {
+    // border: 1px solid blue;
+    width: 285px;
+    height: 275px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center bottom;
+    position: relative;
+  }
+
+  .desk-decor,
+  .desk-monitor,
+  .desk-screen {
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .desk-decor {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .desk-name {
+    position: absolute;
+    bottom: 12px;
+    left: 37px;
+    color: #959595;
+    z-index: 2;
+    font-size: 14px;
+  }
+
+  .desk-desc {
+    position: absolute;
+    bottom: 1px;
+    left: 37px;
+    color: #959595;
+    z-index: 2;
+    font-size: 10px;
+  }
 }
 
 button {

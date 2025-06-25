@@ -4,791 +4,2177 @@
         "name": "Alice",
         "title": "Designer",
         "location": "New York",
-        "profileImg": "https://picsum.photos/138/87",
-        "screenImg": "https://picsum.photos/138/87"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?1"
+        }
     },
     {
         "id": 2,
         "name": "Bob",
         "title": "Developer",
         "location": "San Francisco",
-        "profileImg": "https://picsum.photos/138/87?2",
-        "screenImg": "https://picsum.photos/138/87?2"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?2"
+        }
     },
     {
         "id": 3,
         "name": "Charlie",
         "title": "Product Manager",
         "location": "London",
-        "profileImg": "https://picsum.photos/138/87?3",
-        "screenImg": "https://picsum.photos/138/87?3"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?3"
+        }
     },
     {
         "id": 4,
         "name": "Diana",
         "title": "QA Engineer",
         "location": "Berlin",
-        "profileImg": "https://picsum.photos/138/87?4",
-        "screenImg": "https://picsum.photos/138/87?4"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?4"
+        }
     },
     {
         "id": 5,
         "name": "Ethan",
         "title": "DevOps",
         "location": "Toronto",
-        "profileImg": "https://picsum.photos/138/87?5",
-        "screenImg": "https://picsum.photos/138/87?5"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?5"
+        }
     },
     {
         "id": 6,
         "name": "Fiona",
         "title": "UX Researcher",
         "location": "Paris",
-        "profileImg": "https://picsum.photos/138/87?6",
-        "screenImg": "https://picsum.photos/138/87?6"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?6"
+        }
     },
     {
         "id": 7,
         "name": "George",
         "title": "Backend Developer",
         "location": "Sydney",
-        "profileImg": "https://picsum.photos/138/87?7",
-        "screenImg": "https://picsum.photos/138/87?7"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?7"
+        }
     },
     {
         "id": 8,
         "name": "Hannah",
         "title": "Frontend Developer",
         "location": "Amsterdam",
-        "profileImg": "https://picsum.photos/138/87?8",
-        "screenImg": "https://picsum.photos/138/87?8"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?8"
+        }
     },
     {
         "id": 9,
         "name": "Ian",
         "title": "Mobile Developer",
         "location": "Tokyo",
-        "profileImg": "https://picsum.photos/138/87?9",
-        "screenImg": "https://picsum.photos/138/87?9"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?9"
+        }
     },
     {
         "id": 10,
         "name": "Julia",
         "title": "Scrum Master",
         "location": "Madrid",
-        "profileImg": "https://picsum.photos/138/87?10",
-        "screenImg": "https://picsum.photos/138/87?10"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?10"
+        }
     },
     {
         "id": 11,
         "name": "Kevin",
         "title": "Full Stack Developer",
         "location": "Dublin",
-        "profileImg": "https://picsum.photos/138/87?11",
-        "screenImg": "https://picsum.photos/138/87?11"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?11"
+        }
     },
     {
         "id": 12,
         "name": "Laura",
         "title": "UI Designer",
         "location": "Rome",
-        "profileImg": "https://picsum.photos/138/87?12",
-        "screenImg": "https://picsum.photos/138/87?12"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?12"
+        }
     },
     {
         "id": 13,
         "name": "Mike",
         "title": "Cloud Architect",
         "location": "Zurich",
-        "profileImg": "https://picsum.photos/138/87?13",
-        "screenImg": "https://picsum.photos/138/87?13"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?13"
+        }
     },
     {
         "id": 14,
         "name": "Nina",
         "title": "Security Analyst",
         "location": "Vienna",
-        "profileImg": "https://picsum.photos/138/87?14",
-        "screenImg": "https://picsum.photos/138/87?14"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?14"
+        }
     },
     {
         "id": 15,
         "name": "Oscar",
         "title": "Data Scientist",
         "location": "Stockholm",
-        "profileImg": "https://picsum.photos/138/87?15",
-        "screenImg": "https://picsum.photos/138/87?15"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?15"
+        }
     },
     {
         "id": 16,
         "name": "Paula",
         "title": "Business Analyst",
         "location": "Oslo",
-        "profileImg": "https://picsum.photos/138/87?16",
-        "screenImg": "https://picsum.photos/138/87?16"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?16"
+        }
     },
     {
         "id": 17,
         "name": "Quentin",
         "title": "AI Engineer",
         "location": "Helsinki",
-        "profileImg": "https://picsum.photos/138/87?17",
-        "screenImg": "https://picsum.photos/138/87?17"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?17"
+        }
     },
     {
         "id": 18,
         "name": "Rachel",
         "title": "Support Engineer",
         "location": "Brussels",
-        "profileImg": "https://picsum.photos/138/87?18",
-        "screenImg": "https://picsum.photos/138/87?18"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?18"
+        }
     },
     {
         "id": 19,
         "name": "Sam",
         "title": "Network Engineer",
         "location": "Prague",
-        "profileImg": "https://picsum.photos/138/87?19",
-        "screenImg": "https://picsum.photos/138/87?19"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?19"
+        }
     },
     {
         "id": 20,
         "name": "Tina",
         "title": "Content Strategist",
         "location": "Lisbon",
-        "profileImg": "https://picsum.photos/138/87?20",
-        "screenImg": "https://picsum.photos/138/87?20"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?20"
+        }
     },
     {
         "id": 21,
         "name": "Uma",
         "title": "SEO Specialist",
         "location": "Budapest",
-        "profileImg": "https://picsum.photos/138/87?21",
-        "screenImg": "https://picsum.photos/138/87?21"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?21"
+        }
     },
     {
         "id": 22,
         "name": "Victor",
         "title": "Growth Hacker",
         "location": "Warsaw",
-        "profileImg": "https://picsum.photos/138/87?22",
-        "screenImg": "https://picsum.photos/138/87?22"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?22"
+        }
     },
     {
         "id": 23,
         "name": "Wendy",
         "title": "Copywriter",
         "location": "Copenhagen",
-        "profileImg": "https://picsum.photos/138/87?23",
-        "screenImg": "https://picsum.photos/138/87?23"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?23"
+        }
     },
     {
         "id": 24,
         "name": "Xavier",
         "title": "Game Developer",
         "location": "Milan",
-        "profileImg": "https://picsum.photos/138/87?24",
-        "screenImg": "https://picsum.photos/138/87?24"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?24"
+        }
     },
     {
         "id": 25,
         "name": "Yara",
         "title": "VR Specialist",
         "location": "Athens",
-        "profileImg": "https://picsum.photos/138/87?25",
-        "screenImg": "https://picsum.photos/138/87?25"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?25"
+        }
     },
     {
         "id": 26,
         "name": "Zane",
         "title": "Blockchain Dev",
         "location": "Tallinn",
-        "profileImg": "https://picsum.photos/138/87?26",
-        "screenImg": "https://picsum.photos/138/87?26"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?26"
+        }
     },
     {
         "id": 27,
         "name": "Ava",
         "title": "Marketing Lead",
         "location": "Edinburgh",
-        "profileImg": "https://picsum.photos/138/87?27",
-        "screenImg": "https://picsum.photos/138/87?27"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?27"
+        }
     },
     {
         "id": 28,
         "name": "Ben",
         "title": "Sales Manager",
         "location": "Munich",
-        "profileImg": "https://picsum.photos/138/87?28",
-        "screenImg": "https://picsum.photos/138/87?28"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?28"
+        }
     },
     {
         "id": 29,
         "name": "Cara",
         "title": "HR Specialist",
         "location": "Bratislava",
-        "profileImg": "https://picsum.photos/138/87?29",
-        "screenImg": "https://picsum.photos/138/87?29"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?29"
+        }
     },
     {
-        "id": 30,
+        "id": 45,
         "name": "Dan",
         "title": "Legal Advisor",
         "location": "Ljubljana",
-        "profileImg": "https://picsum.photos/138/87?30",
-        "screenImg": "https://picsum.photos/138/87?30"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?45"
+        }
     },
     {
         "id": 31,
         "name": "Ella",
         "title": "Finance Manager",
         "location": "Luxembourg",
-        "profileImg": "https://picsum.photos/138/87?31",
-        "screenImg": "https://picsum.photos/138/87?31"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?31"
+        }
     },
     {
         "id": 32,
         "name": "Felix",
         "title": "Operations Lead",
         "location": "Reykjavik",
-        "profileImg": "https://picsum.photos/138/87?32",
-        "screenImg": "https://picsum.photos/138/87?32"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?32"
+        }
     },
     {
         "id": 33,
         "name": "Grace",
         "title": "Customer Success",
         "location": "Valletta",
-        "profileImg": "https://picsum.photos/138/87?33",
-        "screenImg": "https://picsum.photos/138/87?33"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?33"
+        }
     },
     {
         "id": 34,
         "name": "Henry",
         "title": "IT Support",
         "location": "Sofia",
-        "profileImg": "https://picsum.photos/138/87?34",
-        "screenImg": "https://picsum.photos/138/87?34"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?34"
+        }
     },
     {
         "id": 35,
         "name": "Isabel",
         "title": "Recruiter",
         "location": "Zagreb",
-        "profileImg": "https://picsum.photos/138/87?35",
-        "screenImg": "https://picsum.photos/138/87?35"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?35"
+        }
     },
     {
         "id": 36,
         "name": "Jack",
         "title": "Logistics Coordinator",
         "location": "Belgrade",
-        "profileImg": "https://picsum.photos/138/87?36",
-        "screenImg": "https://picsum.photos/138/87?36"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?36"
+        }
     },
     {
         "id": 37,
         "name": "Kara",
         "title": "Brand Manager",
         "location": "Krakow",
-        "profileImg": "https://picsum.photos/138/87?37",
-        "screenImg": "https://picsum.photos/138/87?37"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?37"
+        }
     },
     {
         "id": 38,
         "name": "Liam",
         "title": "Systems Analyst",
         "location": "Vilnius",
-        "profileImg": "https://picsum.photos/138/87?38",
-        "screenImg": "https://picsum.photos/138/87?38"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?38"
+        }
     },
     {
-        "id": 39,
+        "id": 59,
         "name": "Mona",
         "title": "PR Specialist",
         "location": "Riga",
-        "profileImg": "https://picsum.photos/138/87?39",
-        "screenImg": "https://picsum.photos/138/87?39"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?59"
+        }
     },
     {
-        "id": 40,
+        "id": 60,
         "name": "Noah",
         "title": "Accountant",
         "location": "Tallinn",
-        "profileImg": "https://picsum.photos/138/87?40",
-        "screenImg": "https://picsum.photos/138/87?40"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?60"
+        }
     },
     {
         "id": 41,
         "name": "Olivia",
         "title": "Procurement Lead",
         "location": "Bern",
-        "profileImg": "https://picsum.photos/138/87?41",
-        "screenImg": "https://picsum.photos/138/87?41"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?41"
+        }
     },
     {
         "id": 42,
         "name": "Peter",
         "title": "Legal Counsel",
         "location": "Oslo",
-        "profileImg": "https://picsum.photos/138/87?42",
-        "screenImg": "https://picsum.photos/138/87?42"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?42"
+        }
     },
     {
         "id": 43,
         "name": "Queenie",
         "title": "Event Planner",
         "location": "Helsinki",
-        "profileImg": "https://picsum.photos/138/87?43",
-        "screenImg": "https://picsum.photos/138/87?43"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?43"
+        }
     },
     {
         "id": 44,
         "name": "Ray",
         "title": "Data Analyst",
         "location": "Brussels",
-        "profileImg": "https://picsum.photos/138/87?44",
-        "screenImg": "https://picsum.photos/138/87?44"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?44"
+        }
     },
     {
         "id": 45,
         "name": "Sara",
         "title": "Communications Lead",
         "location": "Vienna",
-        "profileImg": "https://picsum.photos/138/87?45",
-        "screenImg": "https://picsum.photos/138/87?45"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?45"
+        }
     },
     {
         "id": 46,
         "name": "Tom",
         "title": "Growth Marketer",
         "location": "Prague",
-        "profileImg": "https://picsum.photos/138/87?46",
-        "screenImg": "https://picsum.photos/138/87?46"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?46"
+        }
     },
     {
         "id": 47,
         "name": "Ursula",
         "title": "Content Writer",
         "location": "Budapest",
-        "profileImg": "https://picsum.photos/138/87?47",
-        "screenImg": "https://picsum.photos/138/87?47"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?47"
+        }
     },
     {
-        "id": 48,
+        "id": 72,
         "name": "Viktor",
         "title": "QA Tester",
         "location": "Warsaw",
-        "profileImg": "https://picsum.photos/138/87?48",
-        "screenImg": "https://picsum.photos/138/87?48"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?72"
+        }
     },
     {
         "id": 49,
         "name": "Willa",
         "title": "UX Designer",
         "location": "Copenhagen",
-        "profileImg": "https://picsum.photos/138/87?49",
-        "screenImg": "https://picsum.photos/138/87?49"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?49"
+        }
     },
     {
         "id": 50,
         "name": "Xena",
         "title": "Mobile QA",
         "location": "Milan",
-        "profileImg": "https://picsum.photos/138/87?50",
-        "screenImg": "https://picsum.photos/138/87?50"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?50"
+        }
     },
     {
-        "id": 51,
+        "id": 77,
         "name": "Yusuf",
         "title": "Cloud Engineer",
         "location": "Athens",
-        "profileImg": "https://picsum.photos/138/87?51",
-        "screenImg": "https://picsum.photos/138/87?51"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?77"
+        }
     },
     {
         "id": 52,
         "name": "Zara",
         "title": "AI Researcher",
         "location": "Tallinn",
-        "profileImg": "https://picsum.photos/138/87?52",
-        "screenImg": "https://picsum.photos/138/87?52"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?52"
+        }
     },
     {
         "id": 53,
         "name": "Aaron",
         "title": "Support Lead",
         "location": "Edinburgh",
-        "profileImg": "https://picsum.photos/138/87?53",
-        "screenImg": "https://picsum.photos/138/87?53"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?53"
+        }
     },
     {
         "id": 54,
         "name": "Bella",
         "title": "SEO Analyst",
         "location": "Munich",
-        "profileImg": "https://picsum.photos/138/87?54",
-        "screenImg": "https://picsum.photos/138/87?54"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?54"
+        }
     },
     {
         "id": 55,
         "name": "Caleb",
         "title": "Growth Analyst",
         "location": "Bratislava",
-        "profileImg": "https://picsum.photos/138/87?55",
-        "screenImg": "https://picsum.photos/138/87?55"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?55"
+        }
     },
     {
         "id": 56,
         "name": "Daisy",
         "title": "Copy Editor",
         "location": "Ljubljana",
-        "profileImg": "https://picsum.photos/138/87?56",
-        "screenImg": "https://picsum.photos/138/87?56"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?56"
+        }
     },
     {
         "id": 57,
         "name": "Eli",
         "title": "Game Designer",
         "location": "Luxembourg",
-        "profileImg": "https://picsum.photos/138/87?57",
-        "screenImg": "https://picsum.photos/138/87?57"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?57"
+        }
     },
     {
         "id": 58,
         "name": "Faith",
         "title": "VR Developer",
         "location": "Reykjavik",
-        "profileImg": "https://picsum.photos/138/87?58",
-        "screenImg": "https://picsum.photos/138/87?58"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?58"
+        }
     },
     {
         "id": 59,
         "name": "Gavin",
         "title": "Blockchain Analyst",
         "location": "Valletta",
-        "profileImg": "https://picsum.photos/138/87?59",
-        "screenImg": "https://picsum.photos/138/87?59"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?59"
+        }
     },
     {
         "id": 60,
         "name": "Hazel",
         "title": "Marketing Analyst",
         "location": "Sofia",
-        "profileImg": "https://picsum.photos/138/87?60",
-        "screenImg": "https://picsum.photos/138/87?60"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?60"
+        }
     },
     {
         "id": 61,
         "name": "Ivan",
         "title": "Sales Lead",
         "location": "Zagreb",
-        "profileImg": "https://picsum.photos/138/87?61",
-        "screenImg": "https://picsum.photos/138/87?61"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?61"
+        }
     },
     {
         "id": 62,
         "name": "Jade",
         "title": "HR Lead",
         "location": "Belgrade",
-        "profileImg": "https://picsum.photos/138/87?62",
-        "screenImg": "https://picsum.photos/138/87?62"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?62"
+        }
     },
     {
         "id": 63,
         "name": "Kyle",
         "title": "Legal Specialist",
         "location": "Krakow",
-        "profileImg": "https://picsum.photos/138/87?63",
-        "screenImg": "https://picsum.photos/138/87?63"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?63"
+        }
     },
     {
         "id": 64,
         "name": "Lila",
         "title": "Finance Analyst",
         "location": "Vilnius",
-        "profileImg": "https://picsum.photos/138/87?64",
-        "screenImg": "https://picsum.photos/138/87?64"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?64"
+        }
     },
     {
         "id": 65,
         "name": "Mason",
         "title": "Operations Analyst",
         "location": "Riga",
-        "profileImg": "https://picsum.photos/138/87?65",
-        "screenImg": "https://picsum.photos/138/87?65"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?65"
+        }
     },
     {
         "id": 66,
         "name": "Nora",
         "title": "Customer Support",
         "location": "Tallinn",
-        "profileImg": "https://picsum.photos/138/87?66",
-        "screenImg": "https://picsum.photos/138/87?66"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?66"
+        }
     },
     {
         "id": 67,
         "name": "Omar",
         "title": "IT Analyst",
         "location": "Bern",
-        "profileImg": "https://picsum.photos/138/87?67",
-        "screenImg": "https://picsum.photos/138/87?67"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?67"
+        }
     },
     {
         "id": 68,
         "name": "Pia",
         "title": "Procurement Analyst",
         "location": "Oslo",
-        "profileImg": "https://picsum.photos/138/87?68",
-        "screenImg": "https://picsum.photos/138/87?68"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?68"
+        }
     },
     {
         "id": 69,
         "name": "Quinn",
         "title": "Event Coordinator",
         "location": "Helsinki",
-        "profileImg": "https://picsum.photos/138/87?69",
-        "screenImg": "https://picsum.photos/138/87?69"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?69"
+        }
     },
     {
         "id": 70,
         "name": "Rita",
         "title": "PR Lead",
         "location": "Brussels",
-        "profileImg": "https://picsum.photos/138/87?70",
-        "screenImg": "https://picsum.photos/138/87?70"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?70"
+        }
     },
     {
-        "id": 71,
+        "id": 107,
         "name": "Sean",
         "title": "Account Manager",
         "location": "Vienna",
-        "profileImg": "https://picsum.photos/138/87?71",
-        "screenImg": "https://picsum.photos/138/87?71"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?107"
+        }
     },
     {
         "id": 72,
         "name": "Tara",
         "title": "Communications Analyst",
         "location": "Prague",
-        "profileImg": "https://picsum.photos/138/87?72",
-        "screenImg": "https://picsum.photos/138/87?72"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?72"
+        }
     },
     {
         "id": 73,
         "name": "Ulrich",
         "title": "Growth Specialist",
         "location": "Budapest",
-        "profileImg": "https://picsum.photos/138/87?73",
-        "screenImg": "https://picsum.photos/138/87?73"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?73"
+        }
     },
     {
         "id": 74,
         "name": "Vera",
         "title": "Content Analyst",
         "location": "Warsaw",
-        "profileImg": "https://picsum.photos/138/87?74",
-        "screenImg": "https://picsum.photos/138/87?74"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?74"
+        }
     },
     {
         "id": 75,
         "name": "Wes",
         "title": "QA Lead",
         "location": "Copenhagen",
-        "profileImg": "https://picsum.photos/138/87?75",
-        "screenImg": "https://picsum.photos/138/87?75"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?75"
+        }
     },
     {
         "id": 76,
         "name": "Ximena",
         "title": "UX Lead",
         "location": "Milan",
-        "profileImg": "https://picsum.photos/138/87?76",
-        "screenImg": "https://picsum.photos/138/87?76"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?76"
+        }
     },
     {
         "id": 77,
         "name": "Yvonne",
         "title": "Mobile Lead",
         "location": "Athens",
-        "profileImg": "https://picsum.photos/138/87?77",
-        "screenImg": "https://picsum.photos/138/87?77"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?77"
+        }
     },
     {
         "id": 78,
         "name": "Zeke",
         "title": "Cloud Lead",
         "location": "Tallinn",
-        "profileImg": "https://picsum.photos/138/87?78",
-        "screenImg": "https://picsum.photos/138/87?78"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?78"
+        }
     },
     {
         "id": 79,
         "name": "Abby",
         "title": "AI Lead",
         "location": "Edinburgh",
-        "profileImg": "https://picsum.photos/138/87?79",
-        "screenImg": "https://picsum.photos/138/87?79"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?79"
+        }
     },
     {
         "id": 80,
         "name": "Blake",
         "title": "Support Analyst",
         "location": "Munich",
-        "profileImg": "https://picsum.photos/138/87?80",
-        "screenImg": "https://picsum.photos/138/87?80"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?80"
+        }
     },
     {
         "id": 81,
         "name": "Cleo",
         "title": "SEO Lead",
         "location": "Bratislava",
-        "profileImg": "https://picsum.photos/138/87?81",
-        "screenImg": "https://picsum.photos/138/87?81"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?81"
+        }
     },
     {
         "id": 82,
         "name": "Derek",
         "title": "Growth Lead",
         "location": "Ljubljana",
-        "profileImg": "https://picsum.photos/138/87?82",
-        "screenImg": "https://picsum.photos/138/87?82"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?82"
+        }
     },
     {
         "id": 83,
         "name": "Erin",
         "title": "Copy Lead",
         "location": "Luxembourg",
-        "profileImg": "https://picsum.photos/138/87?83",
-        "screenImg": "https://picsum.photos/138/87?83"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?83"
+        }
     },
     {
         "id": 84,
         "name": "Finn",
         "title": "Game Lead",
         "location": "Reykjavik",
-        "profileImg": "https://picsum.photos/138/87?84",
-        "screenImg": "https://picsum.photos/138/87?84"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?84"
+        }
     },
     {
         "id": 85,
         "name": "Gia",
         "title": "VR Lead",
         "location": "Valletta",
-        "profileImg": "https://picsum.photos/138/87?85",
-        "screenImg": "https://picsum.photos/138/87?85"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?85"
+        }
     },
     {
         "id": 86,
         "name": "Harvey",
         "title": "Blockchain Lead",
         "location": "Sofia",
-        "profileImg": "https://picsum.photos/138/87?86",
-        "screenImg": "https://picsum.photos/138/87?86"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?86"
+        }
     },
     {
         "id": 87,
         "name": "Ivy",
         "title": "Marketing Lead",
         "location": "Zagreb",
-        "profileImg": "https://picsum.photos/138/87?87",
-        "screenImg": "https://picsum.photos/138/87?87"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?87"
+        }
     },
     {
         "id": 88,
         "name": "Jonas",
         "title": "Sales Analyst",
         "location": "Belgrade",
-        "profileImg": "https://picsum.photos/138/87?88",
-        "screenImg": "https://picsum.photos/138/87?88"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?88"
+        }
     },
     {
         "id": 89,
         "name": "Kelsey",
         "title": "HR Analyst",
         "location": "Krakow",
-        "profileImg": "https://picsum.photos/138/87?89",
-        "screenImg": "https://picsum.photos/138/87?89"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?89"
+        }
     },
     {
         "id": 90,
         "name": "Leo",
         "title": "Legal Lead",
         "location": "Vilnius",
-        "profileImg": "https://picsum.photos/138/87?90",
-        "screenImg": "https://picsum.photos/138/87?90"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?90"
+        }
     },
     {
         "id": 91,
         "name": "Mira",
         "title": "Finance Lead",
         "location": "Riga",
-        "profileImg": "https://picsum.photos/138/87?91",
-        "screenImg": "https://picsum.photos/138/87?91"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?91"
+        }
     },
     {
         "id": 92,
         "name": "Nate",
         "title": "Operations Lead",
         "location": "Tallinn",
-        "profileImg": "https://picsum.photos/138/87?92",
-        "screenImg": "https://picsum.photos/138/87?92"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?92"
+        }
     },
     {
         "id": 93,
         "name": "Opal",
         "title": "Customer Analyst",
         "location": "Bern",
-        "profileImg": "https://picsum.photos/138/87?93",
-        "screenImg": "https://picsum.photos/138/87?93"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?93"
+        }
     },
     {
         "id": 94,
         "name": "Parker",
         "title": "IT Lead",
         "location": "Oslo",
-        "profileImg": "https://picsum.photos/138/87?94",
-        "screenImg": "https://picsum.photos/138/87?94"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?94"
+        }
     },
     {
         "id": 95,
         "name": "Quincy",
         "title": "Procurement Lead",
         "location": "Helsinki",
-        "profileImg": "https://picsum.photos/138/87?95",
-        "screenImg": "https://picsum.photos/138/87?95"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?95"
+        }
     },
     {
         "id": 96,
         "name": "Renee",
         "title": "Event Lead",
         "location": "Brussels",
-        "profileImg": "https://picsum.photos/138/87?96",
-        "screenImg": "https://picsum.photos/138/87?96"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?96"
+        }
     },
     {
         "id": 97,
         "name": "Soren",
         "title": "PR Analyst",
         "location": "Vienna",
-        "profileImg": "https://picsum.photos/138/87?97",
-        "screenImg": "https://picsum.photos/138/87?97"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?97"
+        }
     },
     {
         "id": 98,
         "name": "Tessa",
         "title": "Account Analyst",
         "location": "Prague",
-        "profileImg": "https://picsum.photos/138/87?98",
-        "screenImg": "https://picsum.photos/138/87?98"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?98"
+        }
     },
     {
         "id": 99,
         "name": "Ugo",
         "title": "Communications Lead",
         "location": "Budapest",
-        "profileImg": "https://picsum.photos/138/87?99",
-        "screenImg": "https://picsum.photos/138/87?99"
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": 107,
+            "height": 60,
+            "x": 59,
+            "y": 170,
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": 72,
+            "height": 45,
+            "x": 77,
+            "y": 174,
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?99"
+        }
     }
 ]
