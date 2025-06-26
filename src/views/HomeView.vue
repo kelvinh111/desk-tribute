@@ -7,13 +7,17 @@ import { gsap } from 'gsap'
 // Draggable and InertiaPlugin are no longer needed since we built a custom carousel.
 
 // --- Configuration Constants ---
-const BASE_CELL_WIDTH = 120;
-const EXPANDED_CELL_WIDTH = 240;
+// const BASE_CELL_WIDTH = 100;
+const BASE_CELL_WIDTH = 70;
+const EXPANDED_CELL_WIDTH = 140;
+const BASE_CELL_HEIGHT = 68;
+const EXPANDED_CELL_HEIGHT = 136;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 250;
 const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry grid.
 const GUTTER = 0; // The space between grid items in the Masonry layout.
+const CAROUSEL_GUTTER = 20; // The space between cells in the carousel.
 
 // --- Refs for DOM Elements ---
 const containerRef = ref(null) // Ref for the main masonry grid container.
@@ -109,6 +113,10 @@ function getCarouselBounds() {
       width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * effectiveSelectedProgress;
     }
     dynamicContentWidth += width;
+  }
+
+  if (numCells > 0) {
+    dynamicContentWidth += (numCells - 1) * CAROUSEL_GUTTER;
   }
 
   const pickerWidth = picker.offsetWidth;
@@ -222,8 +230,8 @@ onMounted(() => {
     // Set the initial visual state of all cells.
     gsap.set(cells, {
       width: BASE_CELL_WIDTH,
-      x: (i) => i * BASE_CELL_WIDTH,
-      scale: 0.6
+      height: BASE_CELL_HEIGHT,
+      x: (i) => i * (BASE_CELL_WIDTH + CAROUSEL_GUTTER),
     });
 
     // This is the core layout function for the carousel.
@@ -237,16 +245,16 @@ onMounted(() => {
       const cellData = cells.map((cell, i) => {
         const hoverProgress = selectionState.hoverStates[i].progress;
         let width = BASE_CELL_WIDTH;
-        let scale = 0.6;
+        let height = BASE_CELL_HEIGHT;
 
         if (hoverProgress > 0) {
           width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * hoverProgress;
-          scale = 0.6 + (0.4 * hoverProgress);
+          height = BASE_CELL_HEIGHT + (EXPANDED_CELL_HEIGHT - BASE_CELL_HEIGHT) * hoverProgress;
         } else if (i === selectionState.selectedIndex) {
           width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * effectiveSelectedProgress;
-          scale = 0.6 + (0.4 * effectiveSelectedProgress);
+          height = BASE_CELL_HEIGHT + (EXPANDED_CELL_HEIGHT - BASE_CELL_HEIGHT) * effectiveSelectedProgress;
         }
-        return { width, scale };
+        return { width, height };
       });
 
       // Calculate the starting X position for each cell based on the widths of the preceding cells.
@@ -254,14 +262,14 @@ onMounted(() => {
       let currentX = 0;
       cellData.forEach(data => {
         dynamicInitialX.push(currentX);
-        currentX += data.width;
+        currentX += data.width + CAROUSEL_GUTTER;
       });
 
       // Apply the final transform to each cell.
       cells.forEach((cell, i) => {
         const data = cellData[i];
         const x = dynamicInitialX[i] + dragX; // The cell's base position plus the current drag amount.
-        gsap.set(cell, { x, width: data.width, scale: data.scale });
+        gsap.set(cell, { x, width: data.width, height: data.height });
       });
     };
 
@@ -376,9 +384,9 @@ function pick(desk) {
         let currentX = 0;
         for (let i = 0; i < numCells; i++) {
           dynamicInitialX.push(currentX);
-          currentX += (i === index) ? EXPANDED_CELL_WIDTH : BASE_CELL_WIDTH;
+          currentX += ((i === index) ? EXPANDED_CELL_WIDTH : BASE_CELL_WIDTH) + CAROUSEL_GUTTER;
         }
-        const dynamicContentWidth = currentX;
+        const dynamicContentWidth = currentX - (numCells > 0 ? CAROUSEL_GUTTER : 0);
 
         // Calculate the target scroll position to perfectly center the selected cell.
         const targetX = (pickerWidth / 2 - EXPANDED_CELL_WIDTH / 2) - dynamicInitialX[index];
@@ -468,13 +476,13 @@ function pick(desk) {
     <div ref="containerRef" class="grid">
       <TransitionGroup name="grid" tag="div">
         <div v-for="desk in desks" :key="desk.id" class="grid-item" :data-desk-id="desk.id" @click="pick(desk)">
-          <div class="grid-item-content" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
+          <div class="grid-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
             <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
             <div class="desk-monitor"
-              :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y + 'px', left: desk.monitor.x + 'px', width: desk.monitor.width + 'px', height: desk.monitor.height + 'px' }">
+              :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y, left: desk.monitor.x, width: desk.monitor.width, height: desk.monitor.height }">
             </div>
             <div class="desk-screen"
-              :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y + 'px', left: desk.screen.x + 'px', width: desk.screen.width + 'px', height: desk.screen.height + 'px' }">
+              :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }">
             </div>
             <div class="desk-name">{{ desk.name }}</div>
             <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
@@ -487,9 +495,19 @@ function pick(desk) {
     <!-- GSAP picker at the bottom -->
     <div ref="pickerRef" class="picker">
       <div class="cell" v-for="desk in desks" :key="desk.id">
-        <div class="cell-content">
+        <!-- <div class="cell-content desk">
           <img :src="desk.profileImg" :alt="desk.name" style="width: 100px; height: 100px; border-radius: 8px;" />
           <div>{{ desk.name }}</div>
+        </div> -->
+        <div class="cell-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
+          <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
+          <div class="desk-monitor"
+            :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y, left: desk.monitor.x, width: desk.monitor.width, height: desk.monitor.height }">
+          </div>
+          <div class="desk-screen"
+            :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }">
+          </div>
+          <div class="desk-name">{{ desk.name }}</div>
         </div>
       </div>
     </div>
@@ -521,13 +539,20 @@ function pick(desk) {
 
   .grid-item-content {
     // border: 1px solid blue;
-    width: 285px;
-    height: 275px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center bottom;
     position: relative;
+    width: 285px;
+    height: 275px;
   }
+}
+
+
+
+.desk {
+  font-size: 14px;
+  color: #959595;
 
   .desk-decor,
   .desk-monitor,
@@ -547,18 +572,15 @@ function pick(desk) {
 
   .desk-name {
     position: absolute;
-    bottom: 12px;
-    left: 37px;
-    color: #959595;
+    bottom: 4.5%;
+    left: 13%;
     z-index: 2;
-    font-size: 14px;
   }
 
   .desk-desc {
     position: absolute;
-    bottom: 1px;
-    left: 37px;
-    color: #959595;
+    bottom: 0.5%;
+    left: 13%;
     z-index: 2;
     font-size: 10px;
   }
@@ -590,29 +612,30 @@ button {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 200px;
-  background: #f3f4f6;
+  height: 136px;
   overflow: hidden;
+  z-index: 10;
 }
 
 .cell {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
-  height: 100%;
   user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;
   transform-origin: center bottom;
+  padding: 0;
 }
 
 .cell-content {
-  background: #fff;
-  border-radius: 8px;
-  text-align: center;
-  padding: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center bottom;
+  position: relative;
+  width: 100%;
+  height: 100%;
 
   img {
     pointer-events: none;
