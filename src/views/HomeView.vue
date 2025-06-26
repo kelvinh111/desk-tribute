@@ -4,10 +4,8 @@ import Masonry from 'masonry-layout'
 import itemsData from '../model/desk.json'
 import { useRouter, useRoute } from 'vue-router'
 import { gsap } from 'gsap'
-// Draggable and InertiaPlugin are no longer needed since we built a custom carousel.
 
 // --- Configuration Constants ---
-// const BASE_CELL_WIDTH = 100;
 const BASE_CELL_WIDTH = 70;
 const EXPANDED_CELL_WIDTH = 140;
 const BASE_CELL_HEIGHT = 68;
@@ -15,9 +13,11 @@ const EXPANDED_CELL_HEIGHT = 136;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 250;
-const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry grid.
+const COLUMN_WIDTH = 320; // This is the width of each column in the Masonry grid.
 const GUTTER = 0; // The space between grid items in the Masonry layout.
 const CAROUSEL_GUTTER = 20; // The space between cells in the carousel.
+
+const windowWidth = ref(0)
 
 // --- Refs for DOM Elements ---
 const containerRef = ref(null) // Ref for the main masonry grid container.
@@ -52,6 +52,20 @@ const carousel = reactive({
 // --- Vue Router ---
 const router = useRouter() // Used to programmatically change the URL (e.g., router.push('/')).
 const route = useRoute() // Used to read information from the current URL (e.g., route.params.deskId).
+
+const handleResize = () => {
+  windowWidth.value = window.innerWidth
+  // Update Masonry layout
+  if (masonryInstance) masonryInstance.layout()
+  // If a clone exists, keep it centered.
+  if (selectedDeskClone) {
+    updateCloneCenterTransform()
+  }
+  // Reposition picker cells on resize
+  if (positionCells && carousel) {
+    positionCells(carousel.x);
+  }
+}
 
 const shuffleArray = () => {
   desks.value = desks.value
@@ -246,15 +260,18 @@ onMounted(() => {
         const hoverProgress = selectionState.hoverStates[i].progress;
         let width = BASE_CELL_WIDTH;
         let height = BASE_CELL_HEIGHT;
+        let opacity = 0.5;
 
         if (hoverProgress > 0) {
           width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * hoverProgress;
           height = BASE_CELL_HEIGHT + (EXPANDED_CELL_HEIGHT - BASE_CELL_HEIGHT) * hoverProgress;
+          opacity = 0.5 + 0.5 * hoverProgress;
         } else if (i === selectionState.selectedIndex) {
           width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * effectiveSelectedProgress;
           height = BASE_CELL_HEIGHT + (EXPANDED_CELL_HEIGHT - BASE_CELL_HEIGHT) * effectiveSelectedProgress;
+          opacity = 0.5 + 0.5 * effectiveSelectedProgress;
         }
-        return { width, height };
+        return { width, height, opacity };
       });
 
       // Calculate the starting X position for each cell based on the widths of the preceding cells.
@@ -269,7 +286,7 @@ onMounted(() => {
       cells.forEach((cell, i) => {
         const data = cellData[i];
         const x = dynamicInitialX[i] + dragX; // The cell's base position plus the current drag amount.
-        gsap.set(cell, { x, width: data.width, height: data.height });
+        gsap.set(cell, { x, width: data.width, height: data.height, opacity: data.opacity });
       });
     };
 
@@ -324,18 +341,8 @@ onMounted(() => {
     }
   });
 
-  window.addEventListener('resize', () => {
-    // Update Masonry layout
-    if (masonryInstance) masonryInstance.layout()
-    // If a clone exists, keep it centered.
-    if (selectedDeskClone) {
-      updateCloneCenterTransform()
-    }
-    // Reposition picker cells on resize
-    if (positionCells && carousel) {
-      positionCells(carousel.x);
-    }
-  })
+  handleResize()
+  window.addEventListener('resize', handleResize)
 })
 
 onBeforeUnmount(() => {
@@ -343,6 +350,7 @@ onBeforeUnmount(() => {
   gsap.ticker.remove(onTick);
   window.removeEventListener('pointermove', handlePointerMove);
   window.removeEventListener('pointerup', handlePointerUp);
+  window.removeEventListener('resize', handleResize)
 })
 
 // This is the main function that orchestrates the opening and closing of a desk item.
@@ -434,15 +442,12 @@ function pick(desk) {
   // If we are opening an item.
   const rect = deskElement.getBoundingClientRect(); // Get the position of the original grid item.
   const cloneEl = deskElement.cloneNode(true); // Create a clone.
-  // Style the clone to be fixed and positioned exactly on top of the original.
-  cloneEl.style.position = 'fixed';
+  cloneEl.classList.add('desk-clone');
+  // Style the clone to be positioned exactly on top of the original.
   cloneEl.style.top = rect.top + 'px';
   cloneEl.style.left = rect.left + 'px';
   cloneEl.style.width = rect.width + 'px';
   cloneEl.style.height = rect.height + 'px';
-  cloneEl.style.margin = '0';
-  cloneEl.style.zIndex = '2000';
-  cloneEl.style.opacity = '1';
   document.body.appendChild(cloneEl);
   deskElement.style.visibility = 'hidden'; // Hide the original item.
   // Fade out the rest of the grid.
@@ -473,32 +478,36 @@ function pick(desk) {
 
 <template>
   <main>
-    <div ref="containerRef" class="grid">
+    <div ref="containerRef" class="grid"
+      :style="{ width: `${COLUMN_WIDTH * Math.min(desks.length, Math.floor(windowWidth / COLUMN_WIDTH))}px` }">
       <TransitionGroup name="grid" tag="div">
         <div v-for="desk in desks" :key="desk.id" class="grid-item" :data-desk-id="desk.id" @click="pick(desk)">
           <div class="grid-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
             <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
-            <div class="desk-monitor"
-              :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y, left: desk.monitor.x, width: desk.monitor.width, height: desk.monitor.height }">
-            </div>
-            <div class="desk-screen"
-              :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }">
-            </div>
+            <div class="desk-monitor" :style="{
+              backgroundImage: `url(${desk.monitor.img})`,
+              top: desk.monitor.y,
+              left: desk.monitor.x,
+              width: desk.monitor.width,
+              height: desk.monitor.height
+            }"></div>
+            <div class="desk-screen" :style="{
+              backgroundImage: `url(${desk.screen.img})`,
+              top: desk.screen.y,
+              left: desk.screen.x,
+              width: desk.screen.width,
+              height: desk.screen.height
+            }"></div>
             <div class="desk-name">{{ desk.name }}</div>
             <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
           </div>
         </div>
       </TransitionGroup>
-      <!-- <button @click="shuffleArray">Shuffle Array</button> -->
     </div>
 
     <!-- GSAP picker at the bottom -->
     <div ref="pickerRef" class="picker">
       <div class="cell" v-for="desk in desks" :key="desk.id">
-        <!-- <div class="cell-content desk">
-          <img :src="desk.profileImg" :alt="desk.name" style="width: 100px; height: 100px; border-radius: 8px;" />
-          <div>{{ desk.name }}</div>
-        </div> -->
         <div class="cell-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
           <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
           <div class="desk-monitor"
@@ -515,13 +524,16 @@ function pick(desk) {
 </template>
 
 <style scoped lang="scss">
+main {
+  background-color: #9E7DF5;
+}
+
+
 .grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
   position: relative;
   /* When the queue is fading out, reduce its opacity */
   transition: opacity 0.6s ease;
+  margin: 0 auto;
 }
 
 .faded-queue {
@@ -529,13 +541,8 @@ function pick(desk) {
 }
 
 .grid-item {
-  // margin: 30px;
-  // background-color: pink;
-  // border-radius: 1rem;
-  // text-align: center;
   font-size: 15px;
   opacity: 1;
-  // transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
 
   .grid-item-content {
     // border: 1px solid blue;
@@ -610,7 +617,7 @@ button {
 .picker {
   position: fixed;
   left: 0;
-  bottom: 0;
+  bottom: -5px;
   width: 100%;
   height: 136px;
   overflow: hidden;
@@ -639,6 +646,16 @@ button {
 
   img {
     pointer-events: none;
+  }
+}
+
+.desk-clone {
+  margin: 0;
+  z-index: 2000;
+
+  .desk-name,
+  .desk-desc {
+    color: white !important;
   }
 }
 </style>
