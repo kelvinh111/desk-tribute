@@ -82,14 +82,16 @@ const shuffleArray = () => {
 
 const updateCloneCenterTransform = () => {
   if (!selectedDeskClone) return
-  const { originalRect, cloneEl } = selectedDeskClone
+  const { cloneEl } = selectedDeskClone
   const cloneWidth = cloneEl.offsetWidth
   const cloneHeight = cloneEl.offsetHeight
   const targetLeft = (window.innerWidth - cloneWidth) / 2
-  const targetTop = (window.innerHeight - cloneHeight) / 2
-  const dx = targetLeft - originalRect.left
-  const dy = targetTop - originalRect.top
-  cloneEl.style.transform = `translate(${dx}px, ${dy}px)`
+  const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY
+  gsap.to(cloneEl, {
+    top: targetTop,
+    left: targetLeft,
+    duration: 0, // Instantly move it
+  });
 }
 
 // The main animation loop, powered by GSAP's ticker for performance.
@@ -366,6 +368,7 @@ function pick(desk) {
       const isClosing = selectedDeskClone && selectedDeskClone.desk.id === desk.id;
 
       if (isClosing) {
+        document.body.style.overflow = ''; // Re-enable scrolling
         router.push('/'); // Change the URL back to the root.
         selectionState.hoverStates.forEach(state => { state.progress = 0; }); // Reset hovers.
         gsap.to(pickerRef.value, { autoAlpha: 0, duration: ANIMATION_DURATION, ease: 'power2.inOut' }); // Fade out the carousel.
@@ -377,6 +380,7 @@ function pick(desk) {
           onComplete: () => { selectionState.selectedIndex = null; } // Reset selection on complete.
         });
       } else { // This is the "opening" logic.
+        document.body.style.overflow = 'hidden'; // Disable scrolling
         if (route.path !== '/' + desk.id) {
           router.push('/' + desk.id); // Change the URL to the specific desk.
         }
@@ -418,14 +422,19 @@ function pick(desk) {
 
   // If we are closing an item (the clone already exists).
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
-    const { originalRect, cloneEl } = selectedDeskClone
-    const currentRect = cloneEl.getBoundingClientRect()
+    const { cloneEl } = selectedDeskClone
+    const finalRect = deskElement.getBoundingClientRect(); // Get final position
     // Animate the clone back to its original position in the grid.
     gsap.to(cloneEl, {
+      top: finalRect.top + window.scrollY,
+      left: finalRect.left,
+      width: finalRect.width,
+      height: finalRect.height,
       opacity: 0,
       duration: ANIMATION_DURATION,
       ease: 'power2.inOut',
       onComplete: () => {
+        document.body.style.overflow = ''; // Also re-enable scrolling here for safety
         cloneEl.remove(); // Remove the clone from the DOM.
         deskElement.style.visibility = 'visible'; // Make the original grid item visible again.
         containerRef.value.classList.remove('faded-queue', 'unclickable'); // Un-fade the grid.
@@ -444,7 +453,8 @@ function pick(desk) {
   const cloneEl = deskElement.cloneNode(true); // Create a clone.
   cloneEl.classList.add('desk-clone');
   // Style the clone to be positioned exactly on top of the original.
-  cloneEl.style.top = rect.top + 'px';
+  cloneEl.style.position = 'absolute'; // Use absolute positioning
+  cloneEl.style.top = rect.top + window.scrollY + 'px';
   cloneEl.style.left = rect.left + 'px';
   cloneEl.style.width = rect.width + 'px';
   cloneEl.style.height = rect.height + 'px';
@@ -460,14 +470,14 @@ function pick(desk) {
   const cloneWidth = cloneEl.offsetWidth;
   const cloneHeight = cloneEl.offsetHeight;
   const targetLeft = (window.innerWidth - cloneWidth) / 2;
-  const targetTop = (window.innerHeight - cloneHeight) / 2;
-  const dx = targetLeft - rect.left;
-  const dy = targetTop - rect.top;
+  const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY;
 
-  gsap.fromTo(cloneEl,
-    { x: 0, y: 0, opacity: 1 },
-    { x: dx, y: dy, opacity: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' }
-  )
+  gsap.to(cloneEl, {
+    top: targetTop,
+    left: targetLeft,
+    duration: ANIMATION_DURATION,
+    ease: 'power2.inOut'
+  });
 
   // Add a click listener to the clone so it can be closed.
   cloneEl.addEventListener('click', () => {
@@ -650,6 +660,7 @@ button {
 }
 
 .desk-clone {
+  position: absolute;
   margin: 0;
   z-index: 2000;
 
