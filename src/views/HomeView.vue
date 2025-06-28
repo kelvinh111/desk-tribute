@@ -26,6 +26,7 @@ let masonryInstance = null // Will hold the Masonry layout instance.
 let selectedDeskClone = null // Will hold the cloned element for the pop-out animation.
 const pickerRef = ref(null) // Ref for the carousel container at the bottom.
 let positionCells = null; // Will hold the function that calculates and sets cell positions.
+let needsPositionUpdate = false; // Flag to track when positioning update is needed.
 
 // --- State Management ---
 
@@ -64,6 +65,7 @@ const handleResize = () => {
   // Reposition picker cells on resize
   if (positionCells && carousel) {
     positionCells(carousel.x);
+    markForUpdate();
   }
 }
 
@@ -96,12 +98,16 @@ const updateCloneCenterTransform = () => {
 
 // The main animation loop, powered by GSAP's ticker for performance.
 function onTick() {
-  // This function is called on every single animation frame (usually 60 times per second).
-  // It continuously calls positionCells to update the visual layout of the carousel
-  // based on the current scroll position (carousel.x).
-  if (positionCells) {
+  // Only update positions when necessary instead of every frame
+  if (needsPositionUpdate && positionCells) {
     positionCells(carousel.x);
+    needsPositionUpdate = false;
   }
+}
+
+// Helper function to mark that positions need updating
+function markForUpdate() {
+  needsPositionUpdate = true;
 }
 
 // A helper function to calculate the carousel's total width and valid drag range.
@@ -183,6 +189,7 @@ function handlePointerMove(event) {
 
   const bounds = getCarouselBounds(); // Get the current valid drag range.
   carousel.x = gsap.utils.clamp(bounds.minX, bounds.maxX, newX); // Clamp the position within the bounds.
+  markForUpdate(); // Mark that positions need updating
 
   // Continuously calculate the velocity for the "flick" effect.
   const now = Date.now();
@@ -216,6 +223,7 @@ function handlePointerUp() {
     x: targetX,
     duration: ANIMATION_DURATION,
     ease: 'power3.out',
+    onUpdate: markForUpdate, // Mark for update during animation
   });
 }
 
@@ -309,10 +317,22 @@ onMounted(() => {
         }
 
         // If hovering a new cell, animate its progress to 1 and all others to 0.
-        gsap.to(selectionState.hoverStates[index], { progress: 1, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
+        gsap.to(selectionState.hoverStates[index], {
+          progress: 1,
+          duration: HOVER_ANIMATION_DURATION,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: markForUpdate
+        });
         selectionState.hoverStates.forEach((state, i) => {
           if (i !== index) {
-            gsap.to(state, { progress: 0, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
+            gsap.to(state, {
+              progress: 0,
+              duration: HOVER_ANIMATION_DURATION,
+              ease: 'power2.out',
+              overwrite: 'auto',
+              onUpdate: markForUpdate
+            });
           }
         });
       });
@@ -322,7 +342,13 @@ onMounted(() => {
     picker.addEventListener('mouseleave', () => {
       if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
       selectionState.hoverStates.forEach(state => {
-        gsap.to(state, { progress: 0, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
+        gsap.to(state, {
+          progress: 0,
+          duration: HOVER_ANIMATION_DURATION,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: markForUpdate
+        });
       });
     });
 
@@ -330,6 +356,7 @@ onMounted(() => {
     picker.addEventListener('pointerdown', handlePointerDown);
 
     positionCells(0); // Perform an initial layout.
+    markForUpdate(); // Ensure initial update happens
 
     // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
     if (route.params.deskId) {
@@ -377,6 +404,7 @@ function pick(desk) {
           progress: 0,
           duration: ANIMATION_DURATION,
           ease: 'power2.inOut',
+          onUpdate: markForUpdate, // Mark for update during closing animation
           onComplete: () => { selectionState.selectedIndex = null; } // Reset selection on complete.
         });
       } else { // This is the "opening" logic.
@@ -390,6 +418,11 @@ function pick(desk) {
         const picker = pickerRef.value;
         const pickerWidth = picker.offsetWidth;
         const numCells = desks.value.length;
+        const activeCell = picker.querySelectorAll('.cell')[index];
+        const activeCellContent = activeCell.querySelector('.cell-content');
+
+        // Set the cell content to be fully transparent initially
+        gsap.set(activeCellContent, { autoAlpha: 0 });
 
         // Calculate the layout of the carousel in its final "opened" state.
         let dynamicInitialX = [];
@@ -412,8 +445,41 @@ function pick(desk) {
 
         // Create a timeline to synchronize the selection progress animation and the scroll animation.
         const tl = gsap.timeline();
-        tl.to(selectionState, { progress: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' }, 0);
-        tl.to(carousel, { x: clampedTargetX, duration: ANIMATION_DURATION, ease: 'power2.inOut' }, 0);
+        tl.to(selectionState, {
+          progress: 1,
+          duration: ANIMATION_DURATION,
+          ease: 'power2.inOut',
+          onUpdate: markForUpdate // Mark for update during selection animation
+        }, 0);
+        tl.to(carousel, {
+          x: clampedTargetX,
+          duration: ANIMATION_DURATION,
+          ease: 'power2.inOut',
+          onUpdate: markForUpdate // Mark for update during scroll animation
+        }, 0);
+
+        // Add the cell content animation to the timeline, starting after the previous animations complete
+        tl.call(() => {
+          // Get references when the animation actually runs
+          const activeCellLeft = activeCell.getBoundingClientRect().left;
+          const fromLeft = window.innerWidth / 2 - activeCell.getBoundingClientRect().width / 2;
+
+          gsap.fromTo(activeCellContent, {
+            // FROM values - what it starts as
+            autoAlpha: 0,
+            scale: 0.8,
+            x: fromLeft - activeCellLeft,
+            y: window.innerHeight / 2 - activeCell.getBoundingClientRect().top,
+          }, {
+            // TO values - what it animates to
+            autoAlpha: 1, // Animate to fully opaque
+            scale: 1,
+            x: 0,
+            y: 0,
+            duration: ANIMATION_DURATION,
+            ease: 'power2.inOut',
+          });
+        }, null, ANIMATION_DURATION); // Position at ANIMATION_DURATION seconds into the timeline
       }
     }
   }
@@ -430,12 +496,11 @@ function pick(desk) {
       left: finalRect.left,
       width: finalRect.width,
       height: finalRect.height,
-      opacity: 0,
+      opacity: 1,
       duration: ANIMATION_DURATION,
       ease: 'power2.inOut',
       onComplete: () => {
         document.body.style.overflow = ''; // Also re-enable scrolling here for safety
-        cloneEl.remove(); // Remove the clone from the DOM.
         deskElement.style.visibility = 'visible'; // Make the original grid item visible again.
         containerRef.value.classList.remove('faded-queue', 'unclickable'); // Un-fade the grid.
         selectedDeskClone = null; // Clear the clone state.
@@ -443,6 +508,9 @@ function pick(desk) {
           masonryInstance.reloadItems();
           masonryInstance.layout();
         }
+        setTimeout(() => {
+          cloneEl.remove(); // Remove the clone from the DOM.
+        }, ANIMATION_DURATION * 1000); // Wait for the animation to finish before removing.
       }
     })
     return
@@ -629,7 +697,7 @@ button {
   left: 0;
   bottom: -5px;
   width: 100%;
-  height: 136px;
+  height: 100vh;
   overflow: hidden;
   z-index: 10;
 }
