@@ -12,7 +12,7 @@ const BASE_CELL_HEIGHT = 68;
 const EXPANDED_CELL_HEIGHT = 136;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
-const THROW_MULTIPLIER = 250;
+const THROW_MULTIPLIER = 400; // Restored for longer throw distance
 const COLUMN_WIDTH = 320; // This is the width of each column in the Masonry grid.
 const GUTTER = 0; // The space between grid items in the Masonry layout.
 const CAROUSEL_GUTTER = 20; // The space between cells in the carousel.
@@ -27,6 +27,7 @@ let selectedDeskClone = null // Will hold the cloned element for the pop-out ani
 const pickerRef = ref(null) // Ref for the carousel container at the bottom.
 let positionCells = null; // Will hold the function that calculates and sets cell positions.
 let needsPositionUpdate = false; // Flag to track when positioning update is needed.
+let isCarouselLocked = false; // Flag to prevent carousel interaction during animations.
 
 // --- State Management ---
 
@@ -152,6 +153,8 @@ function getCarouselBounds() {
 
 // Called when the user presses down on the carousel.
 function handlePointerDown(event) {
+  if (isCarouselLocked) return; // Prevent interaction when carousel is locked
+
   gsap.killTweensOf(carousel); // Stop any ongoing "flick" animation immediately.
   carousel.isDragging = true; // Set the main dragging flag.
   carousel.isPointerDown = true; // Set the flag to freeze hover effects.
@@ -216,13 +219,19 @@ function handlePointerUp() {
   let targetX = carousel.x + throwDistance;
 
   const bounds = getCarouselBounds(); // Get the final bounds.
+  const originalTargetX = targetX; // Store the unclamped target for bounce detection
   targetX = gsap.utils.clamp(bounds.minX, bounds.maxX, targetX); // Clamp the target within bounds.
+
+  // Check if we hit a boundary and add bounce effect
+  const hitLeftBound = originalTargetX < bounds.minX;
+  const hitRightBound = originalTargetX > bounds.maxX;
+  const hitBoundary = hitLeftBound || hitRightBound;
 
   // Animate the carousel to the final target position.
   gsap.to(carousel, {
     x: targetX,
-    duration: ANIMATION_DURATION,
-    ease: 'power3.out',
+    duration: hitBoundary ? ANIMATION_DURATION : ANIMATION_DURATION * 1.5, // Longer duration for smooth throw
+    ease: hitBoundary ? 'back.out(1.7)' : 'power3.out', // Use bounce easing when hitting boundary
     onUpdate: markForUpdate, // Mark for update during animation
   });
 }
@@ -460,6 +469,9 @@ function pick(desk) {
 
         // Add the cell content animation to the timeline, starting after the previous animations complete
         tl.call(() => {
+          // Lock the carousel during the cell content animation
+          isCarouselLocked = true;
+
           // Get references when the animation actually runs
           const activeCellLeft = activeCell.getBoundingClientRect().left;
           const fromLeft = window.innerWidth / 2 - activeCell.getBoundingClientRect().width / 2;
@@ -478,6 +490,10 @@ function pick(desk) {
             y: 0,
             duration: ANIMATION_DURATION,
             ease: 'power2.inOut',
+            onComplete: () => {
+              // Unlock the carousel when animation is complete
+              isCarouselLocked = false;
+            }
           });
         }, null, ANIMATION_DURATION); // Position at ANIMATION_DURATION seconds into the timeline
       }
