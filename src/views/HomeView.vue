@@ -6,26 +6,26 @@ import { useRouter, useRoute } from 'vue-router'
 import { gsap } from 'gsap'
 
 // --- Configuration Constants ---
-const BASE_CELL_WIDTH = 70;
-const EXPANDED_CELL_WIDTH = 140;
-const BASE_CELL_HEIGHT = 68;
-const EXPANDED_CELL_HEIGHT = 136;
+const BASE_SLIDER_ITEM_WIDTH = 70;
+const EXPANDED_SLIDER_ITEM_WIDTH = 140;
+const BASE_SLIDER_ITEM_HEIGHT = 68;
+const EXPANDED_SLIDER_ITEM_HEIGHT = 136;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 400; // Restored for longer throw distance
-const COLUMN_WIDTH = 320; // This is the width of each column in the Masonry grid.
-const GUTTER = 0; // The space between grid items in the Masonry layout.
-const CAROUSEL_GUTTER = 20; // The space between cells in the carousel.
+const COLUMN_WIDTH = 320; // This is the width of each column in the Masonry gallery.
+const GUTTER = 0; // The space between gallery items in the Masonry layout.
+const CAROUSEL_GUTTER = 20; // The space between slider items in the carousel.
 
 const windowWidth = ref(0)
 
 // --- Refs for DOM Elements ---
-const containerRef = ref(null) // Ref for the main masonry grid container.
+const galleryRef = ref(null) // Ref for the main masonry gallery container.
 const desks = ref(itemsData) // Reactive ref holding the array of desk data.
 let masonryInstance = null // Will hold the Masonry layout instance.
 let selectedDeskClone = null // Will hold the cloned element for the pop-out animation.
-const pickerRef = ref(null) // Ref for the carousel container at the bottom.
-let positionCells = null; // Will hold the function that calculates and sets cell positions.
+const sliderRef = ref(null) // Ref for the carousel container at the bottom.
+let positionSliderItems = null; // Will hold the function that calculates and sets slider item positions.
 let needsPositionUpdate = false; // Flag to track when positioning update is needed.
 let isCarouselLocked = false; // Flag to prevent carousel interaction during animations.
 
@@ -35,7 +35,7 @@ let isCarouselLocked = false; // Flag to prevent carousel interaction during ani
 const selectionState = reactive({
   selectedIndex: null, // The index of the currently "picked" desk.
   progress: 0, // An animation progress value (0 to 1) for the selected desk's expansion.
-  hoverStates: [], // An array to track the hover progress for each cell individually.
+  hoverStates: [], // An array to track the hover progress for each slider item individually.
 })
 
 // Manages the state of our custom draggable carousel.
@@ -63,9 +63,9 @@ const handleResize = () => {
   if (selectedDeskClone) {
     updateCloneCenterTransform()
   }
-  // Reposition picker cells on resize
-  if (positionCells && carousel) {
-    positionCells(carousel.x);
+  // Reposition slider items on resize
+  if (positionSliderItems && carousel) {
+    positionSliderItems(carousel.x);
     markForUpdate();
   }
 }
@@ -100,8 +100,8 @@ const updateCloneCenterTransform = () => {
 // The main animation loop, powered by GSAP's ticker for performance.
 function onTick() {
   // Only update positions when necessary instead of every frame
-  if (needsPositionUpdate && positionCells) {
-    positionCells(carousel.x);
+  if (needsPositionUpdate && positionSliderItems) {
+    positionSliderItems(carousel.x);
     needsPositionUpdate = false;
   }
 }
@@ -113,10 +113,10 @@ function markForUpdate() {
 
 // A helper function to calculate the carousel's total width and valid drag range.
 function getCarouselBounds() {
-  const picker = pickerRef.value;
-  if (!picker) return { minX: 0, maxX: 0 };
+  const slider = sliderRef.value;
+  if (!slider) return { minX: 0, maxX: 0 };
 
-  const numCells = desks.value.length;
+  const numSliderItems = desks.value.length;
 
   // This logic is crucial. It calculates the carousel's total width at any given moment,
   // accounting for the expansion of both the selected item and any hovered item.
@@ -125,27 +125,27 @@ function getCarouselBounds() {
   const effectiveSelectedProgress = selectionState.progress * suppressionFactor;
 
   let dynamicContentWidth = 0;
-  for (let i = 0; i < numCells; i++) {
+  for (let i = 0; i < numSliderItems; i++) {
     const hoverProgress = selectionState.hoverStates[i]?.progress || 0;
-    let width = BASE_CELL_WIDTH;
+    let width = BASE_SLIDER_ITEM_WIDTH;
     if (hoverProgress > 0) {
-      // If a cell is hovered, calculate its width based on its hover progress.
-      width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * hoverProgress;
+      // If a slider item is hovered, calculate its width based on its hover progress.
+      width = BASE_SLIDER_ITEM_WIDTH + (EXPANDED_SLIDER_ITEM_WIDTH - BASE_SLIDER_ITEM_WIDTH) * hoverProgress;
     } else if (i === selectionState.selectedIndex) {
-      // Otherwise, if it's the selected cell, calculate its width based on its selection progress.
-      width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * effectiveSelectedProgress;
+      // Otherwise, if it's the selected slider item, calculate its width based on its selection progress.
+      width = BASE_SLIDER_ITEM_WIDTH + (EXPANDED_SLIDER_ITEM_WIDTH - BASE_SLIDER_ITEM_WIDTH) * effectiveSelectedProgress;
     }
     dynamicContentWidth += width;
   }
 
-  if (numCells > 0) {
-    dynamicContentWidth += (numCells - 1) * CAROUSEL_GUTTER;
+  if (numSliderItems > 0) {
+    dynamicContentWidth += (numSliderItems - 1) * CAROUSEL_GUTTER;
   }
 
-  const pickerWidth = picker.offsetWidth;
+  const sliderWidth = slider.offsetWidth;
   // The minimum X is the negative difference between the content width and the container width.
   // This prevents dragging past the last item. It's clamped at 0 for the case where content is smaller than the container.
-  const minX = Math.min(0, -(dynamicContentWidth - pickerWidth));
+  const minX = Math.min(0, -(dynamicContentWidth - sliderWidth));
   return { minX, maxX: 0 }; // maxX is always 0 because we can't drag past the beginning.
 }
 
@@ -243,79 +243,79 @@ onMounted(() => {
 
   // nextTick ensures that the component has been rendered to the DOM before we try to access its elements.
   nextTick(() => {
-    // Initialize the Masonry grid layout.
-    masonryInstance = new Masonry(containerRef.value, {
-      itemSelector: '.grid-item',
+    // Initialize the Masonry gallery layout.
+    masonryInstance = new Masonry(galleryRef.value, {
+      itemSelector: '.gallery-item',
       columnWidth: COLUMN_WIDTH,
       gutter: GUTTER,
     });
 
     // --- Carousel Initialization ---
-    const picker = pickerRef.value;
-    if (!picker) return;
-    gsap.set(picker, { autoAlpha: 0 }); // Hide picker initially.
+    const slider = sliderRef.value;
+    if (!slider) return;
+    gsap.set(slider, { autoAlpha: 0 }); // Hide slider initially.
 
-    const cells = gsap.utils.toArray(picker.querySelectorAll('.cell'));
-    const numCells = cells.length;
+    const sliderItems = gsap.utils.toArray(slider.querySelectorAll('.slider-item'));
+    const numSliderItems = sliderItems.length;
 
-    selectionState.hoverStates = cells.map(() => ({ progress: 0 })); // Initialize hover state for each cell.
+    selectionState.hoverStates = sliderItems.map(() => ({ progress: 0 })); // Initialize hover state for each slider item.
 
-    // Set the initial visual state of all cells.
-    gsap.set(cells, {
-      width: BASE_CELL_WIDTH,
-      height: BASE_CELL_HEIGHT,
-      x: (i) => i * (BASE_CELL_WIDTH + CAROUSEL_GUTTER),
+    // Set the initial visual state of all slider items.
+    gsap.set(sliderItems, {
+      width: BASE_SLIDER_ITEM_WIDTH,
+      height: BASE_SLIDER_ITEM_HEIGHT,
+      x: (i) => i * (BASE_SLIDER_ITEM_WIDTH + CAROUSEL_GUTTER),
     });
 
     // This is the core layout function for the carousel.
-    positionCells = (dragX) => {
-      // It calculates the width, scale, and position of every cell based on the
+    positionSliderItems = (dragX) => {
+      // It calculates the width, scale, and position of every slider item based on the
       // current selection and hover states. This function is called on every frame by onTick.
       const totalHoverProgress = selectionState.hoverStates.reduce((sum, state) => sum + state.progress, 0);
       const suppressionFactor = 1 - Math.min(1, totalHoverProgress);
       const effectiveSelectedProgress = selectionState.progress * suppressionFactor;
 
-      const cellData = cells.map((cell, i) => {
+      const sliderItemData = sliderItems.map((sliderItem, i) => {
         const hoverProgress = selectionState.hoverStates[i].progress;
-        let width = BASE_CELL_WIDTH;
-        let height = BASE_CELL_HEIGHT;
+        let width = BASE_SLIDER_ITEM_WIDTH;
+        let height = BASE_SLIDER_ITEM_HEIGHT;
         let opacity = 0.5;
 
         if (hoverProgress > 0) {
-          width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * hoverProgress;
-          height = BASE_CELL_HEIGHT + (EXPANDED_CELL_HEIGHT - BASE_CELL_HEIGHT) * hoverProgress;
+          width = BASE_SLIDER_ITEM_WIDTH + (EXPANDED_SLIDER_ITEM_WIDTH - BASE_SLIDER_ITEM_WIDTH) * hoverProgress;
+          height = BASE_SLIDER_ITEM_HEIGHT + (EXPANDED_SLIDER_ITEM_HEIGHT - BASE_SLIDER_ITEM_HEIGHT) * hoverProgress;
           opacity = 0.5 + 0.5 * hoverProgress;
         } else if (i === selectionState.selectedIndex) {
-          width = BASE_CELL_WIDTH + (EXPANDED_CELL_WIDTH - BASE_CELL_WIDTH) * effectiveSelectedProgress;
-          height = BASE_CELL_HEIGHT + (EXPANDED_CELL_HEIGHT - BASE_CELL_HEIGHT) * effectiveSelectedProgress;
+          width = BASE_SLIDER_ITEM_WIDTH + (EXPANDED_SLIDER_ITEM_WIDTH - BASE_SLIDER_ITEM_WIDTH) * effectiveSelectedProgress;
+          height = BASE_SLIDER_ITEM_HEIGHT + (EXPANDED_SLIDER_ITEM_HEIGHT - BASE_SLIDER_ITEM_HEIGHT) * effectiveSelectedProgress;
           opacity = 0.5 + 0.5 * effectiveSelectedProgress;
         }
         return { width, height, opacity };
       });
 
-      // Calculate the starting X position for each cell based on the widths of the preceding cells.
+      // Calculate the starting X position for each slider item based on the widths of the preceding slider items.
       let dynamicInitialX = [];
       let currentX = 0;
-      cellData.forEach(data => {
+      sliderItemData.forEach(data => {
         dynamicInitialX.push(currentX);
         currentX += data.width + CAROUSEL_GUTTER;
       });
 
-      // Apply the final transform to each cell.
-      cells.forEach((cell, i) => {
-        const data = cellData[i];
-        const x = dynamicInitialX[i] + dragX; // The cell's base position plus the current drag amount.
-        gsap.set(cell, { x, width: data.width, height: data.height, opacity: data.opacity });
+      // Apply the final transform to each slider item.
+      sliderItems.forEach((sliderItem, i) => {
+        const data = sliderItemData[i];
+        const x = dynamicInitialX[i] + dragX; // The slider item's base position plus the current drag amount.
+        gsap.set(sliderItem, { x, width: data.width, height: data.height, opacity: data.opacity });
       });
     };
 
     // --- Hover Event Listeners ---
-    cells.forEach((cell, index) => {
-      cell.addEventListener('mouseenter', () => {
+    sliderItems.forEach((sliderItem, index) => {
+      sliderItem.addEventListener('mouseenter', () => {
         // The hover effect is frozen if the user is pressing down on the carousel.
         if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
 
-        // If hovering over the already-selected cell, just ensure no other cells are in a hover state.
+        // If hovering over the already-selected slider item, just ensure no other slider items are in a hover state.
         if (index === selectionState.selectedIndex) {
           selectionState.hoverStates.forEach((state, i) => {
             if (i !== index) {
@@ -325,7 +325,7 @@ onMounted(() => {
           return;
         }
 
-        // If hovering a new cell, animate its progress to 1 and all others to 0.
+        // If hovering a new slider item, animate its progress to 1 and all others to 0.
         gsap.to(selectionState.hoverStates[index], {
           progress: 1,
           duration: HOVER_ANIMATION_DURATION,
@@ -347,8 +347,8 @@ onMounted(() => {
       });
     });
 
-    // When the mouse leaves the entire picker area, reset all hover states.
-    picker.addEventListener('mouseleave', () => {
+    // When the mouse leaves the entire slider area, reset all hover states.
+    slider.addEventListener('mouseleave', () => {
       if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
       selectionState.hoverStates.forEach(state => {
         gsap.to(state, {
@@ -362,9 +362,9 @@ onMounted(() => {
     });
 
     // Attach our custom drag handler.
-    picker.addEventListener('pointerdown', handlePointerDown);
+    slider.addEventListener('pointerdown', handlePointerDown);
 
-    positionCells(0); // Perform an initial layout.
+    positionSliderItems(0); // Perform an initial layout.
     markForUpdate(); // Ensure initial update happens
 
     // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
@@ -393,11 +393,11 @@ onBeforeUnmount(() => {
 
 // This is the main function that orchestrates the opening and closing of a desk item.
 function pick(desk) {
-  const deskElement = containerRef.value.querySelector(`.grid-item[data-desk-id="${desk.id}"]`)
+  const deskElement = galleryRef.value.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`)
   if (!deskElement) return
 
   // --- Carousel Animation Logic ---
-  if (pickerRef.value) {
+  if (sliderRef.value) {
     const index = desks.value.findIndex(d => d.id === desk.id);
     if (index !== -1) {
       // Check if we are closing the currently open desk.
@@ -407,8 +407,8 @@ function pick(desk) {
         document.body.style.overflow = ''; // Re-enable scrolling
         router.push('/'); // Change the URL back to the root.
         selectionState.hoverStates.forEach(state => { state.progress = 0; }); // Reset hovers.
-        gsap.to(pickerRef.value, { autoAlpha: 0, duration: ANIMATION_DURATION, ease: 'power2.inOut' }); // Fade out the carousel.
-        // Animate the selection progress back to 0 to shrink the selected cell.
+        gsap.to(sliderRef.value, { autoAlpha: 0, duration: ANIMATION_DURATION, ease: 'power2.inOut' }); // Fade out the carousel.
+        // Animate the selection progress back to 0 to shrink the selected slider item.
         gsap.to(selectionState, {
           progress: 0,
           duration: ANIMATION_DURATION,
@@ -421,33 +421,33 @@ function pick(desk) {
         if (route.path !== '/' + desk.id) {
           router.push('/' + desk.id); // Change the URL to the specific desk.
         }
-        gsap.to(pickerRef.value, { autoAlpha: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' }); // Fade in the carousel.
+        gsap.to(sliderRef.value, { autoAlpha: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' }); // Fade in the carousel.
         selectionState.selectedIndex = index; // Set the new selected index.
 
-        const picker = pickerRef.value;
-        const pickerWidth = picker.offsetWidth;
-        const numCells = desks.value.length;
-        const activeCell = picker.querySelectorAll('.cell')[index];
-        const activeCellContent = activeCell.querySelector('.cell-content');
+        const slider = sliderRef.value;
+        const sliderWidth = slider.offsetWidth;
+        const numSliderItems = desks.value.length;
+        const activeSliderItem = slider.querySelectorAll('.slider-item')[index];
+        const activeSliderItemContent = activeSliderItem.querySelector('.slider-item-content');
 
-        // Set the cell content to be fully transparent initially
-        gsap.set(activeCellContent, { autoAlpha: 0 });
+        // Set the slider item content to be fully transparent initially
+        gsap.set(activeSliderItemContent, { autoAlpha: 0 });
 
         // Calculate the layout of the carousel in its final "opened" state.
         let dynamicInitialX = [];
         let currentX = 0;
-        for (let i = 0; i < numCells; i++) {
+        for (let i = 0; i < numSliderItems; i++) {
           dynamicInitialX.push(currentX);
-          currentX += ((i === index) ? EXPANDED_CELL_WIDTH : BASE_CELL_WIDTH) + CAROUSEL_GUTTER;
+          currentX += ((i === index) ? EXPANDED_SLIDER_ITEM_WIDTH : BASE_SLIDER_ITEM_WIDTH) + CAROUSEL_GUTTER;
         }
-        const dynamicContentWidth = currentX - (numCells > 0 ? CAROUSEL_GUTTER : 0);
+        const dynamicContentWidth = currentX - (numSliderItems > 0 ? CAROUSEL_GUTTER : 0);
 
-        // Calculate the target scroll position to perfectly center the selected cell.
-        const targetX = (pickerWidth / 2 - EXPANDED_CELL_WIDTH / 2) - dynamicInitialX[index];
+        // Calculate the target scroll position to perfectly center the selected slider item.
+        const targetX = (sliderWidth / 2 - EXPANDED_SLIDER_ITEM_WIDTH / 2) - dynamicInitialX[index];
 
         // Calculate the bounds for the final state.
         const finalBounds = {
-          minX: Math.min(0, -(dynamicContentWidth - pickerWidth)),
+          minX: Math.min(0, -(dynamicContentWidth - sliderWidth)),
           maxX: 0
         };
         const clampedTargetX = gsap.utils.clamp(finalBounds.minX, finalBounds.maxX, targetX);
@@ -467,21 +467,21 @@ function pick(desk) {
           onUpdate: markForUpdate // Mark for update during scroll animation
         }, 0);
 
-        // Add the cell content animation to the timeline, starting after the previous animations complete
+        // Add the slider item content animation to the timeline, starting after the previous animations complete
         tl.call(() => {
-          // Lock the carousel during the cell content animation
+          // Lock the carousel during the slider item content animation
           isCarouselLocked = true;
 
           // Get references when the animation actually runs
-          const activeCellLeft = activeCell.getBoundingClientRect().left;
-          const fromLeft = window.innerWidth / 2 - activeCell.getBoundingClientRect().width / 2;
+          const activeSliderItemLeft = activeSliderItem.getBoundingClientRect().left;
+          const fromLeft = window.innerWidth / 2 - activeSliderItem.getBoundingClientRect().width / 2;
 
-          gsap.fromTo(activeCellContent, {
+          gsap.fromTo(activeSliderItemContent, {
             // FROM values - what it starts as
             autoAlpha: 0,
             scale: 0.8,
-            x: fromLeft - activeCellLeft,
-            y: window.innerHeight / 2 - activeCell.getBoundingClientRect().top,
+            x: fromLeft - activeSliderItemLeft,
+            y: window.innerHeight / 2 - activeSliderItem.getBoundingClientRect().top,
           }, {
             // TO values - what it animates to
             autoAlpha: 1, // Animate to fully opaque
@@ -517,8 +517,8 @@ function pick(desk) {
       ease: 'power2.inOut',
       onComplete: () => {
         document.body.style.overflow = ''; // Also re-enable scrolling here for safety
-        deskElement.style.visibility = 'visible'; // Make the original grid item visible again.
-        containerRef.value.classList.remove('faded-queue', 'unclickable'); // Un-fade the grid.
+        deskElement.style.visibility = 'visible'; // Make the original gallery item visible again.
+        galleryRef.value.classList.remove('faded-queue', 'unclickable'); // Un-fade the gallery.
         selectedDeskClone = null; // Clear the clone state.
         if (masonryInstance) {
           masonryInstance.reloadItems();
@@ -544,10 +544,10 @@ function pick(desk) {
   cloneEl.style.height = rect.height + 'px';
   document.body.appendChild(cloneEl);
   deskElement.style.visibility = 'hidden'; // Hide the original item.
-  // Fade out the rest of the grid.
-  containerRef.value.querySelectorAll(`.grid-item:not([data-desk-id="${desk.id}"])`)
+  // Fade out the rest of the gallery.
+  galleryRef.value.querySelectorAll(`.gallery-item:not([data-desk-id="${desk.id}"])`)
     .forEach(el => el.classList.add('fade-out'))
-  containerRef.value.classList.add('faded-queue', 'unclickable')
+  galleryRef.value.classList.add('faded-queue', 'unclickable')
   selectedDeskClone = { desk, originalRect: rect, cloneEl }; // Store the clone's state.
 
   // Animate the clone from its starting position to the center of the screen.
@@ -572,11 +572,11 @@ function pick(desk) {
 
 <template>
   <main>
-    <div ref="containerRef" class="grid"
+    <div ref="galleryRef" class="gallery"
       :style="{ width: `${COLUMN_WIDTH * Math.min(desks.length, Math.floor(windowWidth / COLUMN_WIDTH))}px` }">
-      <TransitionGroup name="grid" tag="div">
-        <div v-for="desk in desks" :key="desk.id" class="grid-item" :data-desk-id="desk.id" @click="pick(desk)">
-          <div class="grid-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
+      <TransitionGroup name="gallery" tag="div">
+        <div v-for="desk in desks" :key="desk.id" class="gallery-item" :data-desk-id="desk.id">
+          <div class="gallery-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
             <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
             <div class="desk-monitor" :style="{
               backgroundImage: `url(${desk.monitor.img})`,
@@ -584,7 +584,7 @@ function pick(desk) {
               left: desk.monitor.x,
               width: desk.monitor.width,
               height: desk.monitor.height
-            }"></div>
+            }" @click="pick(desk)"></div>
             <div class="desk-screen" :style="{
               backgroundImage: `url(${desk.screen.img})`,
               top: desk.screen.y,
@@ -599,10 +599,10 @@ function pick(desk) {
       </TransitionGroup>
     </div>
 
-    <!-- GSAP picker at the bottom -->
-    <div ref="pickerRef" class="picker">
-      <div class="cell" v-for="desk in desks" :key="desk.id">
-        <div class="cell-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
+    <!-- GSAP slider at the bottom -->
+    <div ref="sliderRef" class="slider">
+      <div class="slider-item" v-for="desk in desks" :key="desk.id">
+        <div class="slider-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
           <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
           <div class="desk-monitor"
             :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y, left: desk.monitor.x, width: desk.monitor.width, height: desk.monitor.height }">
@@ -623,7 +623,7 @@ main {
 }
 
 
-.grid {
+.gallery {
   position: relative;
   /* When the queue is fading out, reduce its opacity */
   transition: opacity 0.6s ease;
@@ -634,11 +634,11 @@ main {
   opacity: 0;
 }
 
-.grid-item {
+.gallery-item {
   font-size: 15px;
   opacity: 1;
 
-  .grid-item-content {
+  .gallery-item-content {
     // border: 1px solid blue;
     background-repeat: no-repeat;
     background-size: contain;
@@ -671,18 +671,28 @@ main {
     z-index: 1;
   }
 
+  .desk-monitor {
+    z-index: 2; // Lower z-index but still clickable
+    cursor: pointer; // Visual indication that it's clickable
+  }
+
+  .desk-screen {
+    z-index: 3; // Higher z-index to appear on top
+    pointer-events: none; // Allow clicks to pass through to monitor below
+  }
+
   .desk-name {
     position: absolute;
     bottom: 4.5%;
     left: 13%;
-    z-index: 2;
+    z-index: 4; // Above everything else
   }
 
   .desk-desc {
     position: absolute;
     bottom: 0.5%;
     left: 13%;
-    z-index: 2;
+    z-index: 4; // Above everything else
     font-size: 10px;
   }
 }
@@ -708,7 +718,7 @@ button {
   pointer-events: none;
 }
 
-.picker {
+.slider {
   position: fixed;
   left: 0;
   bottom: -5px;
@@ -718,7 +728,7 @@ button {
   z-index: 10;
 }
 
-.cell {
+.slider-item {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -730,7 +740,7 @@ button {
   padding: 0;
 }
 
-.cell-content {
+.slider-item-content {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center bottom;
