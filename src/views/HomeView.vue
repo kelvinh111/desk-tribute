@@ -13,8 +13,8 @@ const EXPANDED_SLIDER_ITEM_HEIGHT = 136;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 400; // Restored for longer throw distance
-const COLUMN_WIDTH = 320; // This is the width of each column in the Masonry gallery.
-const GUTTER = 0; // The space between gallery items in the Masonry layout.
+const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry gallery.
+const GUTTER = 35; // The space between gallery items in the Masonry layout.
 const CAROUSEL_GUTTER = 20; // The space between slider items in the carousel.
 
 const windowWidth = ref(0)
@@ -81,6 +81,18 @@ const shuffleArray = () => {
       masonryInstance.layout()
     }
   })
+}
+
+const galleryWidth = () => {
+  const numberOfColumns = Math.min(desks.value.length, Math.floor(windowWidth.value / COLUMN_WIDTH));
+  const calculatedWidth = COLUMN_WIDTH * numberOfColumns + GUTTER * (numberOfColumns - 1);
+
+  if (calculatedWidth <= windowWidth.value) {
+    // If the calculated width is less than or equal to the window width, return it directly.
+    return `${calculatedWidth}px`
+  } else {
+    return `${calculatedWidth - COLUMN_WIDTH - GUTTER}px`
+  }
 }
 
 const updateCloneCenterTransform = () => {
@@ -572,8 +584,7 @@ function pick(desk) {
 
 <template>
   <main>
-    <div ref="galleryRef" class="gallery"
-      :style="{ width: `${COLUMN_WIDTH * Math.min(desks.length, Math.floor(windowWidth / COLUMN_WIDTH))}px` }">
+    <div ref="galleryRef" class="gallery" :style="{ width: galleryWidth() }">
       <TransitionGroup name="gallery" tag="div">
         <div v-for="desk in desks" :key="desk.id" class="gallery-item" :data-desk-id="desk.id">
           <div class="gallery-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
@@ -628,6 +639,7 @@ main {
   /* When the queue is fading out, reduce its opacity */
   transition: opacity 0.6s ease;
   margin: 0 auto;
+  max-width: 100vw;
 }
 
 .faded-queue {
