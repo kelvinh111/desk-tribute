@@ -625,12 +625,14 @@ function pick(desk) {
         </div>
       </div>
     </div>
+
+    <div class="progress-bar"></div>
   </main>
 </template>
 
 <style scoped lang="scss">
 main {
-  background-color: #9E7DF5;
+  background-color: #E8E8E8;
 }
 
 
@@ -640,6 +642,7 @@ main {
   transition: opacity 0.6s ease;
   margin: 0 auto;
   max-width: 100vw;
+  z-index: 1;
 }
 
 .faded-queue {
@@ -774,5 +777,16 @@ button {
   .desk-desc {
     color: white !important;
   }
+}
+
+.progress-bar {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  background-color: #E8E8E8;
+  // background-color: #222222;
 }
 </style>
