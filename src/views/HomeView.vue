@@ -28,6 +28,8 @@ const sliderRef = ref(null) // Ref for the carousel container at the bottom.
 let positionSliderItems = null; // Will hold the function that calculates and sets slider item positions.
 let needsPositionUpdate = false; // Flag to track when positioning update is needed.
 let isCarouselLocked = false; // Flag to prevent carousel interaction during animations.
+const isGalleryFaded = ref(false); // Controls the faded state of the gallery
+const isPhotoGalleryVisible = ref(false); // Controls the visibility of the photo gallery
 
 // --- State Management ---
 
@@ -408,7 +410,7 @@ function showFirstPhoto(desk) {
   if (!photoGalleryEl || !desk.photos || desk.photos.length === 0) return;
 
   // Make the gallery visible
-  photoGalleryEl.classList.add('show');
+  isPhotoGalleryVisible.value = true;
 
   // Clear any previous photo
   photoGalleryEl.innerHTML = '';
@@ -420,7 +422,7 @@ function showFirstPhoto(desk) {
   photoGalleryEl.appendChild(imgEl);
 
   const closeButton = document.createElement('button');
-  closeButton.classList.add('photo-close-button');
+  closeButton.className = 'photo-close-button'; // Use className for dynamically created element
   closeButton.innerHTML = '&times;'; // A simple 'X' for the close button
   closeButton.onclick = () => {
     if (selectedDeskClone) {
@@ -510,7 +512,10 @@ function pick(desk) {
           duration: ANIMATION_DURATION,
           ease: 'power2.inOut',
           onUpdate: markForUpdate, // Mark for update during closing animation
-          onComplete: () => { selectionState.selectedIndex = null; } // Reset selection on complete.
+          onComplete: () => {
+            selectionState.selectedIndex = null; // Reset selection on complete.
+            isGalleryFaded.value = false; // Un-fade the gallery
+          }
         });
       } else { // This is the "opening" logic.
         document.body.style.overflow = 'hidden'; // Disable scrolling
@@ -604,9 +609,9 @@ function pick(desk) {
     const finalRect = deskElement.getBoundingClientRect(); // Get final position
 
     // Fade out the displayed photo gallery
+    isPhotoGalleryVisible.value = false;
     const photoGalleryEl = document.querySelector('.photo-gallery');
     if (photoGalleryEl) {
-      photoGalleryEl.classList.remove('show');
       // After the fade-out transition, clear the content.
       setTimeout(() => {
         photoGalleryEl.innerHTML = '';
@@ -635,7 +640,6 @@ function pick(desk) {
       onComplete: () => {
         document.body.style.overflow = ''; // Also re-enable scrolling here for safety
         deskElement.style.visibility = 'visible'; // Make the original gallery item visible again.
-        galleryRef.value.classList.remove('faded-queue', 'unclickable'); // Un-fade the gallery.
         selectedDeskClone = null; // Clear the clone state.
         if (masonryInstance) {
           masonryInstance.reloadItems();
@@ -662,9 +666,7 @@ function pick(desk) {
   document.body.appendChild(cloneEl);
   deskElement.style.visibility = 'hidden'; // Hide the original item.
   // Fade out the rest of the gallery.
-  galleryRef.value.querySelectorAll(`.gallery-item:not([data-desk-id="${desk.id}"])`)
-    .forEach(el => el.classList.add('fade-out'))
-  galleryRef.value.classList.add('faded-queue', 'unclickable')
+  isGalleryFaded.value = true;
   selectedDeskClone = { desk, originalRect: rect, cloneEl }; // Store the clone's state.
 
   // Animate the clone from its starting position to the center of the screen.
@@ -686,9 +688,11 @@ function pick(desk) {
 
 <template>
   <main>
-    <div ref="galleryRef" class="gallery" :style="{ width: galleryWidth() }">
+    <div ref="galleryRef" class="gallery" :style="{ width: galleryWidth() }"
+      :class="{ 'faded-queue': isGalleryFaded, 'unclickable': isGalleryFaded }">
       <TransitionGroup name="gallery" tag="div">
-        <div v-for="desk in desks" :key="desk.id" class="gallery-item" :data-desk-id="desk.id">
+        <div v-for="desk in desks" :key="desk.id" class="gallery-item" :data-desk-id="desk.id"
+          :class="{ 'fade-out': selectedDeskClone && selectedDeskClone.desk.id !== desk.id }">
           <div class="gallery-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
             <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
             <div class="desk-monitor" :style="{
@@ -732,7 +736,7 @@ function pick(desk) {
       <div class="progress-loaded"></div>
     </div>
 
-    <div class="photo-gallery"></div>
+    <div class="photo-gallery" :class="{ show: isPhotoGalleryVisible }"></div>
 
     <div class="photo-overlay"></div>
   </main>
@@ -751,6 +755,11 @@ main {
   margin: 0 auto;
   max-width: 100vw;
   z-index: 1;
+}
+
+.gallery-item.fade-out {
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .faded-queue {
