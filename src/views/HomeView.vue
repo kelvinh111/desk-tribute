@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick, reactive } from 'vue'
-import Masonry from 'masonry-layout'
+import { ref, reactive, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import itemsData from '../model/desk.json'
 import { useRouter, useRoute } from 'vue-router'
 import { gsap } from 'gsap'
+import DeskGallery from '../components/DeskGallery.vue'
 
 // --- Configuration Constants ---
 const BASE_SLIDER_ITEM_WIDTH = 70;
@@ -13,16 +13,13 @@ const EXPANDED_SLIDER_ITEM_HEIGHT = 136;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 400; // Restored for longer throw distance
-const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry gallery.
-const GUTTER = 35; // The space between gallery items in the Masonry layout.
 const CAROUSEL_GUTTER = 20; // The space between slider items in the carousel.
 
 const windowWidth = ref(0)
 
 // --- Refs for DOM Elements ---
-const galleryRef = ref(null) // Ref for the main masonry gallery container.
+const galleryComponentRef = ref(null) // Ref for the gallery component
 const desks = ref(itemsData) // Reactive ref holding the array of desk data.
-let masonryInstance = null // Will hold the Masonry layout instance.
 let selectedDeskClone = null // Will hold the cloned element for the pop-out animation.
 const sliderRef = ref(null) // Ref for the carousel container at the bottom.
 let positionSliderItems = null; // Will hold the function that calculates and sets slider item positions.
@@ -59,17 +56,6 @@ const route = useRoute() // Used to read information from the current URL (e.g.,
 
 const handleResize = () => {
   windowWidth.value = window.innerWidth
-  // Update Masonry layout
-  if (masonryInstance) masonryInstance.layout()
-  // If a clone exists, keep it centered.
-  if (selectedDeskClone) {
-    updateCloneCenterTransform()
-  }
-  // Reposition slider items on resize
-  if (positionSliderItems && carousel) {
-    positionSliderItems(carousel.x);
-    markForUpdate();
-  }
 }
 
 const shuffleArray = () => {
@@ -78,23 +64,7 @@ const shuffleArray = () => {
     .sort((a, b) => a.sort - b.sort)
     .map(({ desk }) => desk)
   nextTick(() => {
-    if (masonryInstance) {
-      masonryInstance.reloadItems()
-      masonryInstance.layout()
-    }
   })
-}
-
-const galleryWidth = () => {
-  const numberOfColumns = Math.min(desks.value.length, Math.floor(windowWidth.value / COLUMN_WIDTH));
-  const calculatedWidth = COLUMN_WIDTH * numberOfColumns + GUTTER * (numberOfColumns - 1);
-
-  if (calculatedWidth <= windowWidth.value) {
-    // If the calculated width is less than or equal to the window width, return it directly.
-    return `${calculatedWidth}px`
-  } else {
-    return `${calculatedWidth - COLUMN_WIDTH - GUTTER}px`
-  }
 }
 
 const updateCloneCenterTransform = () => {
@@ -105,8 +75,6 @@ const updateCloneCenterTransform = () => {
   const targetLeft = (window.innerWidth - cloneWidth) / 2
   const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY
   gsap.to(cloneEl, {
-    top: targetTop,
-    left: targetLeft,
     duration: 0, // Instantly move it
   });
 }
@@ -257,13 +225,6 @@ onMounted(() => {
 
   // nextTick ensures that the component has been rendered to the DOM before we try to access its elements.
   nextTick(() => {
-    // Initialize the Masonry gallery layout.
-    masonryInstance = new Masonry(galleryRef.value, {
-      itemSelector: '.gallery-item',
-      columnWidth: COLUMN_WIDTH,
-      gutter: GUTTER,
-    });
-
     // --- Carousel Initialization ---
     const slider = sliderRef.value;
     if (!slider) return;
@@ -491,7 +452,9 @@ function preloadImagesAndUpdateProgress(desk) {
 
 // This is the main function that orchestrates the opening and closing of a desk item.
 function pick(desk) {
-  const deskElement = galleryRef.value.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`)
+  const galleryRef = galleryComponentRef.value?.galleryRef;
+  if (!galleryRef) return;
+  const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`)
   if (!deskElement) return
 
   // --- Carousel Animation Logic ---
@@ -641,10 +604,6 @@ function pick(desk) {
         document.body.style.overflow = ''; // Also re-enable scrolling here for safety
         deskElement.style.visibility = 'visible'; // Make the original gallery item visible again.
         selectedDeskClone = null; // Clear the clone state.
-        if (masonryInstance) {
-          masonryInstance.reloadItems();
-          masonryInstance.layout();
-        }
         setTimeout(() => {
           cloneEl.remove(); // Remove the clone from the DOM.
         }, ANIMATION_DURATION * 1000); // Wait for the animation to finish before removing.
@@ -688,33 +647,8 @@ function pick(desk) {
 
 <template>
   <main>
-    <div ref="galleryRef" class="gallery" :style="{ width: galleryWidth() }"
-      :class="{ 'faded-queue': isGalleryFaded, 'unclickable': isGalleryFaded }">
-      <TransitionGroup name="gallery" tag="div">
-        <div v-for="desk in desks" :key="desk.id" class="gallery-item" :data-desk-id="desk.id"
-          :class="{ 'fade-out': selectedDeskClone && selectedDeskClone.desk.id !== desk.id }">
-          <div class="gallery-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
-            <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
-            <div class="desk-monitor" :style="{
-              backgroundImage: `url(${desk.monitor.img})`,
-              top: desk.monitor.y,
-              left: desk.monitor.x,
-              width: desk.monitor.width,
-              height: desk.monitor.height
-            }" @click="pick(desk)"></div>
-            <div class="desk-screen" :style="{
-              backgroundImage: `url(${desk.screen.img})`,
-              top: desk.screen.y,
-              left: desk.screen.x,
-              width: desk.screen.width,
-              height: desk.screen.height
-            }"></div>
-            <div class="desk-name">{{ desk.name }}</div>
-            <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
-          </div>
-        </div>
-      </TransitionGroup>
-    </div>
+    <DeskGallery ref="galleryComponentRef" :desks="desks" :is-gallery-faded="isGalleryFaded"
+      :selected-desk-clone="selectedDeskClone" @pick="pick" />
 
     <!-- GSAP slider at the bottom -->
     <div ref="sliderRef" class="slider">
@@ -746,41 +680,6 @@ function pick(desk) {
 main {
   background-color: #E8E8E8;
 }
-
-
-.gallery {
-  position: relative;
-  /* When the queue is fading out, reduce its opacity */
-  transition: opacity 0.6s ease;
-  margin: 0 auto;
-  max-width: 100vw;
-  z-index: 1;
-}
-
-.gallery-item.fade-out {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.faded-queue {
-  opacity: 0;
-}
-
-.gallery-item {
-  font-size: 15px;
-  opacity: 1;
-
-  .gallery-item-content {
-    // border: 1px solid blue;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center bottom;
-    position: relative;
-    width: 285px;
-    height: 275px;
-  }
-}
-
 
 
 .desk {
