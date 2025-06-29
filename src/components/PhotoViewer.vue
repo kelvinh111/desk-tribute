@@ -38,7 +38,7 @@ function showFirstPhoto(desk) {
         scale: 1,
         duration: 0.5,
         ease: 'power2.out',
-        delay: 0.3
+        delay: 1
     });
 }
 

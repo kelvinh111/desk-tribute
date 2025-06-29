@@ -35,27 +35,6 @@ const handleResize = () => {
   windowWidth.value = window.innerWidth
 }
 
-const shuffleArray = () => {
-  desks.value = desks.value
-    .map(desk => ({ desk, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ desk }) => desk)
-  nextTick(() => {
-  })
-}
-
-const updateCloneCenterTransform = () => {
-  if (!selectedDeskClone) return
-  const { cloneEl } = selectedDeskClone
-  const cloneWidth = cloneEl.offsetWidth
-  const cloneHeight = cloneEl.offsetHeight
-  const targetLeft = (window.innerWidth - cloneWidth) / 2
-  const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY
-  gsap.to(cloneEl, {
-    duration: 0, // Instantly move it
-  });
-}
-
 onMounted(() => {
   // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
   if (route.params.deskId) {
