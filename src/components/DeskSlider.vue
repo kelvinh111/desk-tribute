@@ -4,7 +4,7 @@ import { gsap } from 'gsap'
 
 const props = defineProps({
     desks: Array,
-    selectedDeskId: String,
+    selectedDeskId: [String, Number],
     isCarouselLocked: Boolean
 })
 
