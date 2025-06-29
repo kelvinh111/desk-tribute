@@ -403,6 +403,77 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
 })
 
+function showFirstPhoto(desk) {
+  const photoGalleryEl = document.querySelector('.photo-gallery');
+  if (!photoGalleryEl || !desk.photos || desk.photos.length === 0) return;
+
+  // Clear any previous photo
+  photoGalleryEl.innerHTML = '';
+
+  const firstPhotoUrl = desk.photos[0];
+  const imgEl = document.createElement('img');
+  imgEl.src = firstPhotoUrl;
+
+  photoGalleryEl.appendChild(imgEl);
+
+  // Animate the photo in
+  gsap.to(imgEl, {
+    opacity: 1,
+    scale: 1,
+    duration: 0.5,
+    ease: 'power2.out',
+    delay: 0.3 // A small delay after the progress bar finishes
+  });
+}
+
+function preloadImagesAndUpdateProgress(desk) {
+  const photos = desk.photos;
+  const progressBarEl = document.querySelector('.progress-bar');
+  const progressLoadedEl = document.querySelector('.progress-loaded');
+
+  if (!progressBarEl || !progressLoadedEl) return;
+
+  // Reset progress bar
+  gsap.set(progressLoadedEl, { width: '0%' });
+  gsap.set(progressBarEl, { opacity: 0 }); // Ensure it's hidden initially
+
+  // First, fade in the progress bar background
+  gsap.to(progressBarEl, {
+    opacity: 1,
+    duration: 0.3,
+    ease: 'power2.inOut',
+    onComplete: () => {
+      // Then, start loading images and updating the progress
+      if (!photos || photos.length === 0) {
+        // If no photos, maybe we want to show it as complete instantly
+        gsap.to(progressLoadedEl, { width: '100%', duration: 0.5, delay: 0.5 });
+        return;
+      }
+
+      let loadedCount = 0;
+      const totalImages = photos.length;
+
+      photos.forEach(photoUrl => {
+        const img = new Image();
+        img.onload = img.onerror = () => {
+          loadedCount++;
+          const progress = loadedCount / totalImages;
+          gsap.to(progressLoadedEl, {
+            width: `${progress * 100}%`,
+            duration: 0.5,
+            ease: 'power2.out'
+          });
+
+          if (loadedCount === totalImages) {
+            showFirstPhoto(desk);
+          }
+        };
+        img.src = photoUrl;
+      });
+    }
+  });
+}
+
 // This is the main function that orchestrates the opening and closing of a desk item.
 function pick(desk) {
   const deskElement = galleryRef.value.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`)
@@ -518,6 +589,31 @@ function pick(desk) {
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
     const { cloneEl } = selectedDeskClone
     const finalRect = deskElement.getBoundingClientRect(); // Get final position
+
+    // Fade out the displayed photo
+    const photoGalleryEl = document.querySelector('.photo-gallery');
+    if (photoGalleryEl && photoGalleryEl.firstChild) {
+      gsap.to(photoGalleryEl.firstChild, {
+        opacity: 0,
+        scale: 0.8,
+        duration: ANIMATION_DURATION * 0.8,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          photoGalleryEl.innerHTML = '';
+        }
+      });
+    }
+
+    // Fade out the progress bar
+    const progressBarEl = document.querySelector('.progress-bar');
+    if (progressBarEl) {
+      gsap.to(progressBarEl, {
+        opacity: 0,
+        duration: ANIMATION_DURATION,
+        ease: 'power2.inOut'
+      });
+    }
+
     // Animate the clone back to its original position in the grid.
     gsap.to(cloneEl, {
       top: finalRect.top + window.scrollY,
@@ -575,6 +671,8 @@ function pick(desk) {
     ease: 'power2.inOut'
   });
 
+  preloadImagesAndUpdateProgress(desk);
+
   // Add a click listener to the clone so it can be closed.
   cloneEl.addEventListener('click', () => {
     pick(desk)
@@ -626,7 +724,11 @@ function pick(desk) {
       </div>
     </div>
 
-    <div class="progress-bar"></div>
+    <div class="progress-bar">
+      <div class="progress-loaded"></div>
+    </div>
+
+    <div class="photo-gallery"></div>
   </main>
 </template>
 
@@ -780,13 +882,41 @@ button {
 }
 
 .progress-bar {
+  position: fixed;
   width: 100vw;
   height: 100vh;
+  z-index: 0;
+  background: #222222;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.progress-loaded {
+  width: 0;
+  height: 100%;
+  background-color: lime;
+  transition: width 0.1s ease-out;
+}
+
+.photo-gallery {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 0;
-  background-color: #E8E8E8;
-  // background-color: #222222;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2500; // Below the clone, but above the rest
+  pointer-events: none; // Allow clicks to pass through to the clone
+}
+
+::v-deep(.photo-gallery img) {
+  max-width: 70%;
+  max-height: 70%;
+  object-fit: contain;
+  opacity: 0.5;
+  transform: scale(0);
 }
 </style>
