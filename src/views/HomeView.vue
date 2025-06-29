@@ -407,6 +407,9 @@ function showFirstPhoto(desk) {
   const photoGalleryEl = document.querySelector('.photo-gallery');
   if (!photoGalleryEl || !desk.photos || desk.photos.length === 0) return;
 
+  // Make the gallery visible
+  photoGalleryEl.classList.add('show');
+
   // Clear any previous photo
   photoGalleryEl.innerHTML = '';
 
@@ -416,8 +419,18 @@ function showFirstPhoto(desk) {
 
   photoGalleryEl.appendChild(imgEl);
 
-  // Animate the photo in
-  gsap.to(imgEl, {
+  const closeButton = document.createElement('button');
+  closeButton.classList.add('photo-close-button');
+  closeButton.innerHTML = '&times;'; // A simple 'X' for the close button
+  closeButton.onclick = () => {
+    if (selectedDeskClone) {
+      pick(selectedDeskClone.desk);
+    }
+  };
+  photoGalleryEl.appendChild(closeButton);
+
+  // Animate the photo and button in
+  gsap.to([imgEl, closeButton], {
     opacity: 1,
     scale: 1,
     duration: 0.5,
@@ -590,18 +603,14 @@ function pick(desk) {
     const { cloneEl } = selectedDeskClone
     const finalRect = deskElement.getBoundingClientRect(); // Get final position
 
-    // Fade out the displayed photo
+    // Fade out the displayed photo gallery
     const photoGalleryEl = document.querySelector('.photo-gallery');
-    if (photoGalleryEl && photoGalleryEl.firstChild) {
-      gsap.to(photoGalleryEl.firstChild, {
-        opacity: 0,
-        scale: 0.8,
-        duration: ANIMATION_DURATION * 0.8,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          photoGalleryEl.innerHTML = '';
-        }
-      });
+    if (photoGalleryEl) {
+      photoGalleryEl.classList.remove('show');
+      // After the fade-out transition, clear the content.
+      setTimeout(() => {
+        photoGalleryEl.innerHTML = '';
+      }, 400); // Match CSS transition duration
     }
 
     // Fade out the progress bar
@@ -672,11 +681,6 @@ function pick(desk) {
   });
 
   preloadImagesAndUpdateProgress(desk);
-
-  // Add a click listener to the clone so it can be closed.
-  cloneEl.addEventListener('click', () => {
-    pick(desk)
-  })
 }
 </script>
 
@@ -729,6 +733,8 @@ function pick(desk) {
     </div>
 
     <div class="photo-gallery"></div>
+
+    <div class="photo-overlay"></div>
   </main>
 </template>
 
@@ -840,9 +846,9 @@ button {
   left: 0;
   bottom: -5px;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 10;
+  height: 150px;
+  overflow: visible;
+  z-index: 3000;
 }
 
 .slider-item {
@@ -906,10 +912,24 @@ button {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
+  /* Align items vertically */
   justify-content: center;
   align-items: center;
-  z-index: 2500; // Below the clone, but above the rest
-  pointer-events: none; // Allow clicks to pass through to the clone
+  z-index: 2500;
+  visibility: hidden;
+  /* Hidden by default */
+  opacity: 0;
+  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  /* Delay visibility change */
+  // pointer-events: none;
+  /* Allow clicks to pass through the container */
+}
+
+.photo-gallery.show {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
 ::v-deep(.photo-gallery img) {
@@ -918,5 +938,51 @@ button {
   object-fit: contain;
   opacity: 0.5;
   transform: scale(0);
+}
+
+.photo-close-button {
+  position: relative;
+  /* Change from absolute */
+  margin-top: 20px;
+  /* Space between photo and button */
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  line-height: 38px;
+  /* Center the 'X' */
+  text-align: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 0.3s ease;
+  pointer-events: auto;
+  /* Make button clickable */
+}
+
+.photo-close-button:hover {
+  background: white;
+  border-color: #999;
+}
+
+.photo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 2400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.photo-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 </style>
