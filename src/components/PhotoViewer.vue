@@ -7,7 +7,7 @@ const props = defineProps({
     visible: Boolean
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'photoVisible'])
 
 const photoGalleryEl = ref(null)
 const progressBarEl = ref(null)
@@ -33,12 +33,17 @@ function showFirstPhoto(desk) {
     };
     gallery.appendChild(closeButton);
 
+
     gsap.to([imgEl, closeButton], {
         opacity: 1,
         scale: 1,
         duration: 0.5,
         ease: 'power2.out',
-        delay: 1
+        delay: 1,
+        onComplete: () => {
+            emit('photoVisible');
+        }
+
     });
 }
 
@@ -57,31 +62,33 @@ function preloadImagesAndUpdateProgress(desk) {
         duration: 0.3,
         ease: 'power2.inOut',
         onComplete: () => {
-            if (!photos || photos.length === 0) {
-                gsap.to(loaded, { width: '100%', duration: 0.5, delay: 0.5 });
-                return;
-            }
+            setTimeout(() => {
+                if (!photos || photos.length === 0) {
+                    gsap.to(loaded, { width: '100%', duration: 0.5, delay: 0.5 });
+                    return;
+                }
 
-            let loadedCount = 0;
-            const totalImages = photos.length;
+                let loadedCount = 0;
+                const totalImages = photos.length;
 
-            photos.forEach(photoUrl => {
-                const img = new Image();
-                img.onload = img.onerror = () => {
-                    loadedCount++;
-                    const progress = loadedCount / totalImages;
-                    gsap.to(loaded, {
-                        width: `${progress * 100}%`,
-                        duration: 0.5,
-                        ease: 'power2.out'
-                    });
+                photos.forEach(photoUrl => {
+                    const img = new Image();
+                    img.onload = img.onerror = () => {
+                        loadedCount++;
+                        const progress = loadedCount / totalImages;
+                        gsap.to(loaded, {
+                            width: `${progress * 100}%`,
+                            duration: 0.5,
+                            ease: 'power2.out'
+                        });
 
-                    if (loadedCount === totalImages) {
-                        showFirstPhoto(desk);
-                    }
-                };
-                img.src = photoUrl;
-            });
+                        if (loadedCount === totalImages) {
+                            showFirstPhoto(desk);
+                        }
+                    };
+                    img.src = photoUrl;
+                });
+            }, 1000);
         }
     });
 }
@@ -175,7 +182,7 @@ watch(() => props.visible, (newVal) => {
     max-height: 70%;
     object-fit: contain;
     opacity: 0;
-    transform: scale(0);
+    transform: scale(0.2);
 }
 
 :deep(.photo-close-button) {

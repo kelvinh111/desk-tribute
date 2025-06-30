@@ -33,6 +33,7 @@ const route = useRoute() // Used to read information from the current URL (e.g.,
 
 const handleResize = () => {
   windowWidth.value = window.innerWidth
+  updateCloneCenterTransform();
 }
 
 onMounted(() => {
@@ -115,6 +116,12 @@ function pick(desk) {
         }, ANIMATION_DURATION * 1000); // Match the transition duration
       }
     })
+
+    gsap.to([cloneEl.querySelector('.desk-name'), cloneEl.querySelector('.desk-desc')], {
+      color: '#959595', // Reset the text color
+      duration: ANIMATION_DURATION,
+      ease: 'power2.inOut'
+    });
     return
   }
 
@@ -147,7 +154,33 @@ function pick(desk) {
     ease: 'power2.inOut'
   });
 
+  gsap.to([cloneEl.querySelector('.desk-name'), cloneEl.querySelector('.desk-desc')], {
+    color: 'white',
+    duration: ANIMATION_DURATION,
+    ease: 'power2.inOut'
+  });
+
   isPhotoViewerVisible.value = true;
+}
+
+function onPhotoVisible() {
+  if (selectedDeskClone) {
+    selectedDeskClone.cloneEl.style.opacity = '0';
+  }
+}
+
+const updateCloneCenterTransform = () => {
+  if (!selectedDeskClone) return
+  const { cloneEl } = selectedDeskClone
+  const cloneWidth = cloneEl.offsetWidth
+  const cloneHeight = cloneEl.offsetHeight
+  const targetLeft = (window.innerWidth - cloneWidth) / 2
+  const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY
+  gsap.to(cloneEl, {
+    left: targetLeft,
+    top: targetTop,
+    duration: 0, // Instantly move it
+  });
 }
 </script>
 
@@ -159,7 +192,8 @@ function pick(desk) {
     <DeskSlider ref="deskSliderRef" :desks="desks" :selected-desk-id="selectedDeskId"
       v-model:is-carousel-locked="isCarouselLocked" />
 
-    <PhotoViewer :desk="selectedDesk" :visible="isPhotoViewerVisible" @close="handlePhotoViewerClose" />
+    <PhotoViewer :desk="selectedDesk" :visible="isPhotoViewerVisible" @close="handlePhotoViewerClose"
+      @photo-visible="onPhotoVisible" />
   </main>
 </template>
 
