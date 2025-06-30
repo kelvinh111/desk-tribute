@@ -169,6 +169,15 @@ function onPhotoVisible() {
   }
 }
 
+function onFirstPhotoLoaded(photoUrl) {
+  if (selectedDeskClone) {
+    const screenEl = selectedDeskClone.cloneEl.querySelector('.desk-screen');
+    if (screenEl) {
+      screenEl.style.backgroundImage = `url(${photoUrl})`;
+    }
+  }
+}
+
 const updateCloneCenterTransform = () => {
   if (!selectedDeskClone) return
   const { cloneEl } = selectedDeskClone
@@ -193,7 +202,7 @@ const updateCloneCenterTransform = () => {
       v-model:is-carousel-locked="isCarouselLocked" />
 
     <PhotoViewer :desk="selectedDesk" :visible="isPhotoViewerVisible" @close="handlePhotoViewerClose"
-      @photo-visible="onPhotoVisible" />
+      @photo-visible="onPhotoVisible" @first-photo-loaded="onFirstPhotoLoaded" />
   </main>
 </template>
 

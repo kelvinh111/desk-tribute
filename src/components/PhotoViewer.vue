@@ -7,7 +7,7 @@ const props = defineProps({
     visible: Boolean
 })
 
-const emit = defineEmits(['close', 'photoVisible'])
+const emit = defineEmits(['close', 'photoVisible', 'firstPhotoLoaded'])
 
 const photoGalleryEl = ref(null)
 const progressBarEl = ref(null)
@@ -33,13 +33,16 @@ function showFirstPhoto(desk) {
     };
     gallery.appendChild(closeButton);
 
+    setTimeout(() => {
+        emit('firstPhotoLoaded', firstPhotoUrl);
+    }, 1000);
 
     gsap.to([imgEl, closeButton], {
         opacity: 1,
         scale: 1,
         duration: 0.5,
         ease: 'power2.out',
-        delay: 1,
+        delay: 2,
         onComplete: () => {
             emit('photoVisible');
         }
