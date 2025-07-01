@@ -59,7 +59,7 @@ function showFirstPhoto(desk) {
         scale: 1,
         duration: 0.5,
         ease: 'power2.out',
-        delay: 2,
+        delay: 0,
         onComplete: () => {
             emit('photoVisible');
         }
@@ -175,13 +175,18 @@ async function goToSlide(nextIdx) {
     nextNaturalWidth.value = nextSize.width
     nextNaturalHeight.value = nextSize.height
 
-    // Calculate displayed container size
+    // Calculate displayed container size (current)
     const containerW = sliderContainer.value.offsetWidth
     const containerH = sliderContainer.value.offsetHeight
 
-    // Calculate displayed image boxes
+    // Calculate displayed image box for current image (in current container)
     const currBox = getImageBoxInContainer(containerW, containerH, currSize.width, currSize.height)
-    const nextBox = getImageBoxInContainer(containerW, containerH, nextSize.width, nextSize.height)
+
+    // Calculate what the container size will be for the next image
+    const nextContainerW = Math.min(window.innerWidth * 0.7, nextSize.width)
+    const nextContainerH = Math.min(window.innerHeight * 0.7, nextSize.height)
+    // Calculate displayed image box for next image (in next container)
+    const nextBox = getImageBoxInContainer(nextContainerW, nextContainerH, nextSize.width, nextSize.height)
 
     // Stripe counts
     const currStripeCount = Math.ceil(currBox.height / STRIPE_HEIGHT)
@@ -205,20 +210,22 @@ async function goToSlide(nextIdx) {
         stripe.style.transform = "translateX(0)"
         stripesRef.value.appendChild(stripe)
     }
-    // Create next stripes (at displayed image box)
+    // Create next stripes (at next image's displayed box in next container size, but overlayed in current container)
+    // Center the next stripes in the current container
+    const offsetTop = (containerH - nextBox.height) / 2;
     for (let i = 0; i < nextStripeCount; i++) {
         const stripe = document.createElement("div")
         stripe.className = "stripe next-stripe"
         stripe.style.position = "absolute"
-        stripe.style.top = `${nextBox.top + i * STRIPE_HEIGHT}px`
-        stripe.style.left = `${nextBox.left}px`
+        stripe.style.top = `${offsetTop + i * STRIPE_HEIGHT}px`
+        stripe.style.left = `0px`
         stripe.style.width = `${nextBox.width}px`
         stripe.style.height = `${STRIPE_HEIGHT}px`
         stripe.style.backgroundImage = `url(${nextSlideUrl})`
         stripe.style.backgroundSize = `${nextBox.width}px ${nextBox.height}px`
         stripe.style.backgroundPosition = `0px ${-i * STRIPE_HEIGHT}px`
         stripe.style.zIndex = 2
-        stripe.style.transform = `translateX(-${containerW}px)`
+        stripe.style.transform = `translateX(-${nextBox.width + sliderContainer.value.offsetWidth}px)`
         stripesRef.value.appendChild(stripe)
     }
 
@@ -227,15 +234,18 @@ async function goToSlide(nextIdx) {
     // Animate current stripes out
     const currentStripes = stripesRef.value.querySelectorAll(".current-stripe")
     gsap.to(currentStripes, {
-        x: containerW,
+        // x: containerW,
+        x: window.innerWidth,
         duration: ANIMATION_DURATION,
         ease: ANIMATION_EASE,
         stagger: { each: STAGGER_DELAY, from: "random" }
     })
     // Animate next stripes in
     const nextStripes = stripesRef.value.querySelectorAll(".next-stripe")
+    console.log(window.innerWidth, nextBox.width)
     gsap.to(nextStripes, {
-        x: 0,
+        // x: (window.innerWidth - nextBox.width) / 2, // 0,
+        x: (currBox.width - nextBox.width) / 2,
         duration: ANIMATION_DURATION,
         ease: ANIMATION_EASE,
         stagger: { each: STAGGER_DELAY, from: "random" },
