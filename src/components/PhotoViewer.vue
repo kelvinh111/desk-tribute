@@ -30,6 +30,7 @@ const sliderNaturalHeight = ref(400)
 const nextNaturalWidth = ref(600)
 const nextNaturalHeight = ref(400)
 const STRIPE_HEIGHT = 5 // px
+const transitionDirection = ref(1) // 1 for next (right-to-left), -1 for prev (left-to-right)
 
 function showFirstPhoto(desk) {
     const gallery = photoGalleryEl.value;
@@ -207,25 +208,31 @@ async function goToSlide(nextIdx) {
         stripe.style.backgroundSize = `${currBox.width}px ${currBox.height}px`
         stripe.style.backgroundPosition = `0px ${-i * STRIPE_HEIGHT}px`
         stripe.style.zIndex = 3
+        // Set initial transform based on direction
         stripe.style.transform = "translateX(0)"
         stripesRef.value.appendChild(stripe)
     }
     // Create next stripes (at next image's displayed box in next container size, but overlayed in current container)
     // Center the next stripes in the current container
     const offsetTop = (containerH - nextBox.height) / 2;
+    const offsetLeft = (containerW - nextBox.width) / 2;
     for (let i = 0; i < nextStripeCount; i++) {
         const stripe = document.createElement("div")
         stripe.className = "stripe next-stripe"
         stripe.style.position = "absolute"
         stripe.style.top = `${offsetTop + i * STRIPE_HEIGHT}px`
-        stripe.style.left = `0px`
+        stripe.style.left = `${offsetLeft}px`
         stripe.style.width = `${nextBox.width}px`
         stripe.style.height = `${STRIPE_HEIGHT}px`
         stripe.style.backgroundImage = `url(${nextSlideUrl})`
         stripe.style.backgroundSize = `${nextBox.width}px ${nextBox.height}px`
         stripe.style.backgroundPosition = `0px ${-i * STRIPE_HEIGHT}px`
         stripe.style.zIndex = 2
-        stripe.style.transform = `translateX(-${nextBox.width + sliderContainer.value.offsetWidth}px)`
+        // Set initial transform based on direction
+        const slideDistance = (transitionDirection.value === 1
+            ? nextBox.width + sliderContainer.value.offsetWidth
+            : -nextBox.width - sliderContainer.value.offsetWidth)
+        stripe.style.transform = `translateX(${slideDistance}px)`
         stripesRef.value.appendChild(stripe)
     }
 
@@ -234,18 +241,15 @@ async function goToSlide(nextIdx) {
     // Animate current stripes out
     const currentStripes = stripesRef.value.querySelectorAll(".current-stripe")
     gsap.to(currentStripes, {
-        // x: containerW,
-        x: window.innerWidth,
+        x: transitionDirection.value === 1 ? -window.innerWidth : window.innerWidth,
         duration: ANIMATION_DURATION,
         ease: ANIMATION_EASE,
         stagger: { each: STAGGER_DELAY, from: "random" }
     })
     // Animate next stripes in
     const nextStripes = stripesRef.value.querySelectorAll(".next-stripe")
-    console.log(window.innerWidth, nextBox.width)
     gsap.to(nextStripes, {
-        // x: (window.innerWidth - nextBox.width) / 2, // 0,
-        x: (currBox.width - nextBox.width) / 2,
+        x: 0,
         duration: ANIMATION_DURATION,
         ease: ANIMATION_EASE,
         stagger: { each: STAGGER_DELAY, from: "random" },
@@ -261,10 +265,12 @@ async function goToSlide(nextIdx) {
 }
 
 function nextSlide() {
+    transitionDirection.value = 1
     const photos = props.desk?.photos || []
     goToSlide((currentIndex.value + 1) % photos.length)
 }
 function prevSlide() {
+    transitionDirection.value = -1
     const photos = props.desk?.photos || []
     goToSlide((currentIndex.value - 1 + photos.length) % photos.length)
 }
