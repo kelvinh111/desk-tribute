@@ -21,9 +21,9 @@
             "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -54,9 +54,9 @@
             "profileImg": "https://picsum.photos/72/45?2"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -87,9 +87,9 @@
             "profileImg": "https://picsum.photos/72/45?3"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -120,9 +120,9 @@
             "profileImg": "https://picsum.photos/72/45?4"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -153,9 +153,9 @@
             "profileImg": "https://picsum.photos/72/45?5"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -186,9 +186,9 @@
             "profileImg": "https://picsum.photos/72/45?6"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -219,9 +219,9 @@
             "profileImg": "https://picsum.photos/72/45?7"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -252,9 +252,9 @@
             "profileImg": "https://picsum.photos/72/45?8"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -285,9 +285,9 @@
             "profileImg": "https://picsum.photos/72/45?9"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -318,9 +318,9 @@
             "profileImg": "https://picsum.photos/72/45?10"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -351,9 +351,9 @@
             "profileImg": "https://picsum.photos/72/45?11"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -384,9 +384,9 @@
             "profileImg": "https://picsum.photos/72/45?12"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -417,9 +417,9 @@
             "profileImg": "https://picsum.photos/72/45?13"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -450,9 +450,9 @@
             "profileImg": "https://picsum.photos/72/45?14"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -483,9 +483,9 @@
             "profileImg": "https://picsum.photos/72/45?15"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -516,9 +516,9 @@
             "profileImg": "https://picsum.photos/72/45?16"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -549,9 +549,9 @@
             "profileImg": "https://picsum.photos/72/45?17"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -582,9 +582,9 @@
             "profileImg": "https://picsum.photos/72/45?18"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -615,9 +615,9 @@
             "profileImg": "https://picsum.photos/72/45?19"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -648,9 +648,9 @@
             "profileImg": "https://picsum.photos/72/45?20"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -681,9 +681,9 @@
             "profileImg": "https://picsum.photos/72/45?21"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -714,9 +714,9 @@
             "profileImg": "https://picsum.photos/72/45?22"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -747,9 +747,9 @@
             "profileImg": "https://picsum.photos/72/45?23"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -780,9 +780,9 @@
             "profileImg": "https://picsum.photos/72/45?24"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -813,9 +813,9 @@
             "profileImg": "https://picsum.photos/72/45?25"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -846,9 +846,9 @@
             "profileImg": "https://picsum.photos/72/45?26"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -879,9 +879,9 @@
             "profileImg": "https://picsum.photos/72/45?27"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -912,9 +912,9 @@
             "profileImg": "https://picsum.photos/72/45?28"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -945,9 +945,9 @@
             "profileImg": "https://picsum.photos/72/45?29"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -978,9 +978,9 @@
             "profileImg": "https://picsum.photos/72/45?45"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1011,9 +1011,9 @@
             "profileImg": "https://picsum.photos/72/45?31"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1044,9 +1044,9 @@
             "profileImg": "https://picsum.photos/72/45?32"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1077,9 +1077,9 @@
             "profileImg": "https://picsum.photos/72/45?33"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1110,9 +1110,9 @@
             "profileImg": "https://picsum.photos/72/45?34"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1143,9 +1143,9 @@
             "profileImg": "https://picsum.photos/72/45?35"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1176,9 +1176,9 @@
             "profileImg": "https://picsum.photos/72/45?36"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1209,9 +1209,9 @@
             "profileImg": "https://picsum.photos/72/45?37"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1242,9 +1242,9 @@
             "profileImg": "https://picsum.photos/72/45?38"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1275,9 +1275,9 @@
             "profileImg": "https://picsum.photos/72/45?59"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1308,9 +1308,9 @@
             "profileImg": "https://picsum.photos/72/45?60"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1341,9 +1341,9 @@
             "profileImg": "https://picsum.photos/72/45?41"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1374,9 +1374,9 @@
             "profileImg": "https://picsum.photos/72/45?42"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1407,9 +1407,9 @@
             "profileImg": "https://picsum.photos/72/45?43"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1440,9 +1440,9 @@
             "profileImg": "https://picsum.photos/72/45?44"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1473,9 +1473,9 @@
             "profileImg": "https://picsum.photos/72/45?45"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1506,9 +1506,9 @@
             "profileImg": "https://picsum.photos/72/45?46"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1539,9 +1539,9 @@
             "profileImg": "https://picsum.photos/72/45?47"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1572,9 +1572,9 @@
             "profileImg": "https://picsum.photos/72/45?72"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1605,9 +1605,9 @@
             "profileImg": "https://picsum.photos/72/45?49"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1638,9 +1638,9 @@
             "profileImg": "https://picsum.photos/72/45?50"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1671,9 +1671,9 @@
             "profileImg": "https://picsum.photos/72/45?77"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1704,9 +1704,9 @@
             "profileImg": "https://picsum.photos/72/45?52"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1737,9 +1737,9 @@
             "profileImg": "https://picsum.photos/72/45?53"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1770,9 +1770,9 @@
             "profileImg": "https://picsum.photos/72/45?54"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1803,9 +1803,9 @@
             "profileImg": "https://picsum.photos/72/45?55"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1836,9 +1836,9 @@
             "profileImg": "https://picsum.photos/72/45?56"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1869,9 +1869,9 @@
             "profileImg": "https://picsum.photos/72/45?57"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1902,9 +1902,9 @@
             "profileImg": "https://picsum.photos/72/45?58"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1935,9 +1935,9 @@
             "profileImg": "https://picsum.photos/72/45?59"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1968,9 +1968,9 @@
             "profileImg": "https://picsum.photos/72/45?60"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2001,9 +2001,9 @@
             "profileImg": "https://picsum.photos/72/45?61"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2034,9 +2034,9 @@
             "profileImg": "https://picsum.photos/72/45?62"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2067,9 +2067,9 @@
             "profileImg": "https://picsum.photos/72/45?63"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2100,9 +2100,9 @@
             "profileImg": "https://picsum.photos/72/45?64"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2133,9 +2133,9 @@
             "profileImg": "https://picsum.photos/72/45?65"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2166,9 +2166,9 @@
             "profileImg": "https://picsum.photos/72/45?66"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2199,9 +2199,9 @@
             "profileImg": "https://picsum.photos/72/45?67"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2232,9 +2232,9 @@
             "profileImg": "https://picsum.photos/72/45?68"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2265,9 +2265,9 @@
             "profileImg": "https://picsum.photos/72/45?69"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2298,9 +2298,9 @@
             "profileImg": "https://picsum.photos/72/45?70"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2331,9 +2331,9 @@
             "profileImg": "https://picsum.photos/72/45?107"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2364,9 +2364,9 @@
             "profileImg": "https://picsum.photos/72/45?72"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2397,9 +2397,9 @@
             "profileImg": "https://picsum.photos/72/45?73"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2430,9 +2430,9 @@
             "profileImg": "https://picsum.photos/72/45?74"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2463,9 +2463,9 @@
             "profileImg": "https://picsum.photos/72/45?75"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2496,9 +2496,9 @@
             "profileImg": "https://picsum.photos/72/45?76"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2529,9 +2529,9 @@
             "profileImg": "https://picsum.photos/72/45?77"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2562,9 +2562,9 @@
             "profileImg": "https://picsum.photos/72/45?78"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2595,9 +2595,9 @@
             "profileImg": "https://picsum.photos/72/45?79"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2628,9 +2628,9 @@
             "profileImg": "https://picsum.photos/72/45?80"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2661,9 +2661,9 @@
             "profileImg": "https://picsum.photos/72/45?81"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2694,9 +2694,9 @@
             "profileImg": "https://picsum.photos/72/45?82"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2727,9 +2727,9 @@
             "profileImg": "https://picsum.photos/72/45?83"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2760,9 +2760,9 @@
             "profileImg": "https://picsum.photos/72/45?84"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2793,9 +2793,9 @@
             "profileImg": "https://picsum.photos/72/45?85"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2826,9 +2826,9 @@
             "profileImg": "https://picsum.photos/72/45?86"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2859,9 +2859,9 @@
             "profileImg": "https://picsum.photos/72/45?87"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2892,9 +2892,9 @@
             "profileImg": "https://picsum.photos/72/45?88"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2925,9 +2925,9 @@
             "profileImg": "https://picsum.photos/72/45?89"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2958,9 +2958,9 @@
             "profileImg": "https://picsum.photos/72/45?90"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2991,9 +2991,9 @@
             "profileImg": "https://picsum.photos/72/45?91"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3024,9 +3024,9 @@
             "profileImg": "https://picsum.photos/72/45?92"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3057,9 +3057,9 @@
             "profileImg": "https://picsum.photos/72/45?93"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3090,9 +3090,9 @@
             "profileImg": "https://picsum.photos/72/45?94"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3123,9 +3123,9 @@
             "profileImg": "https://picsum.photos/72/45?95"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3156,9 +3156,9 @@
             "profileImg": "https://picsum.photos/72/45?96"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3189,9 +3189,9 @@
             "profileImg": "https://picsum.photos/72/45?97"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3222,9 +3222,9 @@
             "profileImg": "https://picsum.photos/72/45?98"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3255,9 +3255,9 @@
             "profileImg": "https://picsum.photos/72/45?99"
         },
         "photos": [
-            "https://picsum.photos/800/400",
-            "https://picsum.photos/600/400",
-            "https://picsum.photos/600/600"
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",

@@ -32,6 +32,9 @@ const nextNaturalHeight = ref(400)
 const STRIPE_HEIGHT = 5 // px
 const transitionDirection = ref(1) // 1 for next (right-to-left), -1 for prev (left-to-right)
 
+const photoSizeCache = {} // url -> {width, height}
+const isSliderReady = ref(false)
+
 function showFirstPhoto(desk) {
     const gallery = photoGalleryEl.value;
     if (!gallery || !desk.photos || desk.photos.length === 0) return;
@@ -39,6 +42,14 @@ function showFirstPhoto(desk) {
     gallery.innerHTML = '';
 
     const firstPhotoUrl = desk.photos[0];
+    // Set slider size to first photo's natural size from cache (prevents initial layout shift)
+    const size = photoSizeCache[firstPhotoUrl];
+    if (size) {
+        sliderNaturalWidth.value = size.width;
+        sliderNaturalHeight.value = size.height;
+    }
+    isSliderReady.value = true;
+
     const imgEl = document.createElement('img');
     imgEl.src = firstPhotoUrl;
     gallery.appendChild(imgEl);
@@ -78,6 +89,20 @@ function preloadImagesAndUpdateProgress(desk) {
     gsap.set(loaded, { width: '0%' });
     gsap.set(bar, { opacity: 0 });
 
+    // If all images are already cached, skip preload and show slider immediately
+    const allCached = photos.every(url => photoSizeCache[url]);
+    if (allCached) {
+        const firstPhotoUrl = photos[0];
+        const size = photoSizeCache[firstPhotoUrl];
+        if (size) {
+            sliderNaturalWidth.value = size.width;
+            sliderNaturalHeight.value = size.height;
+        }
+        isSliderReady.value = true;
+        showFirstPhoto(desk);
+        return;
+    }
+
     gsap.to(bar, {
         opacity: 1,
         duration: 0.3,
@@ -91,10 +116,14 @@ function preloadImagesAndUpdateProgress(desk) {
 
                 let loadedCount = 0;
                 const totalImages = photos.length;
+                let firstImageReady = false;
 
-                photos.forEach(photoUrl => {
+                photos.forEach((photoUrl, idx) => {
                     const img = new Image();
                     img.onload = img.onerror = () => {
+                        if (!photoSizeCache[photoUrl] && img.naturalWidth && img.naturalHeight) {
+                            photoSizeCache[photoUrl] = { width: img.naturalWidth, height: img.naturalHeight };
+                        }
                         loadedCount++;
                         const progress = loadedCount / totalImages;
                         gsap.to(loaded, {
@@ -103,8 +132,25 @@ function preloadImagesAndUpdateProgress(desk) {
                             ease: 'power2.out'
                         });
 
-                        if (loadedCount === totalImages) {
+                        // As soon as the first image is loaded, set slider size and show slider
+                        if (!firstImageReady && idx === 0 && img.naturalWidth && img.naturalHeight) {
+                            sliderNaturalWidth.value = img.naturalWidth;
+                            sliderNaturalHeight.value = img.naturalHeight;
+                            isSliderReady.value = true;
                             showFirstPhoto(desk);
+                            firstImageReady = true;
+                        }
+
+                        if (loadedCount === totalImages && !firstImageReady) {
+                            // fallback: if first image was cached, show slider now
+                            const firstPhotoUrl = photos[0];
+                            const size = photoSizeCache[firstPhotoUrl];
+                            if (size) {
+                                sliderNaturalWidth.value = size.width;
+                                sliderNaturalHeight.value = size.height;
+                                isSliderReady.value = true;
+                                showFirstPhoto(desk);
+                            }
                         }
                     };
                     img.src = photoUrl;
@@ -166,11 +212,14 @@ async function goToSlide(nextIdx) {
     const currentSlideUrl = photos[currentIndex.value]
     const nextSlideUrl = photos[nextIdx]
 
-    // Get current and next image sizes
-    const [currSize, nextSize] = await Promise.all([
-        loadImageSize(currentSlideUrl),
-        loadImageSize(nextSlideUrl)
-    ])
+    // Use cached sizes if available
+    let currSize = photoSizeCache[currentSlideUrl]
+    let nextSize = photoSizeCache[nextSlideUrl]
+
+    // Fallback: if not cached (shouldn't happen after preload), load
+    if (!currSize) currSize = await loadImageSize(currentSlideUrl)
+    if (!nextSize) nextSize = await loadImageSize(nextSlideUrl)
+
     sliderNaturalWidth.value = currSize.width
     sliderNaturalHeight.value = currSize.height
     nextNaturalWidth.value = nextSize.width
@@ -276,16 +325,14 @@ function prevSlide() {
 }
 
 function updateSliderSizeForCurrentImage() {
-    console.log('Updating slider size for current image');
     const photos = props.desk?.photos || []
     const url = photos[currentIndex.value]
     if (!url) return
-    const img = new window.Image()
-    img.onload = () => {
-        sliderNaturalWidth.value = img.naturalWidth
-        sliderNaturalHeight.value = img.naturalHeight
+    const size = photoSizeCache[url]
+    if (size) {
+        sliderNaturalWidth.value = size.width
+        sliderNaturalHeight.value = size.height
     }
-    img.src = url
 }
 
 watch([() => props.desk, currentIndex], () => {
@@ -294,7 +341,16 @@ watch([() => props.desk, currentIndex], () => {
 
 watch(() => props.visible, (newVal) => {
     if (newVal && props.desk) {
+        // Set slider size to first photo's natural size from cache immediately (prevents initial layout shift)
+        const photos = props.desk.photos || [];
+        const url = photos[0];
+        const size = photoSizeCache[url];
+        if (size) {
+            sliderNaturalWidth.value = size.width;
+            sliderNaturalHeight.value = size.height;
+        }
         isProgressBarActive.value = true;
+        isSliderReady.value = false;
         nextTick(() => {
             preloadImagesAndUpdateProgress(props.desk);
         });
@@ -320,6 +376,7 @@ watch(() => props.visible, (newVal) => {
         } else {
             isProgressBarActive.value = false;
         }
+        isSliderReady.value = false;
     }
 });
 watch(() => props.desk, () => {
@@ -333,8 +390,8 @@ watch(() => props.desk, () => {
             <div ref="progressLoadedEl" class="progress-loaded"></div>
         </div>
         <div style="position: fixed; top: 0; left: 0; z-index:99999;">{{ visible }}</div>
-        <div v-if="visible && props.desk && props.desk.photos && props.desk.photos.length" class="slider-container"
-            ref="sliderContainer" :style="{
+        <div v-if="isSliderReady && visible && props.desk && props.desk.photos && props.desk.photos.length"
+            class="slider-container" ref="sliderContainer" :style="{
                 aspectRatio: sliderNaturalWidth + '/' + sliderNaturalHeight,
                 width: 'min(70vw, ' + sliderNaturalWidth + 'px)',
                 height: 'min(70vh, ' + sliderNaturalHeight + 'px)',
