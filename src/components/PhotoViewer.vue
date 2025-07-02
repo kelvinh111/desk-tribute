@@ -1,39 +1,39 @@
 <script setup>
-import { ref, watch, nextTick } from 'vue'
-import { gsap } from 'gsap'
+import { ref, watch, nextTick } from 'vue';
+import { gsap } from 'gsap';
 
 const props = defineProps({
     desk: Object,
     visible: Boolean
-})
+});
 
-const emit = defineEmits(['close', 'photoVisible', 'firstPhotoLoaded'])
+const emit = defineEmits(['close', 'photoVisible', 'firstPhotoLoaded']);
 
-const photoGalleryEl = ref(null)
-const progressBarEl = ref(null)
-const progressLoadedEl = ref(null)
-const isProgressBarActive = ref(false)
-const currentIndex = ref(0)
-const isTransitioning = ref(false)
-const stripesRef = ref(null)
-const sliderContainer = ref(null)
+const photoGalleryEl = ref(null);
+const progressBarEl = ref(null);
+const progressLoadedEl = ref(null);
+const isProgressBarActive = ref(false);
+const currentIndex = ref(0);
+const isTransitioning = ref(false);
+const stripesRef = ref(null);
+const sliderContainer = ref(null);
 
-const SLIDER_WIDTH = 600
-const SLIDER_HEIGHT = 400
-const STRIPE_COUNT = 100
-const STAGGER_DELAY = 0.02
-const ANIMATION_DURATION = 1
-const ANIMATION_EASE = "power2.out"
+const SLIDER_WIDTH = 600;
+const SLIDER_HEIGHT = 400;
+const STRIPE_COUNT = 100;
+const STAGGER_DELAY = 0.02;
+const ANIMATION_DURATION = 1;
+const ANIMATION_EASE = "power2.out";
 
-const sliderNaturalWidth = ref(600)
-const sliderNaturalHeight = ref(400)
-const nextNaturalWidth = ref(600)
-const nextNaturalHeight = ref(400)
-const STRIPE_HEIGHT = 5 // px
-const transitionDirection = ref(1) // 1 for next (right-to-left), -1 for prev (left-to-right)
+const sliderNaturalWidth = ref(600);
+const sliderNaturalHeight = ref(400);
+const nextNaturalWidth = ref(600);
+const nextNaturalHeight = ref(400);
+const STRIPE_HEIGHT = 5; // px
+const transitionDirection = ref(1); // 1 for next (right-to-left), -1 for prev (left-to-right)
 
-const photoSizeCache = {} // url -> {width, height}
-const isSliderReady = ref(false)
+const photoSizeCache = {}; // url -> {width, height}
+const isSliderReady = ref(false);
 
 function showFirstPhoto(desk) {
     const gallery = photoGalleryEl.value;
@@ -162,10 +162,10 @@ function preloadImagesAndUpdateProgress(desk) {
 
 function loadImageSize(url) {
     return new Promise((resolve) => {
-        const img = new window.Image()
-        img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight })
-        img.src = url
-    })
+        const img = new window.Image();
+        img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+        img.src = url;
+    });
 }
 
 function getDisplayedSize(naturalWidth, naturalHeight) {
@@ -206,97 +206,97 @@ function getImageBoxInContainer(containerW, containerH, imageW, imageH) {
 }
 
 async function goToSlide(nextIdx) {
-    if (isTransitioning.value || nextIdx === currentIndex.value) return
+    if (isTransitioning.value || nextIdx === currentIndex.value) return;
 
-    const photos = props.desk?.photos || []
-    const currentSlideUrl = photos[currentIndex.value]
-    const nextSlideUrl = photos[nextIdx]
+    const photos = props.desk?.photos || [];
+    const currentSlideUrl = photos[currentIndex.value];
+    const nextSlideUrl = photos[nextIdx];
 
     // Use cached sizes if available
-    let currSize = photoSizeCache[currentSlideUrl]
-    let nextSize = photoSizeCache[nextSlideUrl]
+    let currSize = photoSizeCache[currentSlideUrl];
+    let nextSize = photoSizeCache[nextSlideUrl];
 
     // Fallback: if not cached (shouldn't happen after preload), load
-    if (!currSize) currSize = await loadImageSize(currentSlideUrl)
-    if (!nextSize) nextSize = await loadImageSize(nextSlideUrl)
+    if (!currSize) currSize = await loadImageSize(currentSlideUrl);
+    if (!nextSize) nextSize = await loadImageSize(nextSlideUrl);
 
-    sliderNaturalWidth.value = currSize.width
-    sliderNaturalHeight.value = currSize.height
-    nextNaturalWidth.value = nextSize.width
-    nextNaturalHeight.value = nextSize.height
+    sliderNaturalWidth.value = currSize.width;
+    sliderNaturalHeight.value = currSize.height;
+    nextNaturalWidth.value = nextSize.width;
+    nextNaturalHeight.value = nextSize.height;
 
     // Calculate displayed container size (current)
-    const containerW = sliderContainer.value.offsetWidth
-    const containerH = sliderContainer.value.offsetHeight
+    const containerW = sliderContainer.value.offsetWidth;
+    const containerH = sliderContainer.value.offsetHeight;
 
     // Calculate displayed image box for current image (in current container)
-    const currBox = getImageBoxInContainer(containerW, containerH, currSize.width, currSize.height)
+    const currBox = getImageBoxInContainer(containerW, containerH, currSize.width, currSize.height);
 
     // Calculate what the container size will be for the next image
-    const nextContainerW = Math.min(window.innerWidth * 0.7, nextSize.width)
-    const nextContainerH = Math.min(window.innerHeight * 0.7, nextSize.height)
+    const nextContainerW = Math.min(window.innerWidth * 0.7, nextSize.width);
+    const nextContainerH = Math.min(window.innerHeight * 0.7, nextSize.height);
     // Calculate displayed image box for next image (in next container)
-    const nextBox = getImageBoxInContainer(nextContainerW, nextContainerH, nextSize.width, nextSize.height)
+    const nextBox = getImageBoxInContainer(nextContainerW, nextContainerH, nextSize.width, nextSize.height);
 
     // Stripe counts
-    const currStripeCount = Math.ceil(currBox.height / STRIPE_HEIGHT)
-    const nextStripeCount = Math.ceil(nextBox.height / STRIPE_HEIGHT)
+    const currStripeCount = Math.ceil(currBox.height / STRIPE_HEIGHT);
+    const nextStripeCount = Math.ceil(nextBox.height / STRIPE_HEIGHT);
 
-    stripesRef.value.innerHTML = ""
+    stripesRef.value.innerHTML = "";
 
     // Create current stripes (at displayed image box)
     for (let i = 0; i < currStripeCount; i++) {
-        const stripe = document.createElement("div")
-        stripe.className = "stripe current-stripe"
-        stripe.style.position = "absolute"
-        stripe.style.top = `${currBox.top + i * STRIPE_HEIGHT}px`
-        stripe.style.left = `${currBox.left}px`
-        stripe.style.width = `${currBox.width}px`
-        stripe.style.height = `${STRIPE_HEIGHT}px`
-        stripe.style.backgroundImage = `url(${currentSlideUrl})`
-        stripe.style.backgroundSize = `${currBox.width}px ${currBox.height}px`
-        stripe.style.backgroundPosition = `0px ${-i * STRIPE_HEIGHT}px`
-        stripe.style.zIndex = 3
+        const stripe = document.createElement("div");
+        stripe.className = "stripe current-stripe";
+        stripe.style.position = "absolute";
+        stripe.style.top = `${currBox.top + i * STRIPE_HEIGHT}px`;
+        stripe.style.left = `${currBox.left}px`;
+        stripe.style.width = `${currBox.width}px`;
+        stripe.style.height = `${STRIPE_HEIGHT}px`;
+        stripe.style.backgroundImage = `url(${currentSlideUrl})`;
+        stripe.style.backgroundSize = `${currBox.width}px ${currBox.height}px`;
+        stripe.style.backgroundPosition = `0px ${-i * STRIPE_HEIGHT}px`;
+        stripe.style.zIndex = 3;
         // Set initial transform based on direction
-        stripe.style.transform = "translateX(0)"
-        stripesRef.value.appendChild(stripe)
+        stripe.style.transform = "translateX(0)";
+        stripesRef.value.appendChild(stripe);
     }
     // Create next stripes (at next image's displayed box in next container size, but overlayed in current container)
     // Center the next stripes in the current container
     const offsetTop = (containerH - nextBox.height) / 2;
     const offsetLeft = (containerW - nextBox.width) / 2;
     for (let i = 0; i < nextStripeCount; i++) {
-        const stripe = document.createElement("div")
-        stripe.className = "stripe next-stripe"
-        stripe.style.position = "absolute"
-        stripe.style.top = `${offsetTop + i * STRIPE_HEIGHT}px`
-        stripe.style.left = `${offsetLeft}px`
-        stripe.style.width = `${nextBox.width}px`
-        stripe.style.height = `${STRIPE_HEIGHT}px`
-        stripe.style.backgroundImage = `url(${nextSlideUrl})`
-        stripe.style.backgroundSize = `${nextBox.width}px ${nextBox.height}px`
-        stripe.style.backgroundPosition = `0px ${-i * STRIPE_HEIGHT}px`
-        stripe.style.zIndex = 2
+        const stripe = document.createElement("div");
+        stripe.className = "stripe next-stripe";
+        stripe.style.position = "absolute";
+        stripe.style.top = `${offsetTop + i * STRIPE_HEIGHT}px`;
+        stripe.style.left = `${offsetLeft}px`;
+        stripe.style.width = `${nextBox.width}px`;
+        stripe.style.height = `${STRIPE_HEIGHT}px`;
+        stripe.style.backgroundImage = `url(${nextSlideUrl})`;
+        stripe.style.backgroundSize = `${nextBox.width}px ${nextBox.height}px`;
+        stripe.style.backgroundPosition = `0px ${-i * STRIPE_HEIGHT}px`;
+        stripe.style.zIndex = 2;
         // Set initial transform based on direction
         const slideDistance = (transitionDirection.value === 1
             ? nextBox.width + sliderContainer.value.offsetWidth
-            : -nextBox.width - sliderContainer.value.offsetWidth)
-        stripe.style.transform = `translateX(${slideDistance}px)`
-        stripesRef.value.appendChild(stripe)
+            : -nextBox.width - sliderContainer.value.offsetWidth);
+        stripe.style.transform = `translateX(${slideDistance}px)`;
+        stripesRef.value.appendChild(stripe);
     }
 
-    isTransitioning.value = true
+    isTransitioning.value = true;
 
     // Animate current stripes out
-    const currentStripes = stripesRef.value.querySelectorAll(".current-stripe")
+    const currentStripes = stripesRef.value.querySelectorAll(".current-stripe");
     gsap.to(currentStripes, {
         x: transitionDirection.value === 1 ? -window.innerWidth : window.innerWidth,
         duration: ANIMATION_DURATION,
         ease: ANIMATION_EASE,
         stagger: { each: STAGGER_DELAY, from: "random" }
-    })
+    });
     // Animate next stripes in
-    const nextStripes = stripesRef.value.querySelectorAll(".next-stripe")
+    const nextStripes = stripesRef.value.querySelectorAll(".next-stripe");
     gsap.to(nextStripes, {
         x: 0,
         duration: ANIMATION_DURATION,
@@ -304,39 +304,39 @@ async function goToSlide(nextIdx) {
         stagger: { each: STAGGER_DELAY, from: "random" },
         onComplete: () => {
             // After animation, update slider size and index
-            sliderNaturalWidth.value = nextSize.width
-            sliderNaturalHeight.value = nextSize.height
-            currentIndex.value = nextIdx
-            stripesRef.value.innerHTML = ""
-            isTransitioning.value = false
+            sliderNaturalWidth.value = nextSize.width;
+            sliderNaturalHeight.value = nextSize.height;
+            currentIndex.value = nextIdx;
+            stripesRef.value.innerHTML = "";
+            isTransitioning.value = false;
         }
-    })
+    });
 }
 
 function nextSlide() {
-    transitionDirection.value = 1
-    const photos = props.desk?.photos || []
-    goToSlide((currentIndex.value + 1) % photos.length)
+    transitionDirection.value = 1;
+    const photos = props.desk?.photos || [];
+    goToSlide((currentIndex.value + 1) % photos.length);
 }
 function prevSlide() {
-    transitionDirection.value = -1
-    const photos = props.desk?.photos || []
-    goToSlide((currentIndex.value - 1 + photos.length) % photos.length)
+    transitionDirection.value = -1;
+    const photos = props.desk?.photos || [];
+    goToSlide((currentIndex.value - 1 + photos.length) % photos.length);
 }
 
 function updateSliderSizeForCurrentImage() {
-    const photos = props.desk?.photos || []
-    const url = photos[currentIndex.value]
-    if (!url) return
-    const size = photoSizeCache[url]
+    const photos = props.desk?.photos || [];
+    const url = photos[currentIndex.value];
+    if (!url) return;
+    const size = photoSizeCache[url];
     if (size) {
-        sliderNaturalWidth.value = size.width
-        sliderNaturalHeight.value = size.height
+        sliderNaturalWidth.value = size.width;
+        sliderNaturalHeight.value = size.height;
     }
 }
 
 watch([() => props.desk, currentIndex], () => {
-    updateSliderSizeForCurrentImage()
+    updateSliderSizeForCurrentImage();
 }, { immediate: true });
 
 watch(() => props.visible, (newVal) => {
@@ -380,18 +380,28 @@ watch(() => props.visible, (newVal) => {
     }
 });
 watch(() => props.desk, () => {
-    currentIndex.value = 0
-})
+    currentIndex.value = 0;
+});
 </script>
 
 <template>
     <div>
-        <div v-if="isProgressBarActive" ref="progressBarEl" class="progress-bar">
-            <div ref="progressLoadedEl" class="progress-loaded"></div>
+        <div
+            v-if="isProgressBarActive"
+            ref="progressBarEl"
+            class="progress-bar"
+        >
+            <div
+                ref="progressLoadedEl"
+                class="progress-loaded"
+            ></div>
         </div>
         <div style="position: fixed; top: 0; left: 0; z-index:99999;">{{ visible }}</div>
-        <div v-if="isSliderReady && visible && props.desk && props.desk.photos && props.desk.photos.length"
-            class="slider-container" ref="sliderContainer" :style="{
+        <div
+            v-if="isSliderReady && visible && props.desk && props.desk.photos && props.desk.photos.length"
+            class="slider-container"
+            ref="sliderContainer"
+            :style="{
                 aspectRatio: sliderNaturalWidth + '/' + sliderNaturalHeight,
                 width: 'min(70vw, ' + sliderNaturalWidth + 'px)',
                 height: 'min(70vh, ' + sliderNaturalHeight + 'px)',
@@ -405,22 +415,43 @@ watch(() => props.desk, () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 // boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
-            }">
-            <div v-for="(photo, idx) in props.desk.photos" :key="photo" class="slide" :style="{
-                backgroundImage: `url(${photo})`,
-                opacity: idx === currentIndex && !isTransitioning ? 1 : 0,
-                // opacity: idx === currentIndex ? 1 : 0,
-                zIndex: idx === currentIndex ? 1 : 0,
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-            }"></div>
-            <div class="stripes" ref="stripesRef"></div>
-            <div class="nav-buttons" v-if="props.desk.photos.length > 1">
-                <button @click="prevSlide" :disabled="isTransitioning">⟵ Prev</button>
-                <button @click="nextSlide" :disabled="isTransitioning">Next ⟶</button>
+            }"
+        >
+            <div
+                v-for="(photo, idx) in props.desk.photos"
+                :key="photo"
+                class="slide"
+                :style="{
+                    backgroundImage: `url(${photo})`,
+                    opacity: idx === currentIndex && !isTransitioning ? 1 : 0,
+                    // opacity: idx === currentIndex ? 1 : 0,
+                    zIndex: idx === currentIndex ? 1 : 0,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                }"
+            ></div>
+            <div
+                class="stripes"
+                ref="stripesRef"
+            ></div>
+            <div
+                class="nav-buttons"
+                v-if="props.desk.photos.length > 1"
+            >
+                <button
+                    @click="prevSlide"
+                    :disabled="isTransitioning"
+                >⟵ Prev</button>
+                <button
+                    @click="nextSlide"
+                    :disabled="isTransitioning"
+                >Next ⟶</button>
             </div>
-            <button class="photo-close-button" @click="emit('close')">&times;</button>
+            <button
+                class="photo-close-button"
+                @click="emit('close')"
+            >&times;</button>
         </div>
     </div>
 </template>
