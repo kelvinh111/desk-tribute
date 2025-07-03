@@ -34,6 +34,7 @@ const transitionDirection = ref(1); // 1 for next (right-to-left), -1 for prev (
 
 const photoSizeCache = {}; // url -> {width, height}
 const isSliderReady = ref(false);
+const isProgressBarComplete = ref(false);
 
 function showFirstPhoto(desk) {
     const gallery = photoGalleryEl.value;
@@ -88,6 +89,7 @@ function preloadImagesAndUpdateProgress(desk) {
 
     gsap.set(loaded, { width: '0%' });
     gsap.set(bar, { opacity: 0 });
+    isProgressBarComplete.value = false;
 
     // If all images are already cached, skip preload and show slider immediately
     const allCached = photos.every(url => photoSizeCache[url]);
@@ -98,8 +100,24 @@ function preloadImagesAndUpdateProgress(desk) {
             sliderNaturalWidth.value = size.width;
             sliderNaturalHeight.value = size.height;
         }
-        isSliderReady.value = true;
-        showFirstPhoto(desk);
+        // Still show progress bar animation even if cached
+        gsap.to(bar, {
+            opacity: 1,
+            duration: 0.3,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                gsap.to(loaded, {
+                    width: '100%',
+                    duration: 1.0,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        isProgressBarComplete.value = true;
+                        isSliderReady.value = true;
+                        showFirstPhoto(desk);
+                    }
+                });
+            }
+        });
         return;
     }
 
@@ -117,6 +135,7 @@ function preloadImagesAndUpdateProgress(desk) {
                 let loadedCount = 0;
                 const totalImages = photos.length;
                 let firstImageReady = false;
+                let firstImageData = null;
 
                 photos.forEach((photoUrl, idx) => {
                     const img = new Image();
@@ -129,27 +148,32 @@ function preloadImagesAndUpdateProgress(desk) {
                         gsap.to(loaded, {
                             width: `${progress * 100}%`,
                             duration: 0.5,
-                            ease: 'power2.out'
+                            ease: 'power2.out',
+                            onComplete: () => {
+                                // Only show slider when progress bar is complete AND first image is ready
+                                if (loadedCount === totalImages && firstImageData) {
+                                    sliderNaturalWidth.value = firstImageData.width;
+                                    sliderNaturalHeight.value = firstImageData.height;
+                                    isProgressBarComplete.value = true;
+                                    isSliderReady.value = true;
+                                    showFirstPhoto(desk);
+                                }
+                            }
                         });
 
-                        // As soon as the first image is loaded, set slider size and show slider
+                        // Store first image data when it's ready
                         if (!firstImageReady && idx === 0 && img.naturalWidth && img.naturalHeight) {
-                            sliderNaturalWidth.value = img.naturalWidth;
-                            sliderNaturalHeight.value = img.naturalHeight;
-                            isSliderReady.value = true;
-                            showFirstPhoto(desk);
+                            firstImageData = { width: img.naturalWidth, height: img.naturalHeight };
                             firstImageReady = true;
                         }
 
                         if (loadedCount === totalImages && !firstImageReady) {
-                            // fallback: if first image was cached, show slider now
+                            // fallback: if first image was cached, use cached data
                             const firstPhotoUrl = photos[0];
                             const size = photoSizeCache[firstPhotoUrl];
                             if (size) {
-                                sliderNaturalWidth.value = size.width;
-                                sliderNaturalHeight.value = size.height;
-                                isSliderReady.value = true;
-                                showFirstPhoto(desk);
+                                firstImageData = size;
+                                firstImageReady = true;
                             }
                         }
                     };
@@ -351,6 +375,7 @@ watch(() => props.visible, (newVal) => {
         }
         isProgressBarActive.value = true;
         isSliderReady.value = false;
+        isProgressBarComplete.value = false;
         nextTick(() => {
             preloadImagesAndUpdateProgress(props.desk);
         });
@@ -377,6 +402,7 @@ watch(() => props.visible, (newVal) => {
             isProgressBarActive.value = false;
         }
         isSliderReady.value = false;
+        isProgressBarComplete.value = false;
     }
 });
 watch(() => props.desk, () => {
