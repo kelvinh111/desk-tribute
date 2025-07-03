@@ -1,22 +1,22 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue'
-import itemsData from '../model/desk.json'
-import { useRouter, useRoute } from 'vue-router'
-import { gsap } from 'gsap'
-import DeskGallery from '../components/DeskGallery.vue'
-import DeskSlider from '../components/DeskSlider.vue'
-import PhotoViewer from '../components/PhotoViewer.vue'
+import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue';
+import itemsData from '../model/desk.json';
+import { useRouter, useRoute } from 'vue-router';
+import { gsap } from 'gsap';
+import DeskGallery from '../components/DeskGallery.vue';
+import DeskSlider from '../components/DeskSlider.vue';
+import PhotoViewer from '../components/PhotoViewer.vue';
 
 // --- Configuration Constants ---
 const ANIMATION_DURATION = 0.6;
 
-const windowWidth = ref(0)
+const windowWidth = ref(0);
 
 // --- Refs for DOM Elements ---
-const galleryComponentRef = ref(null) // Ref for the gallery component
-const deskSliderRef = ref(null)
-const desks = ref(itemsData) // Reactive ref holding the array of desk data.
-let selectedDeskClone = null // Will hold the cloned element for the pop-out animation.
+const galleryComponentRef = ref(null); // Ref for the gallery component
+const deskSliderRef = ref(null);
+const desks = ref(itemsData); // Reactive ref holding the array of desk data.
+let selectedDeskClone = null; // Will hold the cloned element for the pop-out animation.
 let isCarouselLocked = ref(false); // Flag to prevent carousel interaction during animations.
 const isGalleryFaded = ref(false); // Controls the faded state of the gallery
 const isPhotoViewerVisible = ref(false);
@@ -28,13 +28,13 @@ const selectedDesk = computed(() => {
 });
 
 // --- Vue Router ---
-const router = useRouter() // Used to programmatically change the URL (e.g., router.push('/'.
-const route = useRoute() // Used to read information from the current URL (e.g., route.params.deskId).
+const router = useRouter(); // Used to programmatically change the URL (e.g., router.push('/'.
+const route = useRoute(); // Used to read information from the current URL (e.g., route.params.deskId).
 
 const handleResize = () => {
-  windowWidth.value = window.innerWidth
+  windowWidth.value = window.innerWidth;
   updateCloneCenterTransform();
-}
+};
 
 onMounted(() => {
   // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
@@ -48,13 +48,13 @@ onMounted(() => {
     }
   }
 
-  handleResize()
-  window.addEventListener('resize', handleResize)
-})
+  handleResize();
+  window.addEventListener('resize', handleResize);
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize)
-})
+  window.removeEventListener('resize', handleResize);
+});
 
 function handlePhotoViewerClose() {
   if (selectedDesk.value) {
@@ -66,8 +66,8 @@ function handlePhotoViewerClose() {
 function pick(desk) {
   const galleryRef = galleryComponentRef.value?.galleryRef;
   if (!galleryRef) return;
-  const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`)
-  if (!deskElement) return
+  const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`);
+  if (!deskElement) return;
 
   const isClosing = selectedDeskClone && selectedDeskClone.desk.id === desk.id;
 
@@ -87,7 +87,7 @@ function pick(desk) {
 
   // If we are closing an item (the clone already exists).
   if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
-    const { cloneEl } = selectedDeskClone
+    const { cloneEl } = selectedDeskClone;
     const finalRect = deskElement.getBoundingClientRect(); // Get final position
 
     // Hide the photo viewer, which will trigger its own internal animations
@@ -115,14 +115,14 @@ function pick(desk) {
           cloneEl.remove(); // Remove the clone from the DOM.
         }, ANIMATION_DURATION * 1000); // Match the transition duration
       }
-    })
+    });
 
     gsap.to([cloneEl.querySelector('.desk-name'), cloneEl.querySelector('.desk-desc')], {
       color: '#959595', // Reset the text color
       duration: ANIMATION_DURATION,
       ease: 'power2.inOut'
     });
-    return
+    return;
   }
 
   // If we are opening an item.
@@ -179,30 +179,50 @@ function onFirstPhotoLoaded(photoUrl) {
 }
 
 const updateCloneCenterTransform = () => {
-  if (!selectedDeskClone) return
-  const { cloneEl } = selectedDeskClone
-  const cloneWidth = cloneEl.offsetWidth
-  const cloneHeight = cloneEl.offsetHeight
-  const targetLeft = (window.innerWidth - cloneWidth) / 2
-  const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY
+  if (!selectedDeskClone) return;
+  const { cloneEl } = selectedDeskClone;
+  const cloneWidth = cloneEl.offsetWidth;
+  const cloneHeight = cloneEl.offsetHeight;
+  const targetLeft = (window.innerWidth - cloneWidth) / 2;
+  const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY;
   gsap.to(cloneEl, {
     left: targetLeft,
     top: targetTop,
     duration: 0, // Instantly move it
   });
-}
+};
 </script>
 
 <template>
   <main>
-    <DeskGallery ref="galleryComponentRef" :desks="desks" :is-gallery-faded="isGalleryFaded"
-      :selected-desk-clone="selectedDeskClone" @pick="pick" />
+    <div
+      class="logo"
+      :class="{ 'viewer-active': isPhotoViewerVisible }"
+      @click="handlePhotoViewerClose"
+    >DESK</div>
 
-    <DeskSlider ref="deskSliderRef" :desks="desks" :selected-desk-id="selectedDeskId"
-      v-model:is-carousel-locked="isCarouselLocked" />
+    <DeskGallery
+      ref="galleryComponentRef"
+      :desks="desks"
+      :is-gallery-faded="isGalleryFaded"
+      :selected-desk-clone="selectedDeskClone"
+      @pick="pick"
+    />
 
-    <PhotoViewer :desk="selectedDesk" :visible="isPhotoViewerVisible" @close="handlePhotoViewerClose"
-      @photo-visible="onPhotoVisible" @first-photo-loaded="onFirstPhotoLoaded" />
+    <DeskSlider
+      ref="deskSliderRef"
+      :desks="desks"
+      :selected-desk-id="selectedDeskId"
+      v-model:is-carousel-locked="isCarouselLocked"
+    />
+
+    <PhotoViewer
+      :desk="selectedDesk"
+      :visible="isPhotoViewerVisible"
+      @close="handlePhotoViewerClose"
+      @photo-visible="onPhotoVisible"
+      @first-photo-loaded="onFirstPhotoLoaded"
+    />
   </main>
 </template>
 
@@ -211,6 +231,22 @@ main {
   background-color: #E8E8E8;
 }
 
+.logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black; // Dark gray
+  transition: color 0.4s ease;
+}
+
+.logo.viewer-active {
+  color: white;
+  cursor: pointer;
+  z-index: 3000;
+  /* Ensure it's above the photo viewer */
+}
 
 .desk {
   font-size: 14px;

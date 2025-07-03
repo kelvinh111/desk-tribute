@@ -409,10 +409,6 @@ watch(() => props.desk, () => {
                             :disabled="isTransitioning"
                         >Next ⟶</button>
                     </div>
-                    <button
-                        class="photo-close-button"
-                        @click="emit('close')"
-                    >&times;</button>
                 </div>
             </div>
         </transition>
@@ -503,28 +499,6 @@ watch(() => props.desk, () => {
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-}
-
-.photo-close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    line-height: 38px;
-    text-align: center;
-    cursor: pointer;
-    z-index: 5;
-}
-
-.photo-close-button:hover {
-    background: white;
-    border-color: #999;
 }
 
 .fade-scale-enter-active,
