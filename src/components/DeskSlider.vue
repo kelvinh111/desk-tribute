@@ -381,7 +381,7 @@ onBeforeUnmount(() => {
     width: 100%;
     height: 150px;
     overflow: visible;
-    z-index: 3000;
+    z-index: 15;
 }
 
 .slider-item {

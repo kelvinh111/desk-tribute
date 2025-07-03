@@ -18,10 +18,7 @@ const isTransitioning = ref(false);
 const stripesRef = ref(null);
 const sliderContainer = ref(null);
 
-const SLIDER_WIDTH = 600;
-const SLIDER_HEIGHT = 400;
-const STRIPE_COUNT = 100;
-const STAGGER_DELAY = 0.02;
+const STAGGER_DELAY = 0.01;
 const ANIMATION_DURATION = 1;
 const ANIMATION_EASE = "power2.out";
 
@@ -29,7 +26,7 @@ const sliderNaturalWidth = ref(600);
 const sliderNaturalHeight = ref(400);
 const nextNaturalWidth = ref(600);
 const nextNaturalHeight = ref(400);
-const STRIPE_HEIGHT = 5; // px
+const STRIPE_HEIGHT = 4; // px
 const transitionDirection = ref(1); // 1 for next (right-to-left), -1 for prev (left-to-right)
 
 const photoSizeCache = {}; // url -> {width, height}
@@ -91,7 +88,7 @@ function preloadImagesAndUpdateProgress(desk) {
     gsap.set(bar, { opacity: 0 });
     isProgressBarComplete.value = false;
 
-    // If all images are already cached, skip preload and show slider immediately
+    // If all images are already cached, still show progress bar animation
     const allCached = photos.every(url => photoSizeCache[url]);
     if (allCached) {
         const firstPhotoUrl = photos[0];
@@ -100,22 +97,28 @@ function preloadImagesAndUpdateProgress(desk) {
             sliderNaturalWidth.value = size.width;
             sliderNaturalHeight.value = size.height;
         }
-        // Still show progress bar animation even if cached
+
+        // Show progress bar animation even for cached images
         gsap.to(bar, {
             opacity: 1,
             duration: 0.3,
             ease: 'power2.inOut',
             onComplete: () => {
-                gsap.to(loaded, {
-                    width: '100%',
-                    duration: 1.0,
-                    ease: 'power2.out',
-                    onComplete: () => {
-                        isProgressBarComplete.value = true;
-                        isSliderReady.value = true;
-                        showFirstPhoto(desk);
-                    }
-                });
+                setTimeout(() => {
+                    // Animate progress bar to 100%
+                    gsap.to(loaded, {
+                        width: '100%',
+                        duration: 0.5,
+                        ease: 'power2.out',
+                        onComplete: () => {
+                            // Wait a bit more then show slider
+                            setTimeout(() => {
+                                isSliderReady.value = true;
+                                showFirstPhoto(desk);
+                            }, 500);
+                        }
+                    });
+                }, 1000);
             }
         });
         return;
@@ -134,8 +137,7 @@ function preloadImagesAndUpdateProgress(desk) {
 
                 let loadedCount = 0;
                 const totalImages = photos.length;
-                let firstImageReady = false;
-                let firstImageData = null;
+                let firstImageSizeSet = false;
 
                 photos.forEach((photoUrl, idx) => {
                     const img = new Image();
@@ -145,37 +147,37 @@ function preloadImagesAndUpdateProgress(desk) {
                         }
                         loadedCount++;
                         const progress = loadedCount / totalImages;
+
+                        // Set slider size from first image
+                        if (!firstImageSizeSet && idx === 0 && img.naturalWidth && img.naturalHeight) {
+                            sliderNaturalWidth.value = img.naturalWidth;
+                            sliderNaturalHeight.value = img.naturalHeight;
+                            firstImageSizeSet = true;
+                        }
+
                         gsap.to(loaded, {
                             width: `${progress * 100}%`,
                             duration: 0.5,
                             ease: 'power2.out',
                             onComplete: () => {
-                                // Only show slider when progress bar is complete AND first image is ready
-                                if (loadedCount === totalImages && firstImageData) {
-                                    sliderNaturalWidth.value = firstImageData.width;
-                                    sliderNaturalHeight.value = firstImageData.height;
-                                    isProgressBarComplete.value = true;
-                                    isSliderReady.value = true;
-                                    showFirstPhoto(desk);
+                                // Only show slider when ALL images are loaded AND progress animation is complete
+                                if (loadedCount === totalImages) {
+                                    setTimeout(() => {
+                                        // Ensure slider size is set
+                                        if (!firstImageSizeSet) {
+                                            const firstPhotoUrl = photos[0];
+                                            const size = photoSizeCache[firstPhotoUrl];
+                                            if (size) {
+                                                sliderNaturalWidth.value = size.width;
+                                                sliderNaturalHeight.value = size.height;
+                                            }
+                                        }
+                                        isSliderReady.value = true;
+                                        showFirstPhoto(desk);
+                                    }, 500);
                                 }
                             }
                         });
-
-                        // Store first image data when it's ready
-                        if (!firstImageReady && idx === 0 && img.naturalWidth && img.naturalHeight) {
-                            firstImageData = { width: img.naturalWidth, height: img.naturalHeight };
-                            firstImageReady = true;
-                        }
-
-                        if (loadedCount === totalImages && !firstImageReady) {
-                            // fallback: if first image was cached, use cached data
-                            const firstPhotoUrl = photos[0];
-                            const size = photoSizeCache[firstPhotoUrl];
-                            if (size) {
-                                firstImageData = size;
-                                firstImageReady = true;
-                            }
-                        }
                     };
                     img.src = photoUrl;
                 });
@@ -190,22 +192,6 @@ function loadImageSize(url) {
         img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
         img.src = url;
     });
-}
-
-function getDisplayedSize(naturalWidth, naturalHeight) {
-    const maxW = window.innerWidth * 0.7;
-    const maxH = window.innerHeight * 0.7;
-    let w = naturalWidth, h = naturalHeight;
-    const ratio = naturalWidth / naturalHeight;
-    if (w > maxW) {
-        w = maxW;
-        h = w / ratio;
-    }
-    if (h > maxH) {
-        h = maxH;
-        w = h * ratio;
-    }
-    return { width: Math.round(w), height: Math.round(h) };
 }
 
 function getImageBoxInContainer(containerW, containerH, imageW, imageH) {
@@ -422,7 +408,6 @@ watch(() => props.desk, () => {
                 class="progress-loaded"
             ></div>
         </div>
-        <div style="position: fixed; top: 0; left: 0; z-index:99999;">{{ visible }}</div>
         <div
             v-if="isSliderReady && visible && props.desk && props.desk.photos && props.desk.photos.length"
             class="slider-container"
@@ -513,7 +498,7 @@ watch(() => props.desk, () => {
     height: 400px;
     // background: #111;
     // overflow: hidden;
-    z-index: 2500;
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;
