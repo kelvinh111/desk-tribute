@@ -33,50 +33,6 @@ const photoSizeCache = {}; // url -> {width, height}
 const isSliderReady = ref(false);
 const isProgressBarComplete = ref(false);
 
-function showFirstPhoto(desk) {
-    const gallery = photoGalleryEl.value;
-    if (!gallery || !desk.photos || desk.photos.length === 0) return;
-
-    gallery.innerHTML = '';
-
-    const firstPhotoUrl = desk.photos[0];
-    // Set slider size to first photo's natural size from cache (prevents initial layout shift)
-    const size = photoSizeCache[firstPhotoUrl];
-    if (size) {
-        sliderNaturalWidth.value = size.width;
-        sliderNaturalHeight.value = size.height;
-    }
-    isSliderReady.value = true;
-
-    const imgEl = document.createElement('img');
-    imgEl.src = firstPhotoUrl;
-    gallery.appendChild(imgEl);
-
-    const closeButton = document.createElement('button');
-    closeButton.className = 'photo-close-button';
-    closeButton.innerHTML = '&times;';
-    closeButton.onclick = () => {
-        emit('close');
-    };
-    gallery.appendChild(closeButton);
-
-    setTimeout(() => {
-        emit('firstPhotoLoaded', firstPhotoUrl);
-    }, 1000);
-
-    gsap.to([imgEl, closeButton], {
-        opacity: 1,
-        scale: 1,
-        duration: 0.5,
-        ease: 'power2.out',
-        delay: 0,
-        onComplete: () => {
-            emit('photoVisible');
-        }
-
-    });
-}
-
 function preloadImagesAndUpdateProgress(desk) {
     const photos = desk.photos;
     const bar = progressBarEl.value;
@@ -114,7 +70,7 @@ function preloadImagesAndUpdateProgress(desk) {
                             // Wait a bit more then show slider
                             setTimeout(() => {
                                 isSliderReady.value = true;
-                                showFirstPhoto(desk);
+                                emit('photoVisible');
                             }, 500);
                         }
                     });
@@ -173,7 +129,7 @@ function preloadImagesAndUpdateProgress(desk) {
                                             }
                                         }
                                         isSliderReady.value = true;
-                                        showFirstPhoto(desk);
+                                        emit('photoVisible');
                                     }, 500);
                                 }
                             }
@@ -408,62 +364,54 @@ watch(() => props.desk, () => {
                 class="progress-loaded"
             ></div>
         </div>
-        <div
-            v-if="isSliderReady && visible && props.desk && props.desk.photos && props.desk.photos.length"
-            class="slider-container"
-            ref="sliderContainer"
-            :style="{
-                aspectRatio: sliderNaturalWidth + '/' + sliderNaturalHeight,
-                width: 'min(70vw, ' + sliderNaturalWidth + 'px)',
-                height: 'min(70vh, ' + sliderNaturalHeight + 'px)',
-                position: 'fixed',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                // background: '#111',
-                zIndex: 2500,
-                display: visible ? 'flex' : 'none',
-                alignItems: 'center',
-                justifyContent: 'center',
-                // boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
-            }"
-        >
+        <transition name="fade-scale">
             <div
-                v-for="(photo, idx) in props.desk.photos"
-                :key="photo"
-                class="slide"
-                :style="{
-                    backgroundImage: `url(${photo})`,
-                    opacity: idx === currentIndex && !isTransitioning ? 1 : 0,
-                    // opacity: idx === currentIndex ? 1 : 0,
-                    zIndex: idx === currentIndex ? 1 : 0,
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                }"
-            ></div>
-            <div
-                class="stripes"
-                ref="stripesRef"
-            ></div>
-            <div
-                class="nav-buttons"
-                v-if="props.desk.photos.length > 1"
+                v-if="isSliderReady && visible"
+                class="slider-wrapper"
             >
-                <button
-                    @click="prevSlide"
-                    :disabled="isTransitioning"
-                >⟵ Prev</button>
-                <button
-                    @click="nextSlide"
-                    :disabled="isTransitioning"
-                >Next ⟶</button>
+                <div
+                    v-if="props.desk && props.desk.photos && props.desk.photos.length"
+                    class="slider-container"
+                    ref="sliderContainer"
+                    :style="{
+                        aspectRatio: sliderNaturalWidth + '/' + sliderNaturalHeight,
+                        width: 'min(70vw, ' + sliderNaturalWidth + 'px)',
+                        height: 'min(70vh, ' + sliderNaturalHeight + 'px)',
+                    }"
+                >
+                    <div
+                        v-for="(photo, idx) in props.desk.photos"
+                        :key="photo"
+                        class="slide"
+                        :style="{
+                            backgroundImage: `url(${photo})`,
+                            opacity: idx === currentIndex && !isTransitioning ? 1 : 0,
+                            zIndex: idx === currentIndex ? 1 : 0,
+                            backgroundSize: 'contain',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center',
+                        }"
+                    ></div>
+                    <div
+                        class="stripes"
+                        ref="stripesRef"
+                    ></div>
+                    <div
+                        class="nav-buttons"
+                        v-if="props.desk.photos.length > 1"
+                    >
+                        <button
+                            @click="prevSlide"
+                            :disabled="isTransitioning"
+                        >⟵ Prev</button>
+                        <button
+                            @click="nextSlide"
+                            :disabled="isTransitioning"
+                        >Next ⟶</button>
+                    </div>
+                </div>
             </div>
-            <button
-                class="photo-close-button"
-                @click="emit('close')"
-            >&times;</button>
-        </div>
+        </transition>
     </div>
 </template>
 
@@ -487,22 +435,25 @@ watch(() => props.desk, () => {
     transition: width 0.1s ease-out;
 }
 
-.slider-container {
+.slider-wrapper {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 70vw;
-    max-height: 70vh;
-    width: 600px;
-    height: 400px;
-    // background: #111;
-    // overflow: hidden;
-    z-index: 20;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    // box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    z-index: 2500;
+}
+
+.slider-container {
+    position: relative;
+    max-width: 70vw;
+    max-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slide {
@@ -550,25 +501,20 @@ watch(() => props.desk, () => {
     border-radius: 5px;
 }
 
-.photo-close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    line-height: 38px;
-    text-align: center;
-    cursor: pointer;
-    z-index: 5;
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.photo-close-button:hover {
-    background: white;
-    border-color: #999;
+.fade-scale-enter-from,
+.fade-scale-leave-to {
+    opacity: 0;
+    transform: scale(0.2);
+}
+
+.fade-scale-enter-to,
+.fade-scale-leave-from {
+    opacity: 1;
+    transform: scale(1);
 }
 </style>
