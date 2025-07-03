@@ -280,11 +280,13 @@ async function goToSlide(nextIdx) {
 }
 
 function nextSlide() {
+    if (isTransitioning.value || currentIndex.value >= props.desk.photos.length - 1) return;
     transitionDirection.value = 1;
     const photos = props.desk?.photos || [];
     goToSlide((currentIndex.value + 1) % photos.length);
 }
 function prevSlide() {
+    if (isTransitioning.value || currentIndex.value <= 0) return;
     transitionDirection.value = -1;
     const photos = props.desk?.photos || [];
     goToSlide((currentIndex.value - 1 + photos.length) % photos.length);
@@ -399,18 +401,28 @@ watch(() => props.desk, () => {
                 </div>
             </div>
         </transition>
-        <button
+        <div
             class="nav-button prev"
+            :class="{ 'disabled': isTransitioning || currentIndex === 0 }"
             @click="prevSlide"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
-            :disabled="isTransitioning"
-        >P</button>
-        <button
+        >
+            <div class="icon-wrapper">
+                <div class="icon-line top"></div>
+                <div class="icon-line bottom"></div>
+            </div>
+        </div>
+        <div
             class="nav-button next"
             @click="nextSlide"
-            :disabled="isTransitioning"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
-        >N</button>
+            :class="{ 'disabled': isTransitioning || currentIndex === (props.desk.photos.length - 1) }"
+        >
+            <div class="icon-wrapper">
+                <div class="icon-line top"></div>
+                <div class="icon-line bottom"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -483,24 +495,103 @@ watch(() => props.desk, () => {
 
 .nav-button {
     position: fixed;
-    background: rgba(255, 255, 255, 0.8);
     border: none;
-    padding: 10px 20px;
-    font-weight: bold;
+    padding: 15px;
     cursor: pointer;
-    border-radius: 5px;
     z-index: 22;
     top: 50%;
     transform: translateY(-50%);
 
     &.prev {
         left: 5px;
+
+        .icon-line.top {
+            transform: translateY(-5px) rotate(-45deg);
+        }
+
+        .icon-line.bottom {
+            transform: translateY(5px) rotate(45deg);
+        }
     }
 
     &.next {
         right: 5px;
+
+        .icon-line.top {
+            transform: translateY(-5px) rotate(45deg);
+        }
+
+        .icon-line.bottom {
+            transform: translateY(5px) rotate(-45deg);
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
     }
 }
+
+.icon-wrapper {
+    width: 20px;
+    height: 20px;
+    position: relative;
+}
+
+.icon-line {
+    position: absolute;
+    width: 80%;
+    height: 3px;
+    background-color: white;
+    top: 50%;
+    left: 0;
+    border-radius: 1px;
+    transform-origin: center;
+    transition: transform 0.4s ease, top 0.4s ease;
+}
+
+
+/* CHEVRON -> BAR (on hover) */
+.nav-button:not(.disabled):hover .icon-line.top {
+    transform: translateY(-5px) rotate(-90deg);
+    width: 70%;
+}
+
+.nav-button:not(.disabled):hover .icon-line.bottom {
+    transform: translateY(5px) rotate(90deg);
+    width: 70%;
+}
+
+.nav-button.next:not(.disabled):hover .icon-line.top {
+    transform: translateY(-5px) rotate(90deg);
+    width: 70%;
+}
+
+.nav-button.next:not(.disabled):hover .icon-line.bottom {
+    transform: translateY(5px) rotate(-90deg);
+    width: 70%;
+}
+
+/* CHEVRON -> BAR (when disabled) */
+.nav-button.disabled .icon-line.top {
+    transform: translateY(-5px) rotate(-90deg);
+    width: 70%;
+}
+
+.nav-button.disabled .icon-line.bottom {
+    transform: translateY(5px) rotate(90deg);
+    width: 70%;
+}
+
+.nav-button.next.disabled .icon-line.top {
+    transform: translateY(-5px) rotate(90deg);
+    width: 70%;
+}
+
+.nav-button.next.disabled .icon-line.bottom {
+    transform: translateY(5px) rotate(-90deg);
+    width: 70%;
+}
+
 
 .fade-scale-enter-active,
 .fade-scale-leave-active {
