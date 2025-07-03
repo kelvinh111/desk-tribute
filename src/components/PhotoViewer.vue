@@ -18,10 +18,7 @@ const isTransitioning = ref(false);
 const stripesRef = ref(null);
 const sliderContainer = ref(null);
 
-const SLIDER_WIDTH = 600;
-const SLIDER_HEIGHT = 400;
-const STRIPE_COUNT = 100;
-const STAGGER_DELAY = 0.02;
+const STAGGER_DELAY = 0.01;
 const ANIMATION_DURATION = 1;
 const ANIMATION_EASE = "power2.out";
 
@@ -29,7 +26,7 @@ const sliderNaturalWidth = ref(600);
 const sliderNaturalHeight = ref(400);
 const nextNaturalWidth = ref(600);
 const nextNaturalHeight = ref(400);
-const STRIPE_HEIGHT = 5; // px
+const STRIPE_HEIGHT = 4; // px
 const transitionDirection = ref(1); // 1 for next (right-to-left), -1 for prev (left-to-right)
 
 const photoSizeCache = {}; // url -> {width, height}
@@ -193,22 +190,6 @@ function loadImageSize(url) {
         img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
         img.src = url;
     });
-}
-
-function getDisplayedSize(naturalWidth, naturalHeight) {
-    const maxW = window.innerWidth * 0.7;
-    const maxH = window.innerHeight * 0.7;
-    let w = naturalWidth, h = naturalHeight;
-    const ratio = naturalWidth / naturalHeight;
-    if (w > maxW) {
-        w = maxW;
-        h = w / ratio;
-    }
-    if (h > maxH) {
-        h = maxH;
-        w = h * ratio;
-    }
-    return { width: Math.round(w), height: Math.round(h) };
 }
 
 function getImageBoxInContainer(containerW, containerH, imageW, imageH) {
@@ -513,7 +494,7 @@ watch(() => props.desk, () => {
     height: 400px;
     // background: #111;
     // overflow: hidden;
-    z-index: 2500;
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;
