@@ -396,22 +396,21 @@ watch(() => props.desk, () => {
                         class="stripes"
                         ref="stripesRef"
                     ></div>
-                    <div
-                        class="nav-buttons"
-                        v-if="props.desk.photos.length > 1"
-                    >
-                        <button
-                            @click="prevSlide"
-                            :disabled="isTransitioning"
-                        >⟵ Prev</button>
-                        <button
-                            @click="nextSlide"
-                            :disabled="isTransitioning"
-                        >Next ⟶</button>
-                    </div>
                 </div>
             </div>
         </transition>
+        <button
+            class="nav-button prev"
+            @click="prevSlide"
+            v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
+            :disabled="isTransitioning"
+        >P</button>
+        <button
+            class="nav-button next"
+            @click="nextSlide"
+            :disabled="isTransitioning"
+            v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
+        >N</button>
     </div>
 </template>
 
@@ -444,7 +443,7 @@ watch(() => props.desk, () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2500;
+    z-index: 20;
 }
 
 .slider-container {
@@ -482,23 +481,25 @@ watch(() => props.desk, () => {
     /* height and background-size set dynamically */
 }
 
-.nav-buttons {
-    position: absolute;
-    width: 100%;
-    bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    z-index: 4;
-    padding: 0 20px;
-}
-
-.nav-buttons button {
+.nav-button {
+    position: fixed;
     background: rgba(255, 255, 255, 0.8);
     border: none;
     padding: 10px 20px;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
+    z-index: 22;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &.prev {
+        left: 5px;
+    }
+
+    &.next {
+        right: 5px;
+    }
 }
 
 .fade-scale-enter-active,

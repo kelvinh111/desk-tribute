@@ -244,7 +244,7 @@ main {
 .logo.viewer-active {
   color: white;
   cursor: pointer;
-  z-index: 3000;
+  z-index: 30;
   /* Ensure it's above the photo viewer */
 }
 
