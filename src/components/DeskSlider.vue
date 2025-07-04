@@ -8,7 +8,7 @@ const props = defineProps({
     isCarouselLocked: Boolean
 });
 
-const emit = defineEmits(['update:isCarouselLocked']);
+const emit = defineEmits(['update:isCarouselLocked', 'change-desk']);
 
 // --- Configuration Constants ---
 const BASE_SLIDER_ITEM_WIDTH = 70;
@@ -45,8 +45,7 @@ const carousel = reactive({
 function handleItemClick(desk) {
     if (carousel.hasDragged || props.isCarouselLocked) return;
     if (props.selectedDeskId && props.selectedDeskId !== desk.id) {
-        // We will emit an event here in the next step
-        console.log('Clicked desk:', desk.id);
+        emit('change-desk', desk);
     }
 }
 

@@ -17,9 +17,10 @@ const galleryComponentRef = ref(null); // Ref for the gallery component
 const deskSliderRef = ref(null);
 const desks = ref(itemsData); // Reactive ref holding the array of desk data.
 let selectedDeskClone = null; // Will hold the cloned element for the pop-out animation.
-let isCarouselLocked = ref(false); // Flag to prevent carousel interaction during animations.
+const isCarouselLocked = ref(false); // Flag to prevent carousel interaction during animations.
 const isGalleryFaded = ref(false); // Controls the faded state of the gallery
 const isPhotoViewerVisible = ref(false);
+const isPhotoSliderVisible = ref(true);
 const selectedDeskId = ref(null);
 
 const selectedDesk = computed(() => {
@@ -60,6 +61,10 @@ function handlePhotoViewerClose() {
   if (selectedDesk.value) {
     pick(selectedDesk.value);
   }
+}
+
+function changeDesk(desk) {
+  isPhotoSliderVisible.value = false;
 }
 
 // This is the main function that orchestrates the opening and closing of a desk item.
@@ -214,11 +219,13 @@ const updateCloneCenterTransform = () => {
       :desks="desks"
       :selected-desk-id="selectedDeskId"
       v-model:is-carousel-locked="isCarouselLocked"
+      @change-desk="changeDesk"
     />
 
     <PhotoViewer
       :desk="selectedDesk"
       :visible="isPhotoViewerVisible"
+      :is-slider-visible="isPhotoSliderVisible"
       @close="handlePhotoViewerClose"
       @photo-visible="onPhotoVisible"
       @first-photo-loaded="onFirstPhotoLoaded"

@@ -4,7 +4,11 @@ import { gsap } from 'gsap';
 
 const props = defineProps({
     desk: Object,
-    visible: Boolean
+    visible: Boolean,
+    isSliderVisible: {
+        type: Boolean,
+        default: true
+    }
 });
 
 const emit = defineEmits(['close', 'photoVisible', 'firstPhotoLoaded']);
@@ -368,7 +372,7 @@ watch(() => props.desk, () => {
         </div>
         <transition name="fade-scale">
             <div
-                v-if="isSliderReady && visible"
+                v-if="isSliderReady && visible && props.isSliderVisible"
                 class="slider-wrapper"
             >
                 <div
