@@ -73,12 +73,12 @@ function changeDesk(desk) {
     if (selectedDeskId.value) {
       hiddenDeskIds.value.add(selectedDeskId.value);
     }
-    
+
     // Update the clone to reference the new desk
     if (selectedDeskClone) {
       selectedDeskClone.desk = desk;
     }
-    
+
     selectedDeskId.value = desk.id;
     router.push('/' + desk.id);
 
@@ -131,13 +131,13 @@ function pick(desk) {
       ease: 'power2.inOut',
       onComplete: () => {
         document.body.style.overflow = ''; // Also re-enable scrolling here for safety
-        
+
         // Restore visibility for all hidden desks
         const galleryRef = galleryComponentRef.value?.galleryRef;
         if (galleryRef) {
           // Restore the current desk
           deskElement.style.visibility = 'visible';
-          
+
           // Restore all previously hidden desks
           hiddenDeskIds.value.forEach(deskId => {
             const hiddenDeskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${deskId}"]`);
@@ -145,11 +145,11 @@ function pick(desk) {
               hiddenDeskElement.style.visibility = 'visible';
             }
           });
-          
+
           // Clear the hidden desks set
           hiddenDeskIds.value.clear();
         }
-        
+
         selectedDeskClone = null; // Clear the clone state.
         isGalleryFaded.value = false;
         if (deskSliderRef.value) {
