@@ -71,6 +71,9 @@ function preloadImagesAndUpdateProgress(desk) {
                         duration: 0.5,
                         ease: 'power2.out',
                         onComplete: () => {
+                            // Emit first photo loaded event when progress reaches 100%
+                            emit('firstPhotoLoaded', firstPhotoUrl);
+
                             // Wait a bit more then show slider
                             setTimeout(() => {
                                 isSliderReady.value = true;
@@ -125,6 +128,9 @@ function preloadImagesAndUpdateProgress(desk) {
                             onComplete: () => {
                                 // Only show slider when ALL images are loaded AND progress animation is complete
                                 if (loadedCount === totalImages) {
+                                    // Emit first photo loaded event when progress reaches 100%
+                                    emit('firstPhotoLoaded', photos[0]);
+
                                     setTimeout(() => {
                                         // Ensure slider size is set
                                         if (!firstImageSizeSet) {

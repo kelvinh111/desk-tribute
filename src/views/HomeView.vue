@@ -120,6 +120,12 @@ function pick(desk) {
     // Hide the photo viewer, which will trigger its own internal animations
     isPhotoViewerVisible.value = false;
 
+    // Restore the clone's screen to the original desk screen image
+    const screenEl = cloneEl.querySelector('.desk-screen');
+    if (screenEl && desk.screen && desk.screen.img) {
+      screenEl.style.backgroundImage = `url(${desk.screen.img})`;
+    }
+
     // Animate the clone back to its original position in the grid.
     gsap.to(cloneEl, {
       top: finalRect.top + window.scrollY,
