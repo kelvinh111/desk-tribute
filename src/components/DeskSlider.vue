@@ -42,6 +42,14 @@ const carousel = reactive({
     velocityX: 0,
 });
 
+function handleItemClick(desk) {
+    if (carousel.hasDragged || props.isCarouselLocked) return;
+    if (props.selectedDeskId && props.selectedDeskId !== desk.id) {
+        // We will emit an event here in the next step
+        console.log('Clicked desk:', desk.id);
+    }
+}
+
 function onTick() {
     if (needsPositionUpdate && positionSliderItems) {
         positionSliderItems(carousel.x);
@@ -365,6 +373,8 @@ onBeforeUnmount(() => {
             class="slider-item"
             v-for="desk in desks"
             :key="desk.id"
+            @click="handleItemClick(desk)"
+            :class="{ 'clickable': selectedDeskId && selectedDeskId !== desk.id && !isCarouselLocked }"
         >
             <div
                 class="slider-item-content desk"
@@ -411,6 +421,11 @@ onBeforeUnmount(() => {
     justify-content: center;
     transform-origin: center bottom;
     padding: 0;
+    cursor: default;
+}
+
+.slider-item.clickable {
+    cursor: pointer;
 }
 
 .slider-item-content {
