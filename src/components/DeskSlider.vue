@@ -200,23 +200,63 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
             emit('update:isCarouselLocked', true);
             const activeSliderItemLeft = activeSliderItem.getBoundingClientRect().left;
             const fromLeft = window.innerWidth / 2 - activeSliderItem.getBoundingClientRect().width / 2;
+            const fromTop = window.innerHeight / 2 - activeSliderItem.getBoundingClientRect().top;
 
-            gsap.fromTo(activeSliderItemContent, {
-                autoAlpha: 0,
-                scale: 0.8,
-                x: fromLeft - activeSliderItemLeft,
-                y: window.innerHeight / 2 - activeSliderItem.getBoundingClientRect().top,
-            }, {
-                autoAlpha: 1,
-                scale: 1,
-                x: 0,
-                y: 0,
-                duration: ANIMATION_DURATION,
-                ease: 'power2.inOut',
-                onComplete: () => {
-                    emit('update:isCarouselLocked', false);
-                }
-            });
+            // Check if this is a desk switch (oldId exists) or initial selection (oldId is null)
+            if (oldId) {
+                // Desk switching: animate to center, wait, then animate back
+                gsap.fromTo(activeSliderItemContent, {
+                    autoAlpha: 1,
+                    scale: 1,
+                    x: 0,
+                    y: 0,
+                }, {
+                    scale: 0.8,
+                    x: fromLeft - activeSliderItemLeft,
+                    y: fromTop,
+                    duration: ANIMATION_DURATION,
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        // Wait 1 second, then animate back to slider
+                        setTimeout(() => {
+                            gsap.fromTo(activeSliderItemContent, {
+                                autoAlpha: 0,
+                                scale: 0.8,
+                                x: fromLeft - activeSliderItemLeft,
+                                y: fromTop,
+                            }, {
+                                autoAlpha: 1,
+                                scale: 1,
+                                x: 0,
+                                y: 0,
+                                duration: ANIMATION_DURATION,
+                                ease: 'power2.inOut',
+                                onComplete: () => {
+                                    emit('update:isCarouselLocked', false);
+                                }
+                            });
+                        }, 1000);
+                    }
+                });
+            } else {
+                // Initial selection from gallery: use original animation
+                gsap.fromTo(activeSliderItemContent, {
+                    autoAlpha: 0,
+                    scale: 0.8,
+                    x: fromLeft - activeSliderItemLeft,
+                    y: fromTop,
+                }, {
+                    autoAlpha: 1,
+                    scale: 1,
+                    x: 0,
+                    y: 0,
+                    duration: ANIMATION_DURATION,
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        emit('update:isCarouselLocked', false);
+                    }
+                });
+            }
         }, null, ANIMATION_DURATION);
 
     } else if (oldId) {

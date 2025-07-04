@@ -22,6 +22,7 @@ const isGalleryFaded = ref(false); // Controls the faded state of the gallery
 const isPhotoViewerVisible = ref(false);
 const isPhotoSliderVisible = ref(true);
 const selectedDeskId = ref(null);
+const hiddenDeskIds = ref(new Set()); // Track all hidden desk IDs
 
 const selectedDesk = computed(() => {
   if (!selectedDeskId.value) return null;
@@ -68,6 +69,16 @@ function changeDesk(desk) {
 
   // Wait for fade-out animation to complete, then change the selected desk
   setTimeout(() => {
+    // Track the current desk as hidden before switching
+    if (selectedDeskId.value) {
+      hiddenDeskIds.value.add(selectedDeskId.value);
+    }
+    
+    // Update the clone to reference the new desk
+    if (selectedDeskClone) {
+      selectedDeskClone.desk = desk;
+    }
+    
     selectedDeskId.value = desk.id;
     router.push('/' + desk.id);
 
@@ -120,7 +131,25 @@ function pick(desk) {
       ease: 'power2.inOut',
       onComplete: () => {
         document.body.style.overflow = ''; // Also re-enable scrolling here for safety
-        deskElement.style.visibility = 'visible'; // Make the original gallery item visible again.
+        
+        // Restore visibility for all hidden desks
+        const galleryRef = galleryComponentRef.value?.galleryRef;
+        if (galleryRef) {
+          // Restore the current desk
+          deskElement.style.visibility = 'visible';
+          
+          // Restore all previously hidden desks
+          hiddenDeskIds.value.forEach(deskId => {
+            const hiddenDeskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${deskId}"]`);
+            if (hiddenDeskElement) {
+              hiddenDeskElement.style.visibility = 'visible';
+            }
+          });
+          
+          // Clear the hidden desks set
+          hiddenDeskIds.value.clear();
+        }
+        
         selectedDeskClone = null; // Clear the clone state.
         isGalleryFaded.value = false;
         if (deskSliderRef.value) {
@@ -153,6 +182,7 @@ function pick(desk) {
   cloneEl.style.height = rect.height + 'px';
   document.body.appendChild(cloneEl);
   deskElement.style.visibility = 'hidden'; // Hide the original item.
+  hiddenDeskIds.value.add(desk.id); // Track this desk as hidden
   // Fade out the rest of the gallery.
   isGalleryFaded.value = true;
   selectedDeskClone = { desk, originalRect: rect, cloneEl }; // Store the clone's state.
