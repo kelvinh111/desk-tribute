@@ -1,14 +1,14 @@
 <script setup>
-import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue'
-import { gsap } from 'gsap'
+import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
+import { gsap } from 'gsap';
 
 const props = defineProps({
     desks: Array,
     selectedDeskId: [String, Number],
     isCarouselLocked: Boolean
-})
+});
 
-const emit = defineEmits(['update:isCarouselLocked'])
+const emit = defineEmits(['update:isCarouselLocked']);
 
 // --- Configuration Constants ---
 const BASE_SLIDER_ITEM_WIDTH = 70;
@@ -20,7 +20,7 @@ const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 400;
 const CAROUSEL_GUTTER = 20;
 
-const sliderRef = ref(null)
+const sliderRef = ref(null);
 let positionSliderItems = null;
 let needsPositionUpdate = false;
 
@@ -28,7 +28,7 @@ const selectionState = reactive({
     selectedIndex: null,
     progress: 0,
     hoverStates: [],
-})
+});
 
 const carousel = reactive({
     x: 0,
@@ -40,7 +40,7 @@ const carousel = reactive({
     lastX: 0,
     lastTime: 0,
     velocityX: 0,
-})
+});
 
 function onTick() {
     if (needsPositionUpdate && positionSliderItems) {
@@ -357,15 +357,32 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div ref="sliderRef" class="slider">
-        <div class="slider-item" v-for="desk in desks" :key="desk.id">
-            <div class="slider-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
-                <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
-                <div class="desk-monitor"
-                    :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y, left: desk.monitor.x, width: desk.monitor.width, height: desk.monitor.height }">
+    <div
+        ref="sliderRef"
+        class="slider"
+    >
+        <div
+            class="slider-item"
+            v-for="desk in desks"
+            :key="desk.id"
+        >
+            <div
+                class="slider-item-content desk"
+                :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }"
+            >
+                <div
+                    class="desk-decor"
+                    :style="{ backgroundImage: `url(${desk.decor})` }"
+                ></div>
+                <div
+                    class="desk-monitor"
+                    :style="{ backgroundImage: `url(${desk.monitor.img})`, top: desk.monitor.y, left: desk.monitor.x, width: desk.monitor.width, height: desk.monitor.height }"
+                >
                 </div>
-                <div class="desk-screen"
-                    :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }">
+                <div
+                    class="desk-screen"
+                    :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }"
+                >
                 </div>
                 <div class="desk-name">{{ desk.name }}</div>
             </div>
@@ -381,7 +398,7 @@ onBeforeUnmount(() => {
     width: 100%;
     height: 150px;
     overflow: visible;
-    z-index: 15;
+    z-index: 25;
 }
 
 .slider-item {

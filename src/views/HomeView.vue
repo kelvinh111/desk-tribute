@@ -239,12 +239,12 @@ main {
   font-weight: bold;
   color: black; // Dark gray
   transition: color 0.4s ease;
+  z-index: 30;
 }
 
 .logo.viewer-active {
   color: white;
   cursor: pointer;
-  z-index: 30;
   /* Ensure it's above the photo viewer */
 }
 
