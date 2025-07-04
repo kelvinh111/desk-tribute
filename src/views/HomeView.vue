@@ -196,17 +196,23 @@ function pick(desk) {
   gsap.to(cloneEl, {
     top: targetTop,
     left: targetLeft,
-    duration: ANIMATION_DURATION,
-    ease: 'power2.inOut'
+    duration: 1,
+    // ease: 'power2.inOut',
+    ease: 'bounce.out', // Use a bounce effect for a more dynamic feel
+    delay: 0.5, // Slight delay to allow the gallery to fade out
+    onComplete: () => {
+      // After the animation completes, we can show the photo viewer.
+      isPhotoViewerVisible.value = true;
+    }
   });
 
   gsap.to([cloneEl.querySelector('.desk-name'), cloneEl.querySelector('.desk-desc')], {
     color: 'white',
     duration: ANIMATION_DURATION,
-    ease: 'power2.inOut'
+    ease: 'power2.inOut',
+    delay: 0.2, // Slight delay to allow the gallery to fade out
   });
 
-  isPhotoViewerVisible.value = true;
 }
 
 function onPhotoVisible() {

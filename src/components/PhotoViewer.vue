@@ -74,8 +74,11 @@ function preloadImagesAndUpdateProgress(desk) {
                             // Wait a bit more then show slider
                             setTimeout(() => {
                                 isSliderReady.value = true;
-                                emit('photoVisible');
                             }, 500);
+
+                            setTimeout(() => {
+                                emit('photoVisible');
+                            }, 2000);
                         }
                     });
                 }, 1000);
@@ -133,8 +136,11 @@ function preloadImagesAndUpdateProgress(desk) {
                                             }
                                         }
                                         isSliderReady.value = true;
-                                        emit('photoVisible');
                                     }, 500);
+
+                                    setTimeout(() => {
+                                        emit('photoVisible');
+                                    }, 2000);
                                 }
                             }
                         });
