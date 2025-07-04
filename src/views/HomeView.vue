@@ -65,6 +65,17 @@ function handlePhotoViewerClose() {
 
 function changeDesk(desk) {
   isPhotoSliderVisible.value = false;
+
+  // Wait for fade-out animation to complete, then change the selected desk
+  setTimeout(() => {
+    selectedDeskId.value = desk.id;
+    router.push('/' + desk.id);
+
+    // Wait a moment, then fade the slider back in
+    setTimeout(() => {
+      isPhotoSliderVisible.value = true;
+    }, 100);
+  }, 400); // Wait for fade-out transition (0.4s)
 }
 
 // This is the main function that orchestrates the opening and closing of a desk item.
