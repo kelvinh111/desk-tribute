@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, nextTick } from 'vue';
+import { ref, watch, nextTick, computed } from 'vue';
 import { gsap } from 'gsap';
 
 const props = defineProps({
@@ -36,6 +36,37 @@ const transitionDirection = ref(1); // 1 for next (right-to-left), -1 for prev (
 const photoSizeCache = {}; // url -> {width, height}
 const isSliderReady = ref(false);
 const isProgressBarComplete = ref(false);
+
+// Helper function to calculate scaled dimensions that fill 70% viewport while maintaining aspect ratio
+function getScaledDimensions(imageWidth, imageHeight) {
+    const maxWidth = (typeof window !== 'undefined') ? window.innerWidth * 0.7 : 800;
+    const maxHeight = (typeof window !== 'undefined') ? window.innerHeight * 0.7 : 600;
+    const imageRatio = imageWidth / imageHeight;
+    const viewportRatio = maxWidth / maxHeight;
+
+    if (imageRatio > viewportRatio) {
+        // Image is wider - fit to width
+        return {
+            width: maxWidth,
+            height: maxWidth / imageRatio
+        };
+    } else {
+        // Image is taller - fit to height
+        return {
+            width: maxHeight * imageRatio,
+            height: maxHeight
+        };
+    }
+}
+
+// Computed properties for slider dimensions that always scale to 70% viewport
+const sliderDisplayWidth = computed(() => {
+    return getScaledDimensions(sliderNaturalWidth.value, sliderNaturalHeight.value).width;
+});
+
+const sliderDisplayHeight = computed(() => {
+    return getScaledDimensions(sliderNaturalWidth.value, sliderNaturalHeight.value).height;
+});
 
 function preloadImagesAndUpdateProgress(desk) {
     const photos = desk.photos;
@@ -215,8 +246,9 @@ async function goToSlide(nextIdx) {
     const currBox = getImageBoxInContainer(containerW, containerH, currSize.width, currSize.height);
 
     // Calculate what the container size will be for the next image
-    const nextContainerW = Math.min(window.innerWidth * 0.7, nextSize.width);
-    const nextContainerH = Math.min(window.innerHeight * 0.7, nextSize.height);
+    const nextScaledDimensions = getScaledDimensions(nextSize.width, nextSize.height);
+    const nextContainerW = nextScaledDimensions.width;
+    const nextContainerH = nextScaledDimensions.height;
     // Calculate displayed image box for next image (in next container)
     const nextBox = getImageBoxInContainer(nextContainerW, nextContainerH, nextSize.width, nextSize.height);
 
@@ -393,8 +425,8 @@ watch(() => props.desk, () => {
                     ref="sliderContainer"
                     :style="{
                         aspectRatio: sliderNaturalWidth + '/' + sliderNaturalHeight,
-                        width: 'min(70vw, ' + sliderNaturalWidth + 'px)',
-                        height: 'min(70vh, ' + sliderNaturalHeight + 'px)',
+                        width: sliderDisplayWidth + 'px',
+                        height: sliderDisplayHeight + 'px',
                     }"
                 >
                     <div
