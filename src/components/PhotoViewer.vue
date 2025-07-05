@@ -633,27 +633,6 @@ watch(() => props.desk, () => {
 }
 
 
-/* CHEVRON -> BAR (on hover) */
-.nav-button:not(.disabled):hover .icon-line.top {
-    transform: translateY(-5px) rotate(-90deg);
-    width: 70%;
-}
-
-.nav-button:not(.disabled):hover .icon-line.bottom {
-    transform: translateY(5px) rotate(90deg);
-    width: 70%;
-}
-
-.nav-button.next:not(.disabled):hover .icon-line.top {
-    transform: translateY(-5px) rotate(90deg);
-    width: 70%;
-}
-
-.nav-button.next:not(.disabled):hover .icon-line.bottom {
-    transform: translateY(5px) rotate(-90deg);
-    width: 70%;
-}
-
 /* CHEVRON -> BAR (when disabled) */
 .nav-button.disabled .icon-line.top {
     transform: translateY(-5px) rotate(-90deg);
