@@ -193,6 +193,9 @@ function pick(desk) {
   isGalleryFaded.value = true;
   selectedDeskClone = { desk, originalRect: rect, cloneEl }; // Store the clone's state.
 
+  // Show the photo viewer immediately when clone is created
+  isPhotoViewerVisible.value = true;
+
   // Animate the clone from its starting position to the center of the screen.
   const cloneWidth = cloneEl.offsetWidth;
   const cloneHeight = cloneEl.offsetHeight;
@@ -207,8 +210,7 @@ function pick(desk) {
     ease: 'bounce.out', // Use a bounce effect for a more dynamic feel
     delay: 0.5, // Slight delay to allow the gallery to fade out
     onComplete: () => {
-      // After the animation completes, we can show the photo viewer.
-      isPhotoViewerVisible.value = true;
+      // Animation complete - clone is now at center
     }
   });
 

@@ -617,7 +617,7 @@ watch(() => props.desk, () => {
 .fade-scale-enter-from,
 .fade-scale-leave-to {
     opacity: 0;
-    transform: scale(0.2);
+    transform: scale(0.5);
 }
 
 .fade-scale-enter-to,
