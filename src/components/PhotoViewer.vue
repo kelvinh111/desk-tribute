@@ -457,6 +457,23 @@ watch(() => props.desk, () => {
                     <h3>{{ props.desk.name }}</h3>
                     <h4>{{ props.desk.title }} / {{ props.desk.location }}</h4>
                 </div>
+                <div
+                    class="slider-pager"
+                    :style="{
+                        '--slider-width': sliderDisplayWidth + 'px',
+                        '--slider-height': sliderDisplayHeight + 'px'
+                    }"
+                >
+                    <div
+                        v-for="(photo, idx) in props.desk.photos"
+                        :key="idx"
+                        class="slider-pager-item"
+                        :class="{ active: idx === currentIndex }"
+                        @click="goToSlide(idx)"
+                    >
+                        {{ idx + 1 }}
+                    </div>
+                </div>
             </div>
         </transition>
         <div
@@ -573,6 +590,41 @@ watch(() => props.desk, () => {
     h4 {
         margin: 0;
         font-size: 0.7rem;
+    }
+}
+
+.slider-pager {
+    position: absolute;
+    color: white;
+    display: flex;
+    top: calc(50vh + var(--slider-height) / 2 + 20px);
+    right: calc(50vw - var(--slider-width) / 2);
+    z-index: 40;
+    gap: 8px;
+    transition: top 0.4s ease, right 0.4s ease, width 0.4s ease;
+}
+
+.slider-pager-item {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.5);
+        transform: scale(1.1);
+    }
+
+    &.active {
+        background: rgba(255, 255, 255, 0.8);
+        color: #333;
+        font-weight: bold;
     }
 }
 

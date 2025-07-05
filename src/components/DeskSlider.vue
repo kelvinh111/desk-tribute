@@ -446,7 +446,7 @@ onBeforeUnmount(() => {
     left: 0;
     bottom: -5px;
     width: 100%;
-    height: 150px;
+    height: 110px;
     overflow: visible;
     z-index: 25;
 }
