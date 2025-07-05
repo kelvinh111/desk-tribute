@@ -470,9 +470,7 @@ watch(() => props.desk, () => {
                         class="slider-pager-item"
                         :class="{ active: idx === currentIndex }"
                         @click="goToSlide(idx)"
-                    >
-                        {{ idx + 1 }}
-                    </div>
+                    ></div>
                 </div>
             </div>
         </transition>
@@ -600,31 +598,30 @@ watch(() => props.desk, () => {
     top: calc(50vh + var(--slider-height) / 2 + 20px);
     right: calc(50vw - var(--slider-width) / 2);
     z-index: 40;
-    gap: 8px;
+    gap: 3px;
     transition: top 0.4s ease, right 0.4s ease, width 0.4s ease;
 }
 
 .slider-pager-item {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    width: 10px;
+    height: 10px;
+    background: transparent url('../src/assets/pager.svg') no-repeat center center;
+    background-size: contain;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: opacity 0.5s ease;
+    opacity: 0.5;
 
     &:hover {
-        background: rgba(255, 255, 255, 0.5);
-        transform: scale(1.1);
+        opacity: 1;
     }
 
     &.active {
-        background: rgba(255, 255, 255, 0.8);
         color: #333;
         font-weight: bold;
+        opacity: 1;
     }
 }
 
