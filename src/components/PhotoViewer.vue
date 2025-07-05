@@ -515,7 +515,7 @@ watch(() => props.desk, () => {
     justify-content: center;
     flex-direction: column;
     z-index: 20;
-    transform: translateY(-50px);
+    transform: translateY(-30px);
 }
 
 .slider-container {
@@ -684,12 +684,12 @@ watch(() => props.desk, () => {
 .fade-scale-enter-from,
 .fade-scale-leave-to {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.5) translateY(-30px);
 }
 
 .fade-scale-enter-to,
 .fade-scale-leave-from {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(-30px);
 }
 </style>
