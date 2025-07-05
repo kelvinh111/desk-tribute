@@ -447,6 +447,16 @@ watch(() => props.desk, () => {
                         ref="stripesRef"
                     ></div>
                 </div>
+                <div
+                    class="slider-info"
+                    :style="{
+                        '--slider-width': sliderDisplayWidth + 'px',
+                        '--slider-height': sliderDisplayHeight + 'px'
+                    }"
+                >
+                    <h3>{{ props.desk.name }}</h3>
+                    <h4>{{ props.desk.title }} / {{ props.desk.location }}</h4>
+                </div>
             </div>
         </transition>
         <div
@@ -503,7 +513,9 @@ watch(() => props.desk, () => {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     z-index: 20;
+    transform: translateY(-50px);
 }
 
 .slider-container {
@@ -539,6 +551,29 @@ watch(() => props.desk, () => {
     left: 0;
     width: 100%;
     /* height and background-size set dynamically */
+}
+
+.slider-info {
+    position: absolute;
+    top: calc(50vh + var(--slider-height) / 2 + 20px);
+    left: calc(50vw - var(--slider-width) / 2);
+    width: var(--slider-width);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: top 0.4s ease, left 0.4s ease, width 0.4s ease;
+    color: white;
+
+    h3 {
+        margin: 0 0 5px 0;
+        font-size: 1.3rem;
+        line-height: 0.8rem;
+    }
+
+    h4 {
+        margin: 0;
+        font-size: 0.7rem;
+    }
 }
 
 .nav-button {
