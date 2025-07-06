@@ -50,6 +50,7 @@ const floatingLabel = reactive({
     y: 0,
     targetX: 0,
     targetY: 0,
+    hideTimeout: null,
 });
 
 function handleItemClick(desk) {
@@ -65,18 +66,35 @@ function updateFloatingLabel(event) {
 }
 
 function showFloatingLabel(desk, event) {
+    // Clear any pending hide timeout
+    if (floatingLabel.hideTimeout) {
+        clearTimeout(floatingLabel.hideTimeout);
+        floatingLabel.hideTimeout = null;
+    }
+
+    const wasVisible = floatingLabel.visible;
+
     floatingLabel.name = desk.name;
     floatingLabel.desc = desk.title + ' / ' + desk.location;
     floatingLabel.visible = true;
-    // Initialize position immediately for first show
-    floatingLabel.x = event.clientX;
-    floatingLabel.y = event.clientY;
+
+    // Only set current position if label was not visible before (first show)
+    if (!wasVisible) {
+        floatingLabel.x = event.clientX;
+        floatingLabel.y = event.clientY;
+    }
+
+    // Always update target position for smooth movement
     floatingLabel.targetX = event.clientX;
     floatingLabel.targetY = event.clientY;
 }
 
 function hideFloatingLabel() {
-    floatingLabel.visible = false;
+    // Add a small delay before hiding to prevent flickering during item transitions
+    floatingLabel.hideTimeout = setTimeout(() => {
+        floatingLabel.visible = false;
+        floatingLabel.hideTimeout = null;
+    }, 50);
 }
 
 function onTick() {
@@ -87,7 +105,7 @@ function onTick() {
 
     // Elastic animation for floating label
     if (floatingLabel.visible) {
-        const easing = 0.02; // Elastic factor (lower = more lag/elasticity)
+        const easing = 0.1; // Elastic factor (lower = more lag/elasticity)
         const deltaX = floatingLabel.targetX - floatingLabel.x;
         const deltaY = floatingLabel.targetY - floatingLabel.y;
 
