@@ -42,6 +42,15 @@ const carousel = reactive({
     velocityX: 0,
 });
 
+const floatingLabel = reactive({
+    visible: false,
+    text: '',
+    x: 0,
+    y: 0,
+    targetX: 0,
+    targetY: 0,
+});
+
 function handleItemClick(desk) {
     if (carousel.hasDragged || props.isCarouselLocked) return;
     if (props.selectedDeskId && props.selectedDeskId !== desk.id) {
@@ -49,10 +58,40 @@ function handleItemClick(desk) {
     }
 }
 
+function updateFloatingLabel(event) {
+    floatingLabel.targetX = event.clientX;
+    floatingLabel.targetY = event.clientY;
+}
+
+function showFloatingLabel(desk, event) {
+    floatingLabel.text = desk.name;
+    floatingLabel.visible = true;
+    // Initialize position immediately for first show
+    floatingLabel.x = event.clientX;
+    floatingLabel.y = event.clientY;
+    floatingLabel.targetX = event.clientX;
+    floatingLabel.targetY = event.clientY;
+}
+
+function hideFloatingLabel() {
+    floatingLabel.visible = false;
+}
+
 function onTick() {
     if (needsPositionUpdate && positionSliderItems) {
         positionSliderItems(carousel.x);
         needsPositionUpdate = false;
+    }
+
+    // Elastic animation for floating label
+    if (floatingLabel.visible) {
+        const easing = 0.15; // Elastic factor (lower = more lag/elasticity)
+        const deltaX = floatingLabel.targetX - floatingLabel.x;
+        const deltaY = floatingLabel.targetY - floatingLabel.y;
+
+        // Apply elastic movement
+        floatingLabel.x += deltaX * easing;
+        floatingLabel.y += deltaY * easing;
     }
 }
 
@@ -414,6 +453,9 @@ onBeforeUnmount(() => {
             v-for="desk in desks"
             :key="desk.id"
             @click="handleItemClick(desk)"
+            @mouseenter="(event) => showFloatingLabel(desk, event)"
+            @mouseleave="hideFloatingLabel"
+            @mousemove="updateFloatingLabel"
             :class="{ 'clickable': selectedDeskId && selectedDeskId !== desk.id && !isCarouselLocked }"
         >
             <div
@@ -437,6 +479,18 @@ onBeforeUnmount(() => {
                 <div class="desk-name">{{ desk.name }}</div>
             </div>
         </div>
+    </div>
+
+    <!-- Floating Label -->
+    <div
+        v-if="floatingLabel.visible"
+        class="floating-label"
+        :style="{
+            left: floatingLabel.x + 50 + 'px',
+            top: floatingLabel.y - 50 + 'px'
+        }"
+    >
+        {{ floatingLabel.text }}
     </div>
 </template>
 
@@ -515,5 +569,21 @@ onBeforeUnmount(() => {
         left: 13%;
         z-index: 4;
     }
+}
+
+.floating-label {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1000;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>
