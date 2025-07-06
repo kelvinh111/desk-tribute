@@ -30,6 +30,11 @@ const selectionState = reactive({
     hoverStates: [],
 });
 
+const hoverState = reactive({
+    currentHoveredIndex: null,
+    isHoveringAnyDesk: false,
+});
+
 const carousel = reactive({
     x: 0,
     isDragging: false,
@@ -73,6 +78,12 @@ function showFloatingLabel(desk, event) {
     }
 
     const wasVisible = floatingLabel.visible;
+    const deskIndex = props.desks.indexOf(desk);
+    const previousHoveredIndex = hoverState.currentHoveredIndex;
+
+    // Update hover state
+    hoverState.currentHoveredIndex = deskIndex;
+    hoverState.isAnyDeskHovered = true;
 
     floatingLabel.name = desk.name;
     floatingLabel.desc = desk.title + ' / ' + desk.location;
@@ -93,8 +104,15 @@ function hideFloatingLabel() {
     // Add a small delay before hiding to prevent flickering during item transitions
     floatingLabel.hideTimeout = setTimeout(() => {
         floatingLabel.visible = false;
+        hoverState.currentHoveredIndex = null;
+        hoverState.isAnyDeskHovered = false;
         floatingLabel.hideTimeout = null;
     }, 50);
+}
+
+function handleSliderLeave() {
+    // This is redundant with the mouseleave event listener, but kept for template consistency
+    hideFloatingLabel();
 }
 
 function onTick() {
@@ -369,7 +387,10 @@ onMounted(() => {
     });
 
     positionSliderItems = (dragX) => {
-        const totalHoverProgress = selectionState.hoverStates.reduce((sum, state) => sum + (state?.progress || 0), 0);
+        // Calculate suppression factor excluding the selected item's hover to prevent circular dependency
+        const totalHoverProgress = selectionState.hoverStates.reduce((sum, state, index) => {
+            return sum + (index !== selectionState.selectedIndex ? (state?.progress || 0) : 0);
+        }, 0);
         const suppressionFactor = 1 - Math.min(1, totalHoverProgress);
         const effectiveSelectedProgress = selectionState.progress * suppressionFactor;
 
@@ -408,21 +429,24 @@ onMounted(() => {
     sliderItems.forEach((sliderItem, index) => {
         sliderItem.addEventListener('mouseenter', () => {
             if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
-            if (index === selectionState.selectedIndex) {
-                selectionState.hoverStates.forEach((state, i) => {
-                    if (i !== index) {
-                        gsap.to(state, { progress: 0, duration: HOVER_ANIMATION_DURATION, ease: 'power2.out', overwrite: 'auto' });
-                    }
+
+            // Update hover tracking
+            hoverState.currentHoveredIndex = index;
+            hoverState.isAnyDeskHovered = true;
+
+            // ONLY animate NON-SELECTED desks
+            // The selected desk should never respond to its own hover
+            if (index !== selectionState.selectedIndex) {
+                gsap.to(selectionState.hoverStates[index], {
+                    progress: 1,
+                    duration: HOVER_ANIMATION_DURATION,
+                    ease: 'power2.out',
+                    overwrite: 'auto',
+                    onUpdate: markForUpdate
                 });
-                return;
             }
-            gsap.to(selectionState.hoverStates[index], {
-                progress: 1,
-                duration: HOVER_ANIMATION_DURATION,
-                ease: 'power2.out',
-                overwrite: 'auto',
-                onUpdate: markForUpdate
-            });
+
+            // Clear hover states for all other items (except the one we're hovering)
             selectionState.hoverStates.forEach((state, i) => {
                 if (i !== index) {
                     gsap.to(state, {
@@ -439,6 +463,12 @@ onMounted(() => {
 
     slider.addEventListener('mouseleave', () => {
         if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
+
+        // Reset hover tracking
+        hoverState.currentHoveredIndex = null;
+        hoverState.isAnyDeskHovered = false;
+
+        // Clear all hover states when leaving the slider
         selectionState.hoverStates.forEach(state => {
             gsap.to(state, {
                 progress: 0,
@@ -467,6 +497,7 @@ onBeforeUnmount(() => {
     <div
         ref="sliderRef"
         class="slider"
+        @mouseleave="handleSliderLeave"
     >
         <div
             class="slider-item"
@@ -522,6 +553,7 @@ onBeforeUnmount(() => {
     bottom: -5px;
     width: 100%;
     height: 110px;
+    /* Increased to accommodate expanded desk height (136px) + some padding */
     overflow: visible;
     z-index: 25;
 }
