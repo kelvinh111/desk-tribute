@@ -37,6 +37,10 @@ const photoSizeCache = {}; // url -> {width, height}
 const isSliderReady = ref(false);
 const isProgressBarComplete = ref(false);
 
+// Array of colors for random progress bar background
+const progressColors = ['#F76997', '#F8851F', '#9E7DF5', '#78BD4A', '#38C8E8'];
+const currentProgressColor = ref('#F76997');
+
 // Helper function to calculate scaled dimensions that fill 70% viewport while maintaining aspect ratio
 function getScaledDimensions(imageWidth, imageHeight) {
     const maxWidth = (typeof window !== 'undefined') ? window.innerWidth * 0.7 : 800;
@@ -74,6 +78,9 @@ function preloadImagesAndUpdateProgress(desk) {
     const loaded = progressLoadedEl.value;
 
     if (!bar || !loaded) return;
+
+    // Select a random color for this progress bar session
+    currentProgressColor.value = progressColors[Math.floor(Math.random() * progressColors.length)];
 
     gsap.set(loaded, { width: '0%' });
     gsap.set(bar, { opacity: 0 });
@@ -412,6 +419,7 @@ watch(() => props.desk, () => {
             <div
                 ref="progressLoadedEl"
                 class="progress-loaded"
+                :style="{ backgroundColor: currentProgressColor }"
             ></div>
         </div>
         <transition name="fade-scale">
@@ -515,7 +523,6 @@ watch(() => props.desk, () => {
 .progress-loaded {
     width: 0;
     height: 100%;
-    background-color: lime;
     transition: width 0.1s ease-out;
 }
 
