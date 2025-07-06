@@ -11,14 +11,14 @@ const props = defineProps({
 const emit = defineEmits(['update:isCarouselLocked', 'change-desk']);
 
 // --- Configuration Constants ---
-const BASE_SLIDER_ITEM_WIDTH = 70;
-const EXPANDED_SLIDER_ITEM_WIDTH = 140;
+const BASE_SLIDER_ITEM_WIDTH = 90;
+const EXPANDED_SLIDER_ITEM_WIDTH = 160;
 const BASE_SLIDER_ITEM_HEIGHT = 68;
 const EXPANDED_SLIDER_ITEM_HEIGHT = 136;
 const ANIMATION_DURATION = 0.6;
 const HOVER_ANIMATION_DURATION = 0.4;
 const THROW_MULTIPLIER = 400;
-const CAROUSEL_GUTTER = 20;
+const CAROUSEL_GUTTER = 0;
 
 const sliderRef = ref(null);
 let positionSliderItems = null;
@@ -44,7 +44,8 @@ const carousel = reactive({
 
 const floatingLabel = reactive({
     visible: false,
-    text: '',
+    name: '',
+    desc: '',
     x: 0,
     y: 0,
     targetX: 0,
@@ -64,7 +65,8 @@ function updateFloatingLabel(event) {
 }
 
 function showFloatingLabel(desk, event) {
-    floatingLabel.text = desk.name;
+    floatingLabel.name = desk.name;
+    floatingLabel.desc = desk.title + ' / ' + desk.location;
     floatingLabel.visible = true;
     // Initialize position immediately for first show
     floatingLabel.x = event.clientX;
@@ -85,7 +87,7 @@ function onTick() {
 
     // Elastic animation for floating label
     if (floatingLabel.visible) {
-        const easing = 0.15; // Elastic factor (lower = more lag/elasticity)
+        const easing = 0.02; // Elastic factor (lower = more lag/elasticity)
         const deltaX = floatingLabel.targetX - floatingLabel.x;
         const deltaY = floatingLabel.targetY - floatingLabel.y;
 
@@ -486,11 +488,12 @@ onBeforeUnmount(() => {
         v-if="floatingLabel.visible"
         class="floating-label"
         :style="{
-            left: floatingLabel.x + 50 + 'px',
-            top: floatingLabel.y - 50 + 'px'
+            left: floatingLabel.x + 40 + 'px',
+            top: floatingLabel.y - 60 + 'px'
         }"
     >
-        {{ floatingLabel.text }}
+        <h3>{{ floatingLabel.name }}</h3>
+        <h4>{{ floatingLabel.desc }}</h4>
     </div>
 </template>
 
@@ -510,12 +513,13 @@ onBeforeUnmount(() => {
     bottom: 0;
     left: 0;
     user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
     transform-origin: center bottom;
     padding: 0;
     cursor: default;
+    padding: 0 10px;
 }
 
 .slider-item.clickable {
@@ -573,17 +577,18 @@ onBeforeUnmount(() => {
 
 .floating-label {
     position: fixed;
-    background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
     z-index: 1000;
     pointer-events: none;
     white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    h3 {
+        font-size: 14px;
+        line-height: 12px;
+    }
+
+    h4 {
+        font-size: 10px;
+    }
 }
 </style>
