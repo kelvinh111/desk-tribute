@@ -56,6 +56,9 @@ const floatingLabel = reactive({
     targetX: 0,
     targetY: 0,
     hideTimeout: null,
+    // Current cursor position (real-time, no lag)
+    currentCursorX: 0,
+    currentCursorY: 0,
 });
 
 function handleItemClick(desk) {
@@ -68,6 +71,9 @@ function handleItemClick(desk) {
 function updateFloatingLabel(event) {
     floatingLabel.targetX = event.clientX;
     floatingLabel.targetY = event.clientY;
+    // Update current cursor position immediately (no elastic animation)
+    floatingLabel.currentCursorX = event.clientX;
+    floatingLabel.currentCursorY = event.clientY;
 }
 
 function showFloatingLabel(desk, event) {
@@ -98,6 +104,9 @@ function showFloatingLabel(desk, event) {
     // Always update target position for smooth movement
     floatingLabel.targetX = event.clientX;
     floatingLabel.targetY = event.clientY;
+    // Update current cursor position immediately
+    floatingLabel.currentCursorX = event.clientX;
+    floatingLabel.currentCursorY = event.clientY;
 }
 
 function hideFloatingLabel() {
@@ -121,13 +130,13 @@ function onTick() {
         needsPositionUpdate = false;
     }
 
-    // Elastic animation for floating label
+    // Elastic animation for floating label (only the label moves with lag, cursor position is immediate)
     if (floatingLabel.visible) {
         const easing = 0.1; // Elastic factor (lower = more lag/elasticity)
         const deltaX = floatingLabel.targetX - floatingLabel.x;
         const deltaY = floatingLabel.targetY - floatingLabel.y;
 
-        // Apply elastic movement
+        // Apply elastic movement only to the label
         floatingLabel.x += deltaX * easing;
         floatingLabel.y += deltaY * easing;
     }
@@ -544,6 +553,30 @@ onBeforeUnmount(() => {
         <h3>{{ floatingLabel.name }}</h3>
         <h4>{{ floatingLabel.desc }}</h4>
     </div>
+
+    <!-- Connecting Line -->
+    <svg
+        v-if="floatingLabel.visible"
+        class="floating-label-line"
+        :style="{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            pointerEvents: 'none',
+            zIndex: 999
+        }"
+    >
+        <line
+            :x1="floatingLabel.x + 40"
+            :y1="floatingLabel.y - 30"
+            :x2="floatingLabel.currentCursorX"
+            :y2="floatingLabel.currentCursorY"
+            stroke="rgba(255, 255, 255, 1)"
+            stroke-width="1"
+        />
+    </svg>
 </template>
 
 <style scoped lang="scss">
