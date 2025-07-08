@@ -407,14 +407,47 @@ watch(() => props.visible, (newVal) => {
 watch(() => props.desk, () => {
     currentIndex.value = 0;
 });
+
+watch(() => props.desk, (newDesk, oldDesk) => {
+    // If PhotoViewer is visible and desk has changed, trigger loading sequence
+    if (props.visible && newDesk && oldDesk && newDesk.id !== oldDesk.id) {
+        // Set slider size to first photo's natural size from cache immediately
+        const photos = newDesk.photos || [];
+        const url = photos[0];
+        const size = photoSizeCache[url];
+        if (size) {
+            sliderNaturalWidth.value = size.width;
+            sliderNaturalHeight.value = size.height;
+        }
+
+        // Reset states for new desk
+        isProgressBarActive.value = true;
+        isSliderReady.value = false;
+        isProgressBarComplete.value = false;
+
+        // Start loading new desk's photos
+        nextTick(() => {
+            preloadImagesAndUpdateProgress(newDesk);
+        });
+    }
+});
 </script>
 
 <template>
     <div>
+        <!-- Full screen backdrop -->
+        <transition name="backdrop-fade">
+            <div
+                v-if="visible"
+                class="photoviewer-backdrop"
+            ></div>
+        </transition>
+
         <div
             v-if="isProgressBarActive"
             ref="progressBarEl"
             class="progress-bar"
+            :style="{ opacity: props.isSliderVisible ? 1 : 0 }"
         >
             <div
                 ref="progressLoadedEl"
@@ -508,16 +541,43 @@ watch(() => props.desk, () => {
 </template>
 
 <style scoped lang="scss">
+.photoviewer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #222222;
+    z-index: 1;
+    /* Above desk gallery/slider but below cloned desk and photoviewer */
+}
+
+.backdrop-fade-enter-active,
+.backdrop-fade-leave-active {
+    transition: opacity 0.4s ease;
+}
+
+.backdrop-fade-enter-from,
+.backdrop-fade-leave-to {
+    opacity: 0;
+}
+
+.backdrop-fade-enter-to,
+.backdrop-fade-leave-from {
+    opacity: 1;
+}
+
 .progress-bar {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    z-index: 0;
-    /* Below photo gallery but above clone */
-    background: #222222;
+    z-index: 5;
+    /* Above backdrop but below cloned desk and photoviewer */
+    background: transparent;
     top: 0;
     left: 0;
     opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 .progress-loaded {
