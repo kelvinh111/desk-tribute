@@ -236,7 +236,6 @@ function handlePointerUp() {
 }
 
 watch(() => props.selectedDeskId, (newId, oldId) => {
-    console.log('DeskSlider: selectedDeskId changed:', newId, oldId);
     const slider = sliderRef.value;
     if (!slider) return;
 
