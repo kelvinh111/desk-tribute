@@ -40,6 +40,7 @@ const isProgressBarComplete = ref(false);
 // Array of colors for random progress bar background
 const progressColors = ['#F76997', '#F8851F', '#9E7DF5', '#78BD4A', '#38C8E8'];
 const currentProgressColor = ref('#F76997');
+const backdropColor = ref('#222222'); // Separate color for backdrop, starts with default
 
 // Helper function to calculate scaled dimensions that fill 70% viewport while maintaining aspect ratio
 function getScaledDimensions(imageWidth, imageHeight) {
@@ -79,8 +80,12 @@ function preloadImagesAndUpdateProgress(desk) {
 
     if (!bar || !loaded) return;
 
-    // Select a random color for this progress bar session
-    currentProgressColor.value = progressColors[Math.floor(Math.random() * progressColors.length)];
+    // Select a random color for this progress bar session that's different from current
+    let newColor;
+    do {
+        newColor = progressColors[Math.floor(Math.random() * progressColors.length)];
+    } while (newColor === currentProgressColor.value && progressColors.length > 1);
+    currentProgressColor.value = newColor;
 
     gsap.set(loaded, { width: '0%' });
     gsap.set(bar, { opacity: 0 });
@@ -119,6 +124,8 @@ function preloadImagesAndUpdateProgress(desk) {
 
                             setTimeout(() => {
                                 emit('photoVisible');
+                                // Update backdrop color to current progress color after transition is complete
+                                backdropColor.value = currentProgressColor.value;
                             }, 2000);
                         }
                     });
@@ -180,10 +187,10 @@ function preloadImagesAndUpdateProgress(desk) {
                                             }
                                         }
                                         isSliderReady.value = true;
-                                    }, 500);
-
-                                    setTimeout(() => {
+                                    }, 500); setTimeout(() => {
                                         emit('photoVisible');
+                                        // Update backdrop color to current progress color after transition is complete
+                                        backdropColor.value = currentProgressColor.value;
                                     }, 2000);
                                 }
                             }
@@ -364,6 +371,9 @@ watch([() => props.desk, currentIndex], () => {
 
 watch(() => props.visible, (newVal) => {
     if (newVal && props.desk) {
+        // Reset backdrop color to default when PhotoViewer becomes visible
+        backdropColor.value = '#222222';
+
         // Set slider size to first photo's natural size from cache immediately (prevents initial layout shift)
         const photos = props.desk.photos || [];
         const url = photos[0];
@@ -440,6 +450,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
             <div
                 v-if="visible"
                 class="photoviewer-backdrop"
+                :style="{ backgroundColor: backdropColor }"
             ></div>
         </transition>
 
@@ -549,6 +560,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     height: 100vh;
     background-color: #222222;
     z-index: 1;
+    transition: background-color 0.4s ease;
     /* Above desk gallery/slider but below cloned desk and photoviewer */
 }
 
