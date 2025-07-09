@@ -552,7 +552,7 @@ onBeforeUnmount(() => {
 
     <!-- Floating Label -->
     <div
-        v-if="floatingLabel.visible"
+        v-if="floatingLabel.visible && isHoverable"
         class="floating-label"
         :style="{
             left: floatingLabel.x + 40 + 'px',
@@ -565,7 +565,7 @@ onBeforeUnmount(() => {
 
     <!-- Connecting Line -->
     <svg
-        v-if="floatingLabel.visible"
+        v-if="floatingLabel.visible && isHoverable"
         class="floating-label-line"
         :style="{
             position: 'fixed',

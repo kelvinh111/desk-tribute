@@ -285,6 +285,7 @@ const updateCloneCenterTransform = () => {
       @close="handlePhotoViewerClose"
       @photo-visible="onPhotoVisible"
       @first-photo-loaded="onFirstPhotoLoaded"
+      @is-transitioning="isTransitioning => (isCarouselLocked = isTransitioning)"
     />
   </main>
 </template>

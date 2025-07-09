@@ -11,7 +11,7 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['close', 'photoVisible', 'firstPhotoLoaded']);
+const emit = defineEmits(['close', 'isTransitioning', 'photoVisible', 'firstPhotoLoaded']);
 
 const photoGalleryEl = ref(null);
 const progressBarEl = ref(null);
@@ -234,6 +234,7 @@ function getImageBoxInContainer(containerW, containerH, imageW, imageH) {
 
 async function goToSlide(nextIdx) {
     if (isTransitioning.value || nextIdx === currentIndex.value) return;
+    emit('isTransitioning', true);
 
     const photos = props.desk?.photos || [];
     const currentSlideUrl = photos[currentIndex.value];
@@ -337,6 +338,7 @@ async function goToSlide(nextIdx) {
             currentIndex.value = nextIdx;
             stripesRef.value.innerHTML = "";
             isTransitioning.value = false;
+            emit('isTransitioning', false);
         }
     });
 }
