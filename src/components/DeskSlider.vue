@@ -23,6 +23,7 @@ const CAROUSEL_GUTTER = 0;
 const sliderRef = ref(null);
 let positionSliderItems = null;
 let needsPositionUpdate = false;
+const isHoverable = ref(true); // Flag to indicate if the desks are hoverable
 
 const selectionState = reactive({
     selectedIndex: null,
@@ -64,6 +65,8 @@ const floatingLabel = reactive({
 function handleItemClick(desk) {
     if (carousel.hasDragged || props.isCarouselLocked) return;
     if (props.selectedDeskId && props.selectedDeskId !== desk.id) {
+        isHoverable.value = false; // Disable hover effects when a desk is selected
+        emit('update:isCarouselLocked', true);
         emit('change-desk', desk);
     }
 }
@@ -238,6 +241,7 @@ function handlePointerUp() {
 watch(() => props.selectedDeskId, (newId, oldId) => {
     const slider = sliderRef.value;
     if (!slider) return;
+    isHoverable.value = false; // Disable hover effects when a desk is selected
 
     if (newId) {
         const index = props.desks.findIndex(d => d.id === newId);
@@ -251,7 +255,9 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
         const activeSliderItem = slider.querySelectorAll('.slider-item')[index];
         const activeSliderItemContent = activeSliderItem.querySelector('.slider-item-content');
 
-        gsap.set(activeSliderItemContent, { autoAlpha: 0 });
+        if (!oldId) {
+            gsap.set(activeSliderItemContent, { autoAlpha: 0 });
+        }
 
         let dynamicInitialX = [];
         let currentX = 0;
@@ -274,75 +280,79 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
             ease: 'power2.inOut',
             onUpdate: markForUpdate
         }, 0);
-        tl.to(carousel, {
-            x: clampedTargetX,
-            duration: ANIMATION_DURATION,
-            ease: 'power2.inOut',
-            onUpdate: markForUpdate
-        }, 0);
 
-        tl.call(() => {
-            emit('update:isCarouselLocked', true);
-            const activeSliderItemLeft = activeSliderItem.getBoundingClientRect().left;
-            const fromLeft = window.innerWidth / 2 - activeSliderItem.getBoundingClientRect().width / 2;
-            const fromTop = window.innerHeight / 2 - activeSliderItem.getBoundingClientRect().top;
+        if (!oldId) {
+            tl.to(carousel, {
+                x: clampedTargetX,
+                duration: ANIMATION_DURATION,
+                ease: 'power2.inOut',
+                onUpdate: markForUpdate
+            }, 0);
+        }
 
-            // Check if this is a desk switch (oldId exists) or initial selection (oldId is null)
-            if (oldId) {
-                // Desk switching: animate to center, wait, then animate back
-                gsap.fromTo(activeSliderItemContent, {
-                    autoAlpha: 1,
-                    scale: 1,
-                    x: 0,
-                    y: 0,
-                }, {
-                    scale: 0.8,
-                    x: fromLeft - activeSliderItemLeft,
-                    y: fromTop,
-                    duration: ANIMATION_DURATION,
-                    ease: 'power2.inOut',
-                    onComplete: () => {
-                        // Wait 1 second, then animate back to slider
-                        setTimeout(() => {
-                            gsap.fromTo(activeSliderItemContent, {
-                                autoAlpha: 0,
-                                scale: 0.8,
-                                x: fromLeft - activeSliderItemLeft,
-                                y: fromTop,
-                            }, {
-                                autoAlpha: 1,
-                                scale: 1,
-                                x: 0,
-                                y: 0,
-                                duration: ANIMATION_DURATION,
-                                ease: 'power2.inOut',
-                                onComplete: () => {
-                                    emit('update:isCarouselLocked', false);
-                                }
-                            });
-                        }, 1000);
-                    }
-                });
-            } else {
-                // Initial selection from gallery: use original animation
-                gsap.fromTo(activeSliderItemContent, {
-                    autoAlpha: 0,
-                    scale: 0.8,
-                    x: fromLeft - activeSliderItemLeft,
-                    y: fromTop,
-                }, {
-                    autoAlpha: 1,
-                    scale: 1,
-                    x: 0,
-                    y: 0,
-                    duration: ANIMATION_DURATION,
-                    ease: 'power2.inOut',
-                    onComplete: () => {
-                        emit('update:isCarouselLocked', false);
-                    }
-                });
-            }
-        }, null, ANIMATION_DURATION);
+        // tl.call(() => {
+        const activeSliderItemLeft = activeSliderItem.getBoundingClientRect().left;
+        const fromLeft = window.innerWidth / 2 - activeSliderItem.getBoundingClientRect().width / 2;
+        const fromTop = window.innerHeight / 2 - activeSliderItem.getBoundingClientRect().top;
+
+        // Check if this is a desk switch (oldId exists) or initial selection (oldId is null)
+        if (oldId) {
+            // Desk switching: animate to center, wait, then animate back
+            gsap.fromTo(activeSliderItemContent, {
+                autoAlpha: 1,
+                scale: 1,
+                x: 0,
+                y: 0,
+            }, {
+                scale: 0.8,
+                x: fromLeft - activeSliderItemLeft,
+                y: fromTop,
+                duration: ANIMATION_DURATION,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    // Wait 1 second, then animate back to slider
+                    setTimeout(() => {
+                        gsap.fromTo(activeSliderItemContent, {
+                            autoAlpha: 0,
+                            scale: 0.8,
+                            x: fromLeft - activeSliderItemLeft,
+                            y: fromTop,
+                        }, {
+                            autoAlpha: 1,
+                            scale: 1,
+                            x: 0,
+                            y: 0,
+                            duration: ANIMATION_DURATION,
+                            ease: 'power2.inOut',
+                            onComplete: () => {
+                                isHoverable.value = true; // Re-enable hover effects after animation
+                                emit('update:isCarouselLocked', false);
+                            }
+                        });
+                    }, 1000);
+                }
+            });
+        } else {
+            // Initial selection from gallery: use original animation
+            gsap.fromTo(activeSliderItemContent, {
+                autoAlpha: 0,
+                scale: 0.8,
+                x: fromLeft - activeSliderItemLeft,
+                y: fromTop,
+            }, {
+                autoAlpha: 1,
+                scale: 1,
+                x: 0,
+                y: 0,
+                duration: ANIMATION_DURATION,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    isHoverable.value = true; // Re-enable hover effects after animation
+                    emit('update:isCarouselLocked', false);
+                }
+            });
+        }
+        // }, null, ANIMATION_DURATION);
 
     } else if (oldId) {
         selectionState.hoverStates.forEach(state => { state.progress = 0; });
@@ -436,7 +446,7 @@ onMounted(() => {
 
     sliderItems.forEach((sliderItem, index) => {
         sliderItem.addEventListener('mouseenter', () => {
-            if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
+            if (!isHoverable.value || carousel.isPointerDown || selectionState.selectedIndex === null) return;
 
             // Update hover tracking
             hoverState.currentHoveredIndex = index;

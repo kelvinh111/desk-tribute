@@ -186,7 +186,6 @@ function pick(desk) {
   cloneEl.style.left = rect.left + 'px';
   cloneEl.style.width = rect.width + 'px';
   cloneEl.style.height = rect.height + 'px';
-  cloneEl.style.zIndex = '10'; // Ensure it's above the backdrop and everything else
   document.body.appendChild(cloneEl);
   deskElement.style.visibility = 'hidden'; // Hide the original item.
   hiddenDeskIds.value.add(desk.id); // Track this desk as hidden
