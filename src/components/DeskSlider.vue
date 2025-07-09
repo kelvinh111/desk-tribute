@@ -1,14 +1,17 @@
 <script setup>
 import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
 import { gsap } from 'gsap';
+import { useDeskViewerStore } from '../stores/deskViewer.js';
 
 const props = defineProps({
     desks: Array,
-    selectedDeskId: [String, Number],
-    isCarouselLocked: Boolean
+    selectedDeskId: [String, Number]
 });
 
-const emit = defineEmits(['update:isCarouselLocked', 'change-desk']);
+const emit = defineEmits(['change-desk']);
+
+// --- Store ---
+const store = useDeskViewerStore();
 
 // --- Configuration Constants ---
 const BASE_SLIDER_ITEM_WIDTH = 90;
@@ -63,10 +66,10 @@ const floatingLabel = reactive({
 });
 
 function handleItemClick(desk) {
-    if (carousel.hasDragged || props.isCarouselLocked) return;
+    if (carousel.hasDragged || store.isCarouselLocked) return;
     if (props.selectedDeskId && props.selectedDeskId !== desk.id) {
         isHoverable.value = false; // Disable hover effects when a desk is selected
-        emit('update:isCarouselLocked', true);
+        store.setCarouselLocked(true);
         emit('change-desk', desk);
     }
 }
@@ -180,7 +183,7 @@ function getCarouselBounds() {
 }
 
 function handlePointerDown(event) {
-    if (props.isCarouselLocked) return;
+    if (store.isCarouselLocked) return;
     gsap.killTweensOf(carousel);
     carousel.isDragging = true;
     carousel.isPointerDown = true;
@@ -326,7 +329,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                             ease: 'power2.inOut',
                             onComplete: () => {
                                 isHoverable.value = true; // Re-enable hover effects after animation
-                                emit('update:isCarouselLocked', false);
+                                store.setCarouselLocked(false);
                             }
                         });
                     }, 1000);
@@ -348,7 +351,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                 ease: 'power2.inOut',
                 onComplete: () => {
                     isHoverable.value = true; // Re-enable hover effects after animation
-                    emit('update:isCarouselLocked', false);
+                    store.setCarouselLocked(false);
                 }
             });
         }
@@ -525,7 +528,7 @@ onBeforeUnmount(() => {
             @mouseenter="(event) => showFloatingLabel(desk, event)"
             @mouseleave="hideFloatingLabel"
             @mousemove="updateFloatingLabel"
-            :class="{ 'clickable': selectedDeskId && selectedDeskId !== desk.id && !isCarouselLocked }"
+            :class="{ 'clickable': selectedDeskId && selectedDeskId !== desk.id && !store.isCarouselLocked }"
         >
             <div
                 class="slider-item-content desk"

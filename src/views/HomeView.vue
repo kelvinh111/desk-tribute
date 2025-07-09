@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue';
-import itemsData from '../model/desk.json';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { gsap } from 'gsap';
+import { useDeskViewerStore } from '../stores/deskViewer.js';
 import DeskGallery from '../components/DeskGallery.vue';
 import DeskSlider from '../components/DeskSlider.vue';
 import PhotoViewer from '../components/PhotoViewer.vue';
@@ -10,38 +10,26 @@ import PhotoViewer from '../components/PhotoViewer.vue';
 // --- Configuration Constants ---
 const ANIMATION_DURATION = 0.6;
 
-const windowWidth = ref(0);
+// --- Store ---
+const store = useDeskViewerStore();
 
 // --- Refs for DOM Elements ---
 const galleryComponentRef = ref(null); // Ref for the gallery component
 const deskSliderRef = ref(null);
-const desks = ref(itemsData); // Reactive ref holding the array of desk data.
-let selectedDeskClone = null; // Will hold the cloned element for the pop-out animation.
-const isCarouselLocked = ref(false); // Flag to prevent carousel interaction during animations.
-const isGalleryFaded = ref(false); // Controls the faded state of the gallery
-const isPhotoViewerVisible = ref(false);
-const isPhotoSliderVisible = ref(true);
-const selectedDeskId = ref(null);
-const hiddenDeskIds = ref(new Set()); // Track all hidden desk IDs
-
-const selectedDesk = computed(() => {
-  if (!selectedDeskId.value) return null;
-  return desks.value.find(d => d.id === selectedDeskId.value);
-});
 
 // --- Vue Router ---
 const router = useRouter(); // Used to programmatically change the URL (e.g., router.push('/'.
 const route = useRoute(); // Used to read information from the current URL (e.g., route.params.deskId).
 
 const handleResize = () => {
-  windowWidth.value = window.innerWidth;
+  store.setWindowWidth(window.innerWidth);
   updateCloneCenterTransform();
 };
 
 onMounted(() => {
   // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
   if (route.params.deskId) {
-    const desk = desks.value.find(d => d.id === route.params.deskId);
+    const desk = store.desks.find(d => d.id === route.params.deskId);
     if (desk) {
       // Use a small timeout to ensure Masonry has finished its initial layout.
       setTimeout(() => {
@@ -59,32 +47,32 @@ onBeforeUnmount(() => {
 });
 
 function handlePhotoViewerClose() {
-  if (selectedDesk.value) {
-    pick(selectedDesk.value);
+  if (store.selectedDesk) {
+    pick(store.selectedDesk);
   }
 }
 
 function changeDesk(desk) {
-  isPhotoSliderVisible.value = false;
+  store.setPhotoSliderVisible(false);
 
   // Wait for fade-out animation to complete, then change the selected desk
   setTimeout(() => {
     // Track the current desk as hidden before switching
-    if (selectedDeskId.value) {
-      hiddenDeskIds.value.add(selectedDeskId.value);
+    if (store.selectedDeskId) {
+      store.addHiddenDeskId(store.selectedDeskId);
     }
 
     // Update the clone to reference the new desk
-    if (selectedDeskClone) {
-      selectedDeskClone.desk = desk;
+    if (store.selectedDeskClone) {
+      store.selectedDeskClone.desk = desk;
     }
 
-    selectedDeskId.value = desk.id;
+    store.setSelectedDeskId(desk.id);
     router.push('/' + desk.id);
 
     // Wait a moment, then fade the slider back in
     setTimeout(() => {
-      isPhotoSliderVisible.value = true;
+      store.setPhotoSliderVisible(true);
     }, 100);
   }, 400); // Wait for fade-out transition (0.4s)
 }
@@ -96,29 +84,29 @@ function pick(desk) {
   const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`);
   if (!deskElement) return;
 
-  const isClosing = selectedDeskClone && selectedDeskClone.desk.id === desk.id;
+  const isClosing = store.selectedDeskClone && store.selectedDeskClone.desk.id === desk.id;
 
   if (isClosing) {
     document.body.style.overflow = ''; // Re-enable scrolling
     router.push('/'); // Change the URL back to the root.
-    selectedDeskId.value = null;
+    store.setSelectedDeskId(null);
   } else {
     document.body.style.overflow = 'hidden'; // Disable scrolling
     if (route.path !== '/' + desk.id) {
       router.push('/' + desk.id); // Change the URL to the specific desk.
     }
-    selectedDeskId.value = desk.id;
+    store.setSelectedDeskId(desk.id);
   }
 
   // --- Pop-in/Pop-out Animation Logic ---
 
   // If we are closing an item (the clone already exists).
-  if (selectedDeskClone && selectedDeskClone.desk.id === desk.id) {
-    const { cloneEl } = selectedDeskClone;
+  if (store.selectedDeskClone && store.selectedDeskClone.desk.id === desk.id) {
+    const { cloneEl } = store.selectedDeskClone;
     const finalRect = deskElement.getBoundingClientRect(); // Get final position
 
     // Hide the photo viewer, which will trigger its own internal animations
-    isPhotoViewerVisible.value = false;
+    store.setPhotoViewerVisible(false);
 
     // Restore the clone's screen to the original desk screen image
     const screenEl = cloneEl.querySelector('.desk-screen');
@@ -145,7 +133,7 @@ function pick(desk) {
           deskElement.style.visibility = 'visible';
 
           // Restore all previously hidden desks
-          hiddenDeskIds.value.forEach(deskId => {
+          store.hiddenDeskIds.forEach(deskId => {
             const hiddenDeskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${deskId}"]`);
             if (hiddenDeskElement) {
               hiddenDeskElement.style.visibility = 'visible';
@@ -153,11 +141,11 @@ function pick(desk) {
           });
 
           // Clear the hidden desks set
-          hiddenDeskIds.value.clear();
+          store.clearHiddenDeskIds();
         }
 
-        selectedDeskClone = null; // Clear the clone state.
-        isGalleryFaded.value = false;
+        store.setSelectedDeskClone(null); // Clear the clone state.
+        store.setGalleryFaded(false);
         if (deskSliderRef.value) {
           deskSliderRef.value.reset();
         }
@@ -189,13 +177,13 @@ function pick(desk) {
   cloneEl.style.zIndex = '10'; // Ensure it's above the backdrop and everything else
   document.body.appendChild(cloneEl);
   deskElement.style.visibility = 'hidden'; // Hide the original item.
-  hiddenDeskIds.value.add(desk.id); // Track this desk as hidden
+  store.addHiddenDeskId(desk.id); // Track this desk as hidden
   // Fade out the rest of the gallery.
-  isGalleryFaded.value = true;
-  selectedDeskClone = { desk, originalRect: rect, cloneEl }; // Store the clone's state.
+  store.setGalleryFaded(true);
+  store.setSelectedDeskClone({ desk, originalRect: rect, cloneEl }); // Store the clone's state.
 
   // Show the photo viewer immediately when clone is created
-  isPhotoViewerVisible.value = true;
+  store.setPhotoViewerVisible(true);
 
   // Animate the clone from its starting position to the center of the screen.
   const cloneWidth = cloneEl.offsetWidth;
@@ -225,14 +213,14 @@ function pick(desk) {
 }
 
 function onPhotoVisible() {
-  if (selectedDeskClone) {
-    selectedDeskClone.cloneEl.style.opacity = '0';
+  if (store.selectedDeskClone) {
+    store.selectedDeskClone.cloneEl.style.opacity = '0';
   }
 }
 
 function onFirstPhotoLoaded(photoUrl) {
-  if (selectedDeskClone) {
-    const screenEl = selectedDeskClone.cloneEl.querySelector('.desk-screen');
+  if (store.selectedDeskClone) {
+    const screenEl = store.selectedDeskClone.cloneEl.querySelector('.desk-screen');
     if (screenEl) {
       screenEl.style.backgroundImage = `url(${photoUrl})`;
     }
@@ -240,8 +228,8 @@ function onFirstPhotoLoaded(photoUrl) {
 }
 
 const updateCloneCenterTransform = () => {
-  if (!selectedDeskClone) return;
-  const { cloneEl } = selectedDeskClone;
+  if (!store.selectedDeskClone) return;
+  const { cloneEl } = store.selectedDeskClone;
   const cloneWidth = cloneEl.offsetWidth;
   const cloneHeight = cloneEl.offsetHeight;
   const targetLeft = (window.innerWidth - cloneWidth) / 2;
@@ -258,34 +246,33 @@ const updateCloneCenterTransform = () => {
   <main>
     <div
       class="logo"
-      :class="{ 'viewer-active': isPhotoViewerVisible }"
+      :class="{ 'viewer-active': store.isPhotoViewerVisible }"
       @click="handlePhotoViewerClose"
     >DESK</div>
 
     <DeskGallery
       ref="galleryComponentRef"
-      :desks="desks"
-      :is-gallery-faded="isGalleryFaded"
-      :selected-desk-clone="selectedDeskClone"
+      :desks="store.desks"
+      :is-gallery-faded="store.isGalleryFaded"
+      :selected-desk-clone="store.selectedDeskClone"
       @pick="pick"
     />
 
     <DeskSlider
       ref="deskSliderRef"
-      :desks="desks"
-      :selected-desk-id="selectedDeskId"
-      v-model:is-carousel-locked="isCarouselLocked"
+      :desks="store.desks"
+      :selected-desk-id="store.selectedDeskId"
       @change-desk="changeDesk"
     />
 
     <PhotoViewer
-      :desk="selectedDesk"
-      :visible="isPhotoViewerVisible"
-      :is-slider-visible="isPhotoSliderVisible"
+      :desk="store.selectedDesk"
+      :visible="store.isPhotoViewerVisible"
+      :is-slider-visible="store.isPhotoSliderVisible"
       @close="handlePhotoViewerClose"
       @photo-visible="onPhotoVisible"
       @first-photo-loaded="onFirstPhotoLoaded"
-      @is-transitioning="isTransitioning => (isCarouselLocked = isTransitioning)"
+      @is-transitioning="isTransitioning => store.setCarouselLocked(isTransitioning)"
     />
   </main>
 </template>
