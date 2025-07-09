@@ -27,6 +27,7 @@ const sliderRef = ref(null);
 let positionSliderItems = null;
 let needsPositionUpdate = false;
 const isHoverable = ref(true); // Flag to indicate if the desks are hoverable
+const pendingAnimation = ref(null); // Store animation data for completion after photo load
 
 const selectionState = reactive({
     selectedIndex: null,
@@ -300,7 +301,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
 
         // Check if this is a desk switch (oldId exists) or initial selection (oldId is null)
         if (oldId) {
-            // Desk switching: animate to center, wait, then animate back
+            // Desk switching: animate to center, then wait for photo to load
             gsap.fromTo(activeSliderItemContent, {
                 autoAlpha: 1,
                 scale: 1,
@@ -313,47 +314,25 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                 duration: ANIMATION_DURATION,
                 ease: 'power2.inOut',
                 onComplete: () => {
-                    // Wait 1 second, then animate back to slider
-                    setTimeout(() => {
-                        gsap.fromTo(activeSliderItemContent, {
-                            autoAlpha: 0,
-                            scale: 0.8,
-                            x: fromLeft - activeSliderItemLeft,
-                            y: fromTop,
-                        }, {
-                            autoAlpha: 1,
-                            scale: 1,
-                            x: 0,
-                            y: 0,
-                            duration: ANIMATION_DURATION,
-                            ease: 'power2.inOut',
-                            onComplete: () => {
-                                isHoverable.value = true; // Re-enable hover effects after animation
-                                store.setCarouselLocked(false);
-                            }
-                        });
-                    }, 1000);
+                    // Store the animation data for later use when photo is loaded
+                    pendingAnimation.value = {
+                        type: 'switch',
+                        activeSliderItemContent,
+                        fromLeft,
+                        fromTop,
+                        activeSliderItemLeft
+                    };
                 }
             });
         } else {
-            // Initial selection from gallery: use original animation
-            gsap.fromTo(activeSliderItemContent, {
-                autoAlpha: 0,
-                scale: 0.8,
-                x: fromLeft - activeSliderItemLeft,
-                y: fromTop,
-            }, {
-                autoAlpha: 1,
-                scale: 1,
-                x: 0,
-                y: 0,
-                duration: ANIMATION_DURATION,
-                ease: 'power2.inOut',
-                onComplete: () => {
-                    isHoverable.value = true; // Re-enable hover effects after animation
-                    store.setCarouselLocked(false);
-                }
-            });
+            // Initial selection from gallery: store animation data to wait for photo load
+            pendingAnimation.value = {
+                type: 'initial',
+                activeSliderItemContent,
+                fromLeft,
+                fromTop,
+                activeSliderItemLeft
+            };
         }
         // }, null, ANIMATION_DURATION);
 
@@ -388,8 +367,57 @@ function reset() {
     });
 }
 
+function completePhotoLoadAnimation() {
+    if (!pendingAnimation.value) return;
+
+    const { type, activeSliderItemContent, fromLeft, fromTop, activeSliderItemLeft } = pendingAnimation.value;
+
+    if (type === 'switch') {
+        // Complete the desk switching animation: animate back to slider
+        gsap.fromTo(activeSliderItemContent, {
+            autoAlpha: 0,
+            scale: 0.8,
+            x: fromLeft - activeSliderItemLeft,
+            y: fromTop,
+        }, {
+            autoAlpha: 1,
+            scale: 1,
+            x: 0,
+            y: 0,
+            duration: ANIMATION_DURATION,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isHoverable.value = true;
+                store.setCarouselLocked(false);
+                pendingAnimation.value = null;
+            }
+        });
+    } else if (type === 'initial') {
+        // Complete the initial selection animation: animate from center to slider
+        gsap.fromTo(activeSliderItemContent, {
+            autoAlpha: 0,
+            scale: 0.8,
+            x: fromLeft - activeSliderItemLeft,
+            y: fromTop,
+        }, {
+            autoAlpha: 1,
+            scale: 1,
+            x: 0,
+            y: 0,
+            duration: ANIMATION_DURATION,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isHoverable.value = true;
+                store.setCarouselLocked(false);
+                pendingAnimation.value = null;
+            }
+        });
+    }
+}
+
 defineExpose({
-    reset
+    reset,
+    completePhotoLoadAnimation
 });
 
 onMounted(() => {

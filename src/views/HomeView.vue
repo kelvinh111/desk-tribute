@@ -225,6 +225,14 @@ function onFirstPhotoLoaded(photoUrl) {
       screenEl.style.backgroundImage = `url(${photoUrl})`;
     }
   }
+
+  // Complete the desk slider animation when photo is loaded
+  if (deskSliderRef.value) {
+    setTimeout(() => {
+      deskSliderRef.value.completePhotoLoadAnimation();
+    }, 500); // Delay slightly to ensure the photo is fully loaded
+    // deskSliderRef.value.completePhotoLoadAnimation();
+  }
 }
 
 const updateCloneCenterTransform = () => {
