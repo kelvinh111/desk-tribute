@@ -394,10 +394,12 @@ function completePhotoLoadAnimation() {
         });
     } else if (type === 'initial') {
         // Complete the initial selection animation: animate from center to slider
+        console.dir(activeSliderItemContent.getBoundingClientRect());
         gsap.fromTo(activeSliderItemContent, {
             autoAlpha: 0,
             scale: 0.8,
-            x: fromLeft - activeSliderItemLeft,
+            // x: fromLeft - activeSliderItemLeft,
+            x: window.innerWidth / 2 - activeSliderItemContent.getBoundingClientRect().left - 70,
             y: fromTop,
         }, {
             autoAlpha: 1,
