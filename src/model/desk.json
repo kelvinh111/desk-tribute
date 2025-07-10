@@ -957,10 +957,10 @@
         }
     },
     {
-        "id": 45,
-        "name": "Dan",
-        "title": "Legal Advisor",
-        "location": "Ljubljana",
+        "id": 30,
+        "name": "User30",
+        "title": "Employee",
+        "location": "Office",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -975,7 +975,7 @@
             "x": "27.02%",
             "y": "63.27%",
             "img": "https://picsum.photos/72/45",
-            "profileImg": "https://picsum.photos/72/45?45"
+            "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
             "../src/assets/800x400.jpg",
@@ -1254,10 +1254,10 @@
         }
     },
     {
-        "id": 59,
-        "name": "Mona",
-        "title": "PR Specialist",
-        "location": "Riga",
+        "id": 39,
+        "name": "User39",
+        "title": "Employee",
+        "location": "Office",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -1272,7 +1272,7 @@
             "x": "27.02%",
             "y": "63.27%",
             "img": "https://picsum.photos/72/45",
-            "profileImg": "https://picsum.photos/72/45?59"
+            "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
             "../src/assets/800x400.jpg",
@@ -1287,10 +1287,10 @@
         }
     },
     {
-        "id": 60,
-        "name": "Noah",
-        "title": "Accountant",
-        "location": "Tallinn",
+        "id": 40,
+        "name": "User40",
+        "title": "Employee",
+        "location": "Office",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -1305,7 +1305,7 @@
             "x": "27.02%",
             "y": "63.27%",
             "img": "https://picsum.photos/72/45",
-            "profileImg": "https://picsum.photos/72/45?60"
+            "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
             "../src/assets/800x400.jpg",
@@ -1453,9 +1453,9 @@
     },
     {
         "id": 45,
-        "name": "Sara",
-        "title": "Communications Lead",
-        "location": "Vienna",
+        "name": "Dan",
+        "title": "Legal Advisor",
+        "location": "Ljubljana",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -1551,10 +1551,10 @@
         }
     },
     {
-        "id": 72,
-        "name": "Viktor",
-        "title": "QA Tester",
-        "location": "Warsaw",
+        "id": 48,
+        "name": "User48",
+        "title": "Employee",
+        "location": "Office",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -1569,7 +1569,7 @@
             "x": "27.02%",
             "y": "63.27%",
             "img": "https://picsum.photos/72/45",
-            "profileImg": "https://picsum.photos/72/45?72"
+            "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
             "../src/assets/800x400.jpg",
@@ -1650,10 +1650,10 @@
         }
     },
     {
-        "id": 77,
-        "name": "Yusuf",
-        "title": "Cloud Engineer",
-        "location": "Athens",
+        "id": 51,
+        "name": "User51",
+        "title": "Employee",
+        "location": "Office",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -1668,7 +1668,7 @@
             "x": "27.02%",
             "y": "63.27%",
             "img": "https://picsum.photos/72/45",
-            "profileImg": "https://picsum.photos/72/45?77"
+            "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
             "../src/assets/800x400.jpg",
@@ -1915,9 +1915,9 @@
     },
     {
         "id": 59,
-        "name": "Gavin",
-        "title": "Blockchain Analyst",
-        "location": "Valletta",
+        "name": "Mona",
+        "title": "PR Specialist",
+        "location": "Riga",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -1948,9 +1948,9 @@
     },
     {
         "id": 60,
-        "name": "Hazel",
-        "title": "Marketing Analyst",
-        "location": "Sofia",
+        "name": "Noah",
+        "title": "Accountant",
+        "location": "Tallinn",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -2310,10 +2310,10 @@
         }
     },
     {
-        "id": 107,
-        "name": "Sean",
-        "title": "Account Manager",
-        "location": "Vienna",
+        "id": 71,
+        "name": "User71",
+        "title": "Employee",
+        "location": "Office",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -2328,7 +2328,7 @@
             "x": "27.02%",
             "y": "63.27%",
             "img": "https://picsum.photos/72/45",
-            "profileImg": "https://picsum.photos/72/45?107"
+            "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
             "../src/assets/800x400.jpg",
@@ -2344,9 +2344,9 @@
     },
     {
         "id": 72,
-        "name": "Tara",
-        "title": "Communications Analyst",
-        "location": "Prague",
+        "name": "Viktor",
+        "title": "QA Tester",
+        "location": "Warsaw",
         "decor": "../src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
@@ -2509,8 +2509,8 @@
     },
     {
         "id": 77,
-        "name": "Yvonne",
-        "title": "Mobile Lead",
+        "name": "Yusuf",
+        "title": "Cloud Engineer",
         "location": "Athens",
         "decor": "../src/assets/decor.svg",
         "monitor": {
@@ -3253,6 +3253,39 @@
             "y": "63.27%",
             "img": "https://picsum.photos/72/45",
             "profileImg": "https://picsum.photos/72/45?99"
+        },
+        "photos": [
+            "../src/assets/800x400.jpg",
+            "../src/assets/600x400.jpg",
+            "../src/assets/600x600.jpg"
+        ],
+        "social": {
+            "facebook": "https://www.facebook.com/some_user",
+            "twitter": "https://x.com/some_user",
+            "instagram": "https://www.instagram.com/some_user",
+            "website": "http://kelvinhung.uk"
+        }
+    },
+    {
+        "id": 100,
+        "name": "User100",
+        "title": "Employee",
+        "location": "Office",
+        "decor": "../src/assets/decor.svg",
+        "monitor": {
+            "width": "37.54%",
+            "height": "21.82%",
+            "x": "20.70%",
+            "y": "61.82%",
+            "img": "../src/assets/monitor.svg"
+        },
+        "screen": {
+            "width": "25.26%",
+            "height": "16.36%",
+            "x": "27.02%",
+            "y": "63.27%",
+            "img": "https://picsum.photos/72/45",
+            "profileImg": "https://picsum.photos/72/45?1"
         },
         "photos": [
             "../src/assets/800x400.jpg",

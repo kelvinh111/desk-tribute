@@ -231,7 +231,6 @@ function onFirstPhotoLoaded(photoUrl) {
     setTimeout(() => {
       deskSliderRef.value.completePhotoLoadAnimation();
     }, 500); // Delay slightly to ensure the photo is fully loaded
-    // deskSliderRef.value.completePhotoLoadAnimation();
   }
 }
 
