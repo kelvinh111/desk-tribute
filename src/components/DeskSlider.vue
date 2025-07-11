@@ -295,9 +295,19 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
         }
 
         // tl.call(() => {
-        const activeSliderItemLeft = activeSliderItem.getBoundingClientRect().left;
-        const fromLeft = window.innerWidth / 2 - activeSliderItem.getBoundingClientRect().width / 2;
-        const fromTop = window.innerHeight / 2 - activeSliderItem.getBoundingClientRect().top;
+        const activeSliderItemRect = activeSliderItem.getBoundingClientRect();
+        const activeSliderItemLeft = activeSliderItemRect.left;
+
+        // Calculate the center position based on the current (unscaled) item dimensions
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        // Calculate the translation needed to center the item (without scaling)
+        const itemCenterX = activeSliderItemLeft + activeSliderItemRect.width / 2;
+        const itemCenterY = activeSliderItemRect.top + activeSliderItemRect.height / 2;
+
+        const translateX = centerX - itemCenterX;
+        const translateY = centerY - itemCenterY;
 
         // Check if this is a desk switch (oldId exists) or initial selection (oldId is null)
         if (oldId) {
@@ -308,10 +318,9 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                 x: 0,
                 y: 0,
             }, {
-                scale: 0.8,
-                // scale: 2.04,
-                x: fromLeft - activeSliderItemLeft,
-                y: fromTop,
+                scale: 2.04,
+                x: translateX,
+                y: translateY,
                 duration: ANIMATION_DURATION,
                 ease: 'power2.inOut',
                 onComplete: () => {
@@ -319,8 +328,8 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                     pendingAnimation.value = {
                         type: 'switch',
                         activeSliderItemContent,
-                        fromLeft,
-                        fromTop,
+                        translateX,
+                        translateY,
                         activeSliderItemLeft
                     };
                 }
@@ -330,8 +339,8 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
             pendingAnimation.value = {
                 type: 'initial',
                 activeSliderItemContent,
-                fromLeft,
-                fromTop,
+                translateX,
+                translateY,
                 activeSliderItemLeft
             };
         }
@@ -371,15 +380,15 @@ function reset() {
 function completePhotoLoadAnimation() {
     if (!pendingAnimation.value) return;
 
-    const { type, activeSliderItemContent, fromLeft, fromTop, activeSliderItemLeft } = pendingAnimation.value;
+    const { type, activeSliderItemContent, translateX, translateY, activeSliderItemLeft } = pendingAnimation.value;
 
     if (type === 'switch') {
         // Complete the desk switching animation: animate back to slider
         gsap.fromTo(activeSliderItemContent, {
             autoAlpha: 0,
             scale: 2.04,
-            x: fromLeft - activeSliderItemLeft,
-            y: fromTop,
+            x: translateX,
+            y: translateY,
         }, {
             autoAlpha: 1,
             scale: 1,
@@ -395,13 +404,13 @@ function completePhotoLoadAnimation() {
         });
     } else if (type === 'initial') {
         // Complete the initial selection animation: animate from center to slider
-        console.dir(activeSliderItemContent.getBoundingClientRect());
         gsap.fromTo(activeSliderItemContent, {
             autoAlpha: 0,
             scale: 0.8,
-            // x: fromLeft - activeSliderItemLeft,
+            // x: translateX,
             x: window.innerWidth / 2 - activeSliderItemContent.getBoundingClientRect().left - 70,
-            y: fromTop,
+
+            y: translateY,
         }, {
             autoAlpha: 1,
             scale: 1,
@@ -514,7 +523,7 @@ onMounted(() => {
     });
 
     slider.addEventListener('mouseleave', () => {
-        if (carousel.isPointerDown || selectionState.selectedIndex === null) return;
+        if (!isHoverable.value || carousel.isPointerDown || selectionState.selectedIndex === null) return;
 
         // Reset hover tracking
         hoverState.currentHoveredIndex = null;
