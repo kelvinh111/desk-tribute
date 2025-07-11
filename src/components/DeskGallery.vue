@@ -181,8 +181,8 @@ defineExpose({
     }
 
     .desk-info {
-        font-size: 14px;
         color: #959595;
+        font-size: 14px;
     }
 
     .desk-name {
@@ -190,6 +190,7 @@ defineExpose({
         bottom: 4.5%;
         left: 13%;
         z-index: 4; // Above everything else
+        font-size: 100%;
     }
 
     .desk-desc {
@@ -197,7 +198,7 @@ defineExpose({
         bottom: 0.5%;
         left: 13%;
         z-index: 4; // Above everything else
-        font-size: 10px;
+        font-size: 70%;
     }
 }
 

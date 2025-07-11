@@ -312,6 +312,8 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
         // Check if this is a desk switch (oldId exists) or initial selection (oldId is null)
         if (oldId) {
             // Desk switching: animate to center, then wait for photo to load
+            const deskInfo = activeSliderItemContent.querySelector('.desk-info');
+
             gsap.fromTo(activeSliderItemContent, {
                 autoAlpha: 1,
                 scale: 1,
@@ -334,6 +336,15 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                     };
                 }
             });
+
+            // Fade in desk info during the animation to center
+            if (deskInfo) {
+                gsap.to(deskInfo, {
+                    opacity: 1,
+                    duration: ANIMATION_DURATION,
+                    ease: 'power2.inOut'
+                });
+            }
         } else {
             // Initial selection from gallery: store animation data to wait for photo load
             pendingAnimation.value = {
@@ -381,6 +392,7 @@ function completePhotoLoadAnimation() {
     if (!pendingAnimation.value) return;
 
     const { type, activeSliderItemContent, translateX, translateY, activeSliderItemLeft } = pendingAnimation.value;
+    const deskInfo = activeSliderItemContent.querySelector('.desk-info');
 
     if (type === 'switch') {
         // Complete the desk switching animation: animate back to slider
@@ -402,6 +414,15 @@ function completePhotoLoadAnimation() {
                 pendingAnimation.value = null;
             }
         });
+
+        // Fade out desk info when returning to slider
+        if (deskInfo) {
+            gsap.to(deskInfo, {
+                opacity: 0,
+                duration: ANIMATION_DURATION,
+                ease: 'power2.inOut'
+            });
+        }
     } else if (type === 'initial') {
         // Complete the initial selection animation: animate from center to slider
         gsap.fromTo(activeSliderItemContent, {
@@ -409,7 +430,6 @@ function completePhotoLoadAnimation() {
             scale: 0.8,
             // x: translateX,
             x: window.innerWidth / 2 - activeSliderItemContent.getBoundingClientRect().left - 70,
-
             y: translateY,
         }, {
             autoAlpha: 1,
@@ -424,6 +444,18 @@ function completePhotoLoadAnimation() {
                 pendingAnimation.value = null;
             }
         });
+
+        // For initial selection, fade in desk info when moving to center, then fade out when returning
+        if (deskInfo) {
+            // First fade in (simulating the move to center that already happened)
+            gsap.set(deskInfo, { opacity: 1 });
+            // Then fade out as it returns to slider
+            gsap.to(deskInfo, {
+                opacity: 0,
+                duration: ANIMATION_DURATION,
+                ease: 'power2.inOut'
+            });
+        }
     }
 }
 
@@ -678,7 +710,6 @@ onBeforeUnmount(() => {
 }
 
 .desk {
-    font-size: 14px;
 
     .desk-decor,
     .desk-monitor,
@@ -705,8 +736,9 @@ onBeforeUnmount(() => {
     }
 
     .desk-info {
-        opacity: 0;
         color: white;
+        opacity: 0;
+        font-size: 7px;
     }
 
     .desk-name {
@@ -714,6 +746,7 @@ onBeforeUnmount(() => {
         bottom: 4.5%;
         left: 13%;
         z-index: 4;
+        font-size: 100%;
     }
 
     .desk-desc {
@@ -721,7 +754,7 @@ onBeforeUnmount(() => {
         bottom: 0.5%;
         left: 13%;
         z-index: 4; // Above everything else
-        font-size: 10px;
+        font-size: 70%;
     }
 }
 
