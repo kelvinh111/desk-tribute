@@ -309,6 +309,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                 y: 0,
             }, {
                 scale: 0.8,
+                // scale: 2.04,
                 x: fromLeft - activeSliderItemLeft,
                 y: fromTop,
                 duration: ANIMATION_DURATION,
@@ -376,7 +377,7 @@ function completePhotoLoadAnimation() {
         // Complete the desk switching animation: animate back to slider
         gsap.fromTo(activeSliderItemContent, {
             autoAlpha: 0,
-            scale: 0.8,
+            scale: 2.04,
             x: fromLeft - activeSliderItemLeft,
             y: fromTop,
         }, {
@@ -578,7 +579,10 @@ onBeforeUnmount(() => {
                     :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }"
                 >
                 </div>
-                <div class="desk-name">{{ desk.name }}</div>
+                <div class="desk-info">
+                    <div class="desk-name">{{ desk.name }}</div>
+                    <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -666,7 +670,6 @@ onBeforeUnmount(() => {
 
 .desk {
     font-size: 14px;
-    color: #959595;
 
     .desk-decor,
     .desk-monitor,
@@ -692,11 +695,24 @@ onBeforeUnmount(() => {
         z-index: 3;
     }
 
+    .desk-info {
+        opacity: 0;
+        color: white;
+    }
+
     .desk-name {
         position: absolute;
         bottom: 4.5%;
         left: 13%;
         z-index: 4;
+    }
+
+    .desk-desc {
+        position: absolute;
+        bottom: 0.5%;
+        left: 13%;
+        z-index: 4; // Above everything else
+        font-size: 10px;
     }
 }
 

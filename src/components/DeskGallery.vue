@@ -1,21 +1,21 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import Masonry from 'masonry-layout'
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import Masonry from 'masonry-layout';
 
 const props = defineProps({
     desks: Array,
     isGalleryFaded: Boolean,
     selectedDeskClone: Object
-})
+});
 
-const emit = defineEmits(['pick'])
+const emit = defineEmits(['pick']);
 
 const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry gallery.
 const GUTTER = 35; // The space between gallery items in the Masonry layout.
 
-const galleryRef = ref(null)
-let masonryInstance = null
-const windowWidth = ref(window.innerWidth)
+const galleryRef = ref(null);
+let masonryInstance = null;
+const windowWidth = ref(window.innerWidth);
 
 const galleryWidth = () => {
     if (typeof window === 'undefined') return '100%';
@@ -23,20 +23,20 @@ const galleryWidth = () => {
     const calculatedWidth = COLUMN_WIDTH * numberOfColumns + GUTTER * (numberOfColumns - 1);
 
     if (calculatedWidth <= windowWidth.value) {
-        return `${calculatedWidth}px`
+        return `${calculatedWidth}px`;
     } else {
         const singleColumnWidth = COLUMN_WIDTH + GUTTER;
         const numCols = Math.floor(windowWidth.value / singleColumnWidth);
-        return `${numCols * singleColumnWidth - GUTTER}px`
+        return `${numCols * singleColumnWidth - GUTTER}px`;
     }
-}
+};
 
 const handleResize = () => {
-    windowWidth.value = window.innerWidth
+    windowWidth.value = window.innerWidth;
     if (masonryInstance) {
-        masonryInstance.layout()
+        masonryInstance.layout();
     }
-}
+};
 
 onMounted(() => {
     nextTick(() => {
@@ -46,15 +46,15 @@ onMounted(() => {
             gutter: GUTTER,
         });
     });
-    window.addEventListener('resize', handleResize)
-})
+    window.addEventListener('resize', handleResize);
+});
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', handleResize)
+    window.removeEventListener('resize', handleResize);
     if (masonryInstance) {
-        masonryInstance.destroy()
+        masonryInstance.destroy();
     }
-})
+});
 
 defineExpose({
     galleryRef
@@ -62,29 +62,56 @@ defineExpose({
 </script>
 
 <template>
-    <div ref="galleryRef" class="gallery" :style="{ width: galleryWidth() }"
-        :class="{ 'faded-queue': isGalleryFaded, 'unclickable': isGalleryFaded }">
-        <TransitionGroup name="gallery" tag="div">
-            <div v-for="desk in desks" :key="desk.id" class="gallery-item" :data-desk-id="desk.id"
-                :class="{ 'fade-out': selectedDeskClone && selectedDeskClone.desk.id !== desk.id }">
-                <div class="gallery-item-content desk" :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }">
-                    <div class="desk-decor" :style="{ backgroundImage: `url(${desk.decor})` }"></div>
-                    <div class="desk-monitor" :style="{
-                        backgroundImage: `url(${desk.monitor.img})`,
-                        top: desk.monitor.y,
-                        left: desk.monitor.x,
-                        width: desk.monitor.width,
-                        height: desk.monitor.height
-                    }" @click="$emit('pick', desk)"></div>
-                    <div class="desk-screen" :style="{
-                        backgroundImage: `url(${desk.screen.img})`,
-                        top: desk.screen.y,
-                        left: desk.screen.x,
-                        width: desk.screen.width,
-                        height: desk.screen.height
-                    }"></div>
-                    <div class="desk-name">{{ desk.name }}</div>
-                    <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
+    <div
+        ref="galleryRef"
+        class="gallery"
+        :style="{ width: galleryWidth() }"
+        :class="{ 'faded-queue': isGalleryFaded, 'unclickable': isGalleryFaded }"
+    >
+        <TransitionGroup
+            name="gallery"
+            tag="div"
+        >
+            <div
+                v-for="desk in desks"
+                :key="desk.id"
+                class="gallery-item"
+                :data-desk-id="desk.id"
+                :class="{ 'fade-out': selectedDeskClone && selectedDeskClone.desk.id !== desk.id }"
+            >
+                <div
+                    class="gallery-item-content desk"
+                    :style="{ backgroundImage: 'url(../src/assets/desk.svg)' }"
+                >
+                    <div
+                        class="desk-decor"
+                        :style="{ backgroundImage: `url(${desk.decor})` }"
+                    ></div>
+                    <div
+                        class="desk-monitor"
+                        :style="{
+                            backgroundImage: `url(${desk.monitor.img})`,
+                            top: desk.monitor.y,
+                            left: desk.monitor.x,
+                            width: desk.monitor.width,
+                            height: desk.monitor.height
+                        }"
+                        @click="$emit('pick', desk)"
+                    ></div>
+                    <div
+                        class="desk-screen"
+                        :style="{
+                            backgroundImage: `url(${desk.screen.img})`,
+                            top: desk.screen.y,
+                            left: desk.screen.x,
+                            width: desk.screen.width,
+                            height: desk.screen.height
+                        }"
+                    ></div>
+                    <div class="desk-info">
+                        <div class="desk-name">{{ desk.name }}</div>
+                        <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
+                    </div>
                 </div>
             </div>
         </TransitionGroup>
@@ -126,8 +153,6 @@ defineExpose({
 }
 
 .desk {
-    font-size: 14px;
-    color: #959595;
 
     .desk-decor,
     .desk-monitor,
@@ -153,6 +178,11 @@ defineExpose({
     .desk-screen {
         z-index: 3; // Higher z-index to appear on top
         pointer-events: none; // Allow clicks to pass through to monitor below
+    }
+
+    .desk-info {
+        font-size: 14px;
+        color: #959595;
     }
 
     .desk-name {
