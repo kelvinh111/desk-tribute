@@ -101,6 +101,7 @@ function pick(desk) {
     }
     store.setSelectedDeskId(desk.id);
     store.setInitialPhotoLoading(true); // Lock UI until first photo loads
+    store.setPhotoViewerReady(false); // Ensure PhotoViewer is not ready until fully loaded
   }
 
   // --- Pop-in/Pop-out Animation Logic ---
@@ -112,6 +113,7 @@ function pick(desk) {
 
     // Hide the photo viewer, which will trigger its own internal animations
     store.setPhotoViewerVisible(false);
+    store.setPhotoViewerReady(false);
 
     // Restore the clone's screen to the original desk screen image
     const screenEl = cloneEl.querySelector('.desk-screen');
@@ -293,6 +295,7 @@ const updateCloneCenterTransform = () => {
       @photo-visible="onPhotoVisible"
       @first-photo-loaded="onFirstPhotoLoaded"
       @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
+      @photo-viewer-ready="ready => store.setPhotoViewerReady(ready)"
     />
   </main>
 </template>

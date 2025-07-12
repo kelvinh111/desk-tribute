@@ -18,6 +18,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
     const isInitialPhotoLoading = ref(false); // Gallery desk clicked, waiting for first photo
     const isDeskSwitching = ref(false); // Desk switching in progress
     const isPhotoSliderTransitioning = ref(false); // Photo slider animating between slides
+    const isPhotoViewerReady = ref(false); // PhotoViewer slider is ready and visible
 
     // Clone management
     const selectedDeskClone = ref(null);
@@ -41,7 +42,8 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
     const isDeskSliderInteractive = computed(() => {
         return !isInitialPhotoLoading.value &&
             !isDeskSwitching.value &&
-            !isPhotoSliderTransitioning.value;
+            !isPhotoSliderTransitioning.value &&
+            (isPhotoViewerReady.value || !isPhotoViewerVisible.value);
     });
 
     // Actions
@@ -93,6 +95,10 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isPhotoSliderTransitioning.value = transitioning;
     }
 
+    function setPhotoViewerReady(ready) {
+        isPhotoViewerReady.value = ready;
+    }
+
     function resetViewerState() {
         selectedDeskId.value = null;
         selectedDeskClone.value = null;
@@ -103,6 +109,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isInitialPhotoLoading.value = false;
         isDeskSwitching.value = false;
         isPhotoSliderTransitioning.value = false;
+        isPhotoViewerReady.value = false;
         clearHiddenDeskIds();
     } return {
         // State
@@ -118,6 +125,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isInitialPhotoLoading,
         isDeskSwitching,
         isPhotoSliderTransitioning,
+        isPhotoViewerReady,
 
         // Computed
         selectedDesk,
@@ -137,6 +145,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         setInitialPhotoLoading,
         setDeskSwitching,
         setPhotoSliderTransitioning,
+        setPhotoViewerReady,
         resetViewerState
     };
 });

@@ -11,7 +11,7 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['close', 'isTransitioning', 'photoVisible', 'firstPhotoLoaded']);
+const emit = defineEmits(['close', 'isTransitioning', 'photoVisible', 'firstPhotoLoaded', 'photoViewerReady']);
 
 const photoGalleryEl = ref(null);
 const progressBarEl = ref(null);
@@ -120,6 +120,7 @@ function preloadImagesAndUpdateProgress(desk) {
                             // Wait a bit more then show slider
                             setTimeout(() => {
                                 isSliderReady.value = true;
+                                emit('photoViewerReady', true);
                             }, 500);
 
                             setTimeout(() => {
@@ -187,6 +188,7 @@ function preloadImagesAndUpdateProgress(desk) {
                                             }
                                         }
                                         isSliderReady.value = true;
+                                        emit('photoViewerReady', true);
                                     }, 500); setTimeout(() => {
                                         emit('photoVisible');
                                         // Update backdrop color to current progress color after transition is complete
@@ -386,6 +388,7 @@ watch(() => props.visible, (newVal) => {
         }
         isProgressBarActive.value = true;
         isSliderReady.value = false;
+        emit('photoViewerReady', false);
         isProgressBarComplete.value = false;
         nextTick(() => {
             preloadImagesAndUpdateProgress(props.desk);
@@ -413,6 +416,7 @@ watch(() => props.visible, (newVal) => {
             isProgressBarActive.value = false;
         }
         isSliderReady.value = false;
+        emit('photoViewerReady', false);
         isProgressBarComplete.value = false;
     }
 });
@@ -435,6 +439,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         // Reset states for new desk
         isProgressBarActive.value = true;
         isSliderReady.value = false;
+        emit('photoViewerReady', false);
         isProgressBarComplete.value = false;
 
         // Start loading new desk's photos
