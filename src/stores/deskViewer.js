@@ -40,7 +40,8 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
 
     const isDeskSliderInteractive = computed(() => {
         return !isInitialPhotoLoading.value &&
-            !isDeskSwitching.value;
+            !isDeskSwitching.value &&
+            !isPhotoSliderTransitioning.value;
     });
 
     // Actions
