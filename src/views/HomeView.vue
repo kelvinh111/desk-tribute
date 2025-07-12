@@ -281,6 +281,7 @@ const updateCloneCenterTransform = () => {
       ref="deskSliderRef"
       :desks="store.desks"
       :selected-desk-id="store.selectedDeskId"
+      :is-interactive="store.isDeskSliderInteractive"
       @change-desk="changeDesk"
     />
 

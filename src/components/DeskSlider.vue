@@ -5,7 +5,11 @@ import { useDeskViewerStore } from '../stores/deskViewer.js';
 
 const props = defineProps({
     desks: Array,
-    selectedDeskId: [String, Number]
+    selectedDeskId: [String, Number],
+    isInteractive: {
+        type: Boolean,
+        default: true
+    }
 });
 
 const emit = defineEmits(['change-desk']);
@@ -67,7 +71,7 @@ const floatingLabel = reactive({
 });
 
 function handleItemClick(desk) {
-    if (carousel.hasDragged || store.isCarouselLocked) return;
+    if (!props.isInteractive || carousel.hasDragged || store.isCarouselLocked) return;
     if (props.selectedDeskId && props.selectedDeskId !== desk.id) {
         isHoverable.value = false; // Disable hover effects when a desk is selected
         store.setCarouselLocked(true);
@@ -84,6 +88,8 @@ function updateFloatingLabel(event) {
 }
 
 function showFloatingLabel(desk, event) {
+    if (!props.isInteractive) return; // Don't show floating label when not interactive
+
     // Clear any pending hide timeout
     if (floatingLabel.hideTimeout) {
         clearTimeout(floatingLabel.hideTimeout);
@@ -184,7 +190,7 @@ function getCarouselBounds() {
 }
 
 function handlePointerDown(event) {
-    if (store.isCarouselLocked) return;
+    if (!props.isInteractive || store.isCarouselLocked) return;
     gsap.killTweensOf(carousel);
     carousel.isDragging = true;
     carousel.isPointerDown = true;
@@ -521,7 +527,7 @@ onMounted(() => {
 
     sliderItems.forEach((sliderItem, index) => {
         sliderItem.addEventListener('mouseenter', () => {
-            if (!isHoverable.value || carousel.isPointerDown || selectionState.selectedIndex === null) return;
+            if (!props.isInteractive || !isHoverable.value || carousel.isPointerDown || selectionState.selectedIndex === null) return;
 
             // Update hover tracking
             hoverState.currentHoveredIndex = index;
@@ -555,7 +561,7 @@ onMounted(() => {
     });
 
     slider.addEventListener('mouseleave', () => {
-        if (!isHoverable.value || carousel.isPointerDown || selectionState.selectedIndex === null) return;
+        if (!props.isInteractive || !isHoverable.value || carousel.isPointerDown || selectionState.selectedIndex === null) return;
 
         // Reset hover tracking
         hoverState.currentHoveredIndex = null;
@@ -590,6 +596,7 @@ onBeforeUnmount(() => {
     <div
         ref="sliderRef"
         class="slider"
+        :class="{ 'slider-non-interactive': !isInteractive }"
         @mouseleave="handleSliderLeave"
     >
         <div
@@ -600,7 +607,10 @@ onBeforeUnmount(() => {
             @mouseenter="(event) => showFloatingLabel(desk, event)"
             @mouseleave="hideFloatingLabel"
             @mousemove="updateFloatingLabel"
-            :class="{ 'clickable': selectedDeskId && selectedDeskId !== desk.id && !store.isCarouselLocked }"
+            :class="{
+                'clickable': isInteractive && selectedDeskId && selectedDeskId !== desk.id && !store.isCarouselLocked,
+                'non-interactive': !isInteractive
+            }"
         >
             <div
                 class="slider-item-content desk"
@@ -678,6 +688,11 @@ onBeforeUnmount(() => {
     z-index: 25;
 }
 
+.slider.slider-non-interactive {
+    pointer-events: none;
+    user-select: none;
+}
+
 .slider-item {
     position: absolute;
     bottom: 0;
@@ -694,6 +709,11 @@ onBeforeUnmount(() => {
 
 .slider-item.clickable {
     cursor: pointer;
+}
+
+.slider-item.non-interactive {
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 .slider-item-content {

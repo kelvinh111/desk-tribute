@@ -38,6 +38,11 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
             !isCarouselLocked.value;
     });
 
+    const isDeskSliderInteractive = computed(() => {
+        return !isInitialPhotoLoading.value &&
+            !isDeskSwitching.value;
+    });
+
     // Actions
     function setSelectedDeskId(id) {
         selectedDeskId.value = id;
@@ -116,6 +121,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         // Computed
         selectedDesk,
         isLogoClickable,
+        isDeskSliderInteractive,
 
         // Actions
         setSelectedDeskId,
