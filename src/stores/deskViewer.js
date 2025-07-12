@@ -14,6 +14,11 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
     const isGalleryFaded = ref(false);
     const isCarouselLocked = ref(false);
 
+    // Transition states for UI locking
+    const isInitialPhotoLoading = ref(false); // Gallery desk clicked, waiting for first photo
+    const isDeskSwitching = ref(false); // Desk switching in progress
+    const isPhotoSliderTransitioning = ref(false); // Photo slider animating between slides
+
     // Clone management
     const selectedDeskClone = ref(null);
 
@@ -24,6 +29,13 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
     const selectedDesk = computed(() => {
         if (!selectedDeskId.value) return null;
         return desks.value.find(d => d.id === selectedDeskId.value);
+    });
+
+    const isLogoClickable = computed(() => {
+        return !isInitialPhotoLoading.value &&
+            !isDeskSwitching.value &&
+            !isPhotoSliderTransitioning.value &&
+            !isCarouselLocked.value;
     });
 
     // Actions
@@ -63,6 +75,18 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         windowWidth.value = width;
     }
 
+    function setInitialPhotoLoading(loading) {
+        isInitialPhotoLoading.value = loading;
+    }
+
+    function setDeskSwitching(switching) {
+        isDeskSwitching.value = switching;
+    }
+
+    function setPhotoSliderTransitioning(transitioning) {
+        isPhotoSliderTransitioning.value = transitioning;
+    }
+
     function resetViewerState() {
         selectedDeskId.value = null;
         selectedDeskClone.value = null;
@@ -70,10 +94,11 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isPhotoSliderVisible.value = true;
         isGalleryFaded.value = false;
         isCarouselLocked.value = false;
+        isInitialPhotoLoading.value = false;
+        isDeskSwitching.value = false;
+        isPhotoSliderTransitioning.value = false;
         clearHiddenDeskIds();
-    }
-
-    return {
+    } return {
         // State
         desks,
         selectedDeskId,
@@ -84,9 +109,13 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isCarouselLocked,
         selectedDeskClone,
         windowWidth,
+        isInitialPhotoLoading,
+        isDeskSwitching,
+        isPhotoSliderTransitioning,
 
         // Computed
         selectedDesk,
+        isLogoClickable,
 
         // Actions
         setSelectedDeskId,
@@ -98,6 +127,9 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         addHiddenDeskId,
         clearHiddenDeskIds,
         setWindowWidth,
+        setInitialPhotoLoading,
+        setDeskSwitching,
+        setPhotoSliderTransitioning,
         resetViewerState
     };
 });

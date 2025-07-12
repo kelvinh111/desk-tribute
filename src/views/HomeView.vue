@@ -47,12 +47,15 @@ onBeforeUnmount(() => {
 });
 
 function handlePhotoViewerClose() {
+  if (!store.isLogoClickable) return; // Prevent closing during transitions
+
   if (store.selectedDesk) {
     pick(store.selectedDesk);
   }
 }
 
 function changeDesk(desk) {
+  store.setDeskSwitching(true); // Lock UI during desk switching
   store.setPhotoSliderVisible(false);
 
   // Wait for fade-out animation to complete, then change the selected desk
@@ -73,6 +76,7 @@ function changeDesk(desk) {
     // Wait a moment, then fade the slider back in
     setTimeout(() => {
       store.setPhotoSliderVisible(true);
+      // Desk switching will be unlocked when the first photo loads
     }, 100);
   }, 400); // Wait for fade-out transition (0.4s)
 }
@@ -96,6 +100,7 @@ function pick(desk) {
       router.push('/' + desk.id); // Change the URL to the specific desk.
     }
     store.setSelectedDeskId(desk.id);
+    store.setInitialPhotoLoading(true); // Lock UI until first photo loads
   }
 
   // --- Pop-in/Pop-out Animation Logic ---
@@ -226,6 +231,10 @@ function onFirstPhotoLoaded(photoUrl) {
     }
   }
 
+  // Unlock UI states when first photo is loaded
+  store.setInitialPhotoLoading(false);
+  store.setDeskSwitching(false);
+
   // Complete the desk slider animation when photo is loaded
   if (deskSliderRef.value) {
     setTimeout(() => {
@@ -253,7 +262,10 @@ const updateCloneCenterTransform = () => {
   <main>
     <div
       class="logo"
-      :class="{ 'viewer-active': store.isPhotoViewerVisible }"
+      :class="{
+        'viewer-active': store.isPhotoViewerVisible,
+        'logo-disabled': !store.isLogoClickable
+      }"
       @click="handlePhotoViewerClose"
     >DESK</div>
 
@@ -279,7 +291,7 @@ const updateCloneCenterTransform = () => {
       @close="handlePhotoViewerClose"
       @photo-visible="onPhotoVisible"
       @first-photo-loaded="onFirstPhotoLoaded"
-      @is-transitioning="isTransitioning => store.setCarouselLocked(isTransitioning)"
+      @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
     />
   </main>
 </template>
@@ -304,6 +316,12 @@ main {
   color: white;
   cursor: pointer;
   /* Ensure it's above the photo viewer */
+}
+
+.logo.logo-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .desk {
