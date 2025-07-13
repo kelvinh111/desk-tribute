@@ -346,13 +346,13 @@ async function goToSlide(nextIdx) {
 }
 
 function nextSlide() {
-    if (isTransitioning.value || currentIndex.value >= props.desk.photos.length - 1) return;
+    if (!isSliderReady.value || isTransitioning.value || currentIndex.value >= props.desk.photos.length - 1) return;
     transitionDirection.value = 1;
     const photos = props.desk?.photos || [];
     goToSlide((currentIndex.value + 1) % photos.length);
 }
 function prevSlide() {
-    if (isTransitioning.value || currentIndex.value <= 0) return;
+    if (!isSliderReady.value || isTransitioning.value || currentIndex.value <= 0) return;
     transitionDirection.value = -1;
     const photos = props.desk?.photos || [];
     goToSlide((currentIndex.value - 1 + photos.length) % photos.length);
@@ -527,15 +527,15 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                         v-for="(photo, idx) in props.desk.photos"
                         :key="idx"
                         class="slider-pager-item"
-                        :class="{ active: idx === currentIndex }"
-                        @click="goToSlide(idx)"
+                        :class="{ active: idx === currentIndex, disabled: !isSliderReady }"
+                        @click="isSliderReady ? goToSlide(idx) : null"
                     ></div>
                 </div>
             </div>
         </transition>
         <div
             class="nav-button prev"
-            :class="{ 'disabled': isTransitioning || currentIndex === 0 }"
+            :class="{ 'disabled': !isSliderReady || isTransitioning || currentIndex === 0 }"
             @click="prevSlide"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
         >
@@ -548,7 +548,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
             class="nav-button next"
             @click="nextSlide"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
-            :class="{ 'disabled': isTransitioning || currentIndex === (props.desk.photos.length - 1) }"
+            :class="{ 'disabled': !isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1) }"
         >
             <div class="icon-wrapper">
                 <div class="icon-line top"></div>
@@ -709,6 +709,12 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         font-weight: bold;
         opacity: 1;
     }
+
+    &.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 }
 
 .nav-button {
@@ -719,6 +725,12 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     z-index: 22;
     top: 50%;
     transform: translateY(-50%);
+
+    &.disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: 0.4;
+    }
 
     &.prev {
         left: 5px;
