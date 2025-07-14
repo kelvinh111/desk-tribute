@@ -686,11 +686,17 @@ onBeforeUnmount(() => {
     /* Increased to accommodate expanded desk height (136px) + some padding */
     overflow: visible;
     z-index: 25;
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
+    }
 }
 
 .slider.slider-non-interactive {
     pointer-events: none;
     user-select: none;
+    cursor: not-allowed;
 }
 
 .slider-item {
@@ -703,12 +709,12 @@ onBeforeUnmount(() => {
     // justify-content: center;
     transform-origin: center bottom;
     padding: 0;
-    cursor: default;
     padding: 0 10px;
-}
+    cursor: grab;
 
-.slider-item.clickable {
-    cursor: pointer;
+    &:active {
+        cursor: grabbing;
+    }
 }
 
 .slider-item.non-interactive {

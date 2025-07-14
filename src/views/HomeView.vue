@@ -268,8 +268,8 @@ const updateCloneCenterTransform = () => {
         'viewer-active': store.isPhotoViewerVisible,
         'logo-disabled': !store.isLogoClickable
       }"
-      @click="handlePhotoViewerClose"
-    >DESK</div>
+      @click="store.isLogoClickable && handlePhotoViewerClose()"
+    >DESK <span>WHERE CREATIVITY IS BORN</span></div>
 
     <DeskGallery
       ref="galleryComponentRef"
@@ -309,24 +309,37 @@ main {
   position: fixed;
   top: 20px;
   left: 20px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.05rem;
   font-weight: bold;
   color: black; // Dark gray
   transition: color 0.4s ease;
   z-index: 30;
+  cursor: default;
+
+  span {
+    padding-left: 0.5rem;
+    font-size: 0.6rem;
+    font-weight: bold;
+    letter-spacing: normal;
+    color: #888;
+    transition: color 0.4s ease;
+  }
+
+  &.viewer-active {
+    color: white;
+    cursor: pointer;
+
+    span {
+      color: white;
+    }
+  }
+
+  &.logo-disabled {
+    cursor: not-allowed;
+  }
 }
 
-.logo.viewer-active {
-  color: white;
-  cursor: pointer;
-  /* Ensure it's above the photo viewer */
-}
-
-.logo.logo-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 
 .desk {
   font-size: 14px;
