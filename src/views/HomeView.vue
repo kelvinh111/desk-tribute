@@ -322,7 +322,8 @@ main {
     font-size: 0.6rem;
     font-weight: bold;
     letter-spacing: normal;
-    color: #888;
+    opacity: 0.7;
+    color: #666;
     transition: color 0.4s ease;
   }
 

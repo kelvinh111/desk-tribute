@@ -257,7 +257,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
         const index = props.desks.findIndex(d => d.id === newId);
         if (index === -1) return;
 
-        gsap.to(slider, { autoAlpha: 1, duration: ANIMATION_DURATION, ease: 'power2.inOut' });
+        gsap.to(slider, { autoAlpha: 1, bottom: -5, duration: ANIMATION_DURATION, ease: 'power2.inOut' });
         selectionState.selectedIndex = index;
 
         const sliderWidth = slider.offsetWidth;
@@ -365,7 +365,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
 
     } else if (oldId) {
         selectionState.hoverStates.forEach(state => { state.progress = 0; });
-        gsap.to(slider, { autoAlpha: 0, duration: ANIMATION_DURATION, ease: 'power2.inOut' });
+        gsap.to(slider, { autoAlpha: 0, bottom: -110, duration: ANIMATION_DURATION, ease: 'power2.inOut' });
         gsap.to(selectionState, {
             progress: 0,
             duration: ANIMATION_DURATION,
@@ -680,7 +680,7 @@ onBeforeUnmount(() => {
 .slider {
     position: fixed;
     left: 0;
-    bottom: -5px;
+    bottom: -110px;
     width: 100%;
     height: 110px;
     /* Increased to accommodate expanded desk height (136px) + some padding */
