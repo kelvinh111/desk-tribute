@@ -38,6 +38,17 @@ const handleResize = () => {
     }
 };
 
+const handleDeskClick = (desk, event) => {
+    // Remove the glitch effect immediately when desk is clicked
+    const deskElement = event.target.closest('.desk');
+    if (deskElement) {
+        deskElement.classList.remove('monitor-hovered');
+    }
+
+    // Emit the pick event
+    emit('pick', desk);
+};
+
 onMounted(() => {
     nextTick(() => {
         masonryInstance = new Masonry(galleryRef.value, {
@@ -96,10 +107,12 @@ defineExpose({
                             width: desk.monitor.width,
                             height: desk.monitor.height
                         }"
-                        @click="$emit('pick', desk)"
+                        @click="handleDeskClick(desk, $event)"
+                        @mouseenter="$event.target.closest('.desk').classList.add('monitor-hovered')"
+                        @mouseleave="$event.target.closest('.desk').classList.remove('monitor-hovered')"
                     ></div>
                     <div
-                        class="desk-screen"
+                        class="desk-screen glitch-container"
                         :style="{
                             backgroundImage: `url(${desk.screen.img})`,
                             top: desk.screen.y,
@@ -107,7 +120,28 @@ defineExpose({
                             width: desk.screen.width,
                             height: desk.screen.height
                         }"
-                    ></div>
+                    >
+                        <div
+                            class="glitch-layer glitch-1"
+                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                        ></div>
+                        <div
+                            class="glitch-layer glitch-2"
+                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                        ></div>
+                        <div
+                            class="glitch-layer glitch-red"
+                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                        ></div>
+                        <div
+                            class="glitch-layer glitch-green"
+                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                        ></div>
+                        <div
+                            class="glitch-layer glitch-blue"
+                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                        ></div>
+                    </div>
                     <div class="desk-info">
                         <div class="desk-name">{{ desk.name }}</div>
                         <div class="desk-desc">{{ desk.title }} / {{ desk.location }}</div>
@@ -178,6 +212,108 @@ defineExpose({
     .desk-screen {
         z-index: 3; // Higher z-index to appear on top
         pointer-events: none; // Allow clicks to pass through to monitor below
+        overflow: hidden; // Ensure glitch effects don't exceed screen bounds
+    }
+
+    .glitch-container {
+        position: relative;
+
+        .glitch-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .glitch-1 {
+            transform: translateX(0);
+            filter: hue-rotate(90deg) saturate(1.2);
+            mix-blend-mode: multiply;
+        }
+
+        .glitch-2 {
+            transform: translateX(0);
+            filter: hue-rotate(180deg) saturate(1.5);
+            mix-blend-mode: screen;
+        }
+
+        .glitch-red {
+            transform: translateX(0);
+            filter: sepia(100%) hue-rotate(0deg) saturate(3);
+            mix-blend-mode: lighten;
+        }
+
+        .glitch-green {
+            transform: translateX(0);
+            filter: sepia(100%) hue-rotate(90deg) saturate(3);
+            mix-blend-mode: lighten;
+        }
+
+        .glitch-blue {
+            transform: translateX(0);
+            filter: sepia(100%) hue-rotate(180deg) saturate(3);
+            mix-blend-mode: lighten;
+        }
+
+        // Add scanlines effect
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(255, 255, 255, 0.1) 1px,
+                    rgba(255, 255, 255, 0.1) 2px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+    }
+
+    // Glitch effect on monitor hover
+    &.monitor-hovered {
+        .desk-screen {
+            .glitch-layer {
+                opacity: 0.6;
+            }
+
+            .glitch-1 {
+                animation: glitch-1 0.2s infinite;
+            }
+
+            .glitch-2 {
+                animation: glitch-2 0.25s infinite;
+            }
+
+            .glitch-red {
+                opacity: 0.8;
+                animation: glitch-red 0.15s infinite;
+            }
+
+            .glitch-green {
+                opacity: 0.8;
+                animation: glitch-green 0.18s infinite;
+            }
+
+            .glitch-blue {
+                opacity: 0.8;
+                animation: glitch-blue 0.22s infinite;
+            }
+
+            &::before {
+                opacity: 0.3;
+                animation: scanlines 0.1s infinite;
+            }
+        }
     }
 
     .desk-info {
@@ -204,5 +340,300 @@ defineExpose({
 
 .unclickable {
     pointer-events: none;
+}
+
+// Glitch effect keyframes
+@keyframes glitch-1 {
+    0% {
+        transform: translateX(0);
+        opacity: 0.6;
+    }
+
+    10% {
+        transform: translateX(-3px) skewX(1deg);
+        opacity: 0.8;
+    }
+
+    20% {
+        transform: translateX(3px) skewX(-1deg);
+        opacity: 0.4;
+    }
+
+    30% {
+        transform: translateX(-2px) skewX(0.5deg);
+        opacity: 0.9;
+    }
+
+    40% {
+        transform: translateX(2px) skewX(-0.5deg);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateX(-4px) skewX(1.5deg);
+        opacity: 0.8;
+    }
+
+    60% {
+        transform: translateX(4px) skewX(-1.5deg);
+        opacity: 0.5;
+    }
+
+    70% {
+        transform: translateX(-1px) skewX(0.2deg);
+        opacity: 0.7;
+    }
+
+    80% {
+        transform: translateX(1px) skewX(-0.2deg);
+        opacity: 0.9;
+    }
+
+    90% {
+        transform: translateX(-3px) skewX(1deg);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 0.6;
+    }
+}
+
+@keyframes glitch-2 {
+    0% {
+        transform: translateX(0) scaleY(1);
+        opacity: 0.5;
+    }
+
+    15% {
+        transform: translateX(2px) scaleY(0.98);
+        opacity: 0.7;
+    }
+
+    25% {
+        transform: translateX(-3px) scaleY(1.02);
+        opacity: 0.3;
+    }
+
+    35% {
+        transform: translateX(3px) scaleY(0.99);
+        opacity: 0.8;
+    }
+
+    45% {
+        transform: translateX(-2px) scaleY(1.01);
+        opacity: 0.2;
+    }
+
+    55% {
+        transform: translateX(2px) scaleY(0.97);
+        opacity: 0.7;
+    }
+
+    65% {
+        transform: translateX(-4px) scaleY(1.03);
+        opacity: 0.4;
+    }
+
+    75% {
+        transform: translateX(4px) scaleY(0.98);
+        opacity: 0.3;
+    }
+
+    85% {
+        transform: translateX(-1px) scaleY(1.01);
+        opacity: 0.8;
+    }
+
+    95% {
+        transform: translateX(1px) scaleY(0.99);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translateX(0) scaleY(1);
+        opacity: 0.5;
+    }
+}
+
+@keyframes scanlines {
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.1;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes glitch-red {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.8;
+    }
+
+    10% {
+        transform: translateX(-3px) translateY(1px);
+        opacity: 0.9;
+    }
+
+    20% {
+        transform: translateX(4px) translateY(-1px);
+        opacity: 0.7;
+    }
+
+    30% {
+        transform: translateX(-2px) translateY(2px);
+        opacity: 0.8;
+    }
+
+    40% {
+        transform: translateX(3px) translateY(-1px);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translateX(-4px) translateY(1px);
+        opacity: 0.9;
+    }
+
+    60% {
+        transform: translateX(2px) translateY(-2px);
+        opacity: 0.7;
+    }
+
+    70% {
+        transform: translateX(-3px) translateY(1px);
+        opacity: 0.8;
+    }
+
+    80% {
+        transform: translateX(4px) translateY(-1px);
+        opacity: 0.6;
+    }
+
+    90% {
+        transform: translateX(-2px) translateY(2px);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.8;
+    }
+}
+
+@keyframes glitch-green {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.8;
+    }
+
+    15% {
+        transform: translateX(3px) translateY(-1px);
+        opacity: 0.7;
+    }
+
+    25% {
+        transform: translateX(-4px) translateY(2px);
+        opacity: 0.9;
+    }
+
+    35% {
+        transform: translateX(2px) translateY(-1px);
+        opacity: 0.6;
+    }
+
+    45% {
+        transform: translateX(-3px) translateY(1px);
+        opacity: 0.8;
+    }
+
+    55% {
+        transform: translateX(4px) translateY(-2px);
+        opacity: 0.7;
+    }
+
+    65% {
+        transform: translateX(-2px) translateY(1px);
+        opacity: 0.9;
+    }
+
+    75% {
+        transform: translateX(3px) translateY(-1px);
+        opacity: 0.6;
+    }
+
+    85% {
+        transform: translateX(-4px) translateY(2px);
+        opacity: 0.8;
+    }
+
+    95% {
+        transform: translateX(2px) translateY(-1px);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.8;
+    }
+}
+
+@keyframes glitch-blue {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.8;
+    }
+
+    12% {
+        transform: translateX(4px) translateY(1px);
+        opacity: 0.6;
+    }
+
+    24% {
+        transform: translateX(-3px) translateY(-2px);
+        opacity: 0.9;
+    }
+
+    36% {
+        transform: translateX(2px) translateY(1px);
+        opacity: 0.7;
+    }
+
+    48% {
+        transform: translateX(-4px) translateY(-1px);
+        opacity: 0.8;
+    }
+
+    60% {
+        transform: translateX(3px) translateY(2px);
+        opacity: 0.6;
+    }
+
+    72% {
+        transform: translateX(-2px) translateY(-1px);
+        opacity: 0.9;
+    }
+
+    84% {
+        transform: translateX(4px) translateY(1px);
+        opacity: 0.7;
+    }
+
+    96% {
+        transform: translateX(-3px) translateY(-2px);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.8;
+    }
 }
 </style>
