@@ -229,7 +229,21 @@ function onFirstPhotoLoaded(photoUrl) {
   if (store.selectedDeskClone) {
     const screenEl = store.selectedDeskClone.cloneEl.querySelector('.desk-screen');
     if (screenEl) {
+      // Set the final image first
       screenEl.style.backgroundImage = `url(${photoUrl})`;
+
+      // Create a longer lasting flashing effect using GSAP timeline for better control
+      const flashTl = gsap.timeline();
+
+      // Create multiple flash cycles explicitly
+      for (let i = 0; i < 3; i++) {
+        flashTl
+          .to(screenEl, { filter: 'brightness(0)', duration: 0.05, ease: 'none' })
+          .to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
+      }
+
+      // Ensure it ends with the image visible
+      flashTl.to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
     }
   }
 

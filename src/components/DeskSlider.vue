@@ -332,6 +332,32 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                 duration: ANIMATION_DURATION,
                 ease: 'power2.inOut',
                 onComplete: () => {
+                    // Add flashing effect when item reaches center
+                    const screenEl = activeSliderItemContent.querySelector('.desk-screen');
+                    if (screenEl) {
+                        // Get the desk data for the current selected desk
+                        const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
+                        if (currentDesk && currentDesk.photos && currentDesk.photos.length > 0) {
+                            const firstPhotoUrl = currentDesk.photos[0];
+
+                            // Set the final image first
+                            screenEl.style.backgroundImage = `url(${firstPhotoUrl})`;
+
+                            // Create a longer lasting flashing effect using GSAP timeline for better control
+                            const flashTl = gsap.timeline();
+
+                            // Create multiple flash cycles explicitly
+                            for (let i = 0; i < 3; i++) {
+                                flashTl
+                                    .to(screenEl, { filter: 'brightness(0)', duration: 0.05, ease: 'none' })
+                                    .to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
+                            }
+
+                            // Ensure it ends with the image visible
+                            flashTl.to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
+                        }
+                    }
+
                     // Store the animation data for later use when photo is loaded
                     pendingAnimation.value = {
                         type: 'switch',
@@ -415,6 +441,17 @@ function completePhotoLoadAnimation() {
             duration: ANIMATION_DURATION,
             ease: 'power2.inOut',
             onComplete: () => {
+                // Restore the original desk screen image when back to slider
+                const screenEl = activeSliderItemContent.querySelector('.desk-screen');
+                if (screenEl) {
+                    const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
+                    if (currentDesk && currentDesk.screen && currentDesk.screen.img) {
+                        screenEl.style.backgroundImage = `url(${currentDesk.screen.img})`;
+                        // Reset any filter effects
+                        screenEl.style.filter = 'brightness(1)';
+                    }
+                }
+
                 isHoverable.value = true;
                 store.setCarouselLocked(false);
                 pendingAnimation.value = null;
