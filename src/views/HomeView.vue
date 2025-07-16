@@ -221,6 +221,7 @@ function pick(desk) {
 
 function onPhotoVisible() {
   if (store.selectedDeskClone) {
+    console.log('Photo is now visible, fading out clone element');
     store.selectedDeskClone.cloneEl.style.opacity = '0';
   }
 }

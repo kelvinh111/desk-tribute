@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, nextTick, computed } from 'vue';
+import { ref, watch, nextTick, computed, onMounted, onBeforeUnmount } from 'vue';
 import { gsap } from 'gsap';
 
 const props = defineProps({
@@ -37,6 +37,10 @@ const photoSizeCache = {}; // url -> {width, height}
 const isSliderReady = ref(false);
 const isProgressBarComplete = ref(false);
 
+// Reactive window dimensions
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
+const windowHeight = ref(typeof window !== 'undefined' ? window.innerHeight : 800);
+
 // Array of colors for random progress bar background
 const progressColors = ['#F76997', '#F8851F', '#9E7DF5', '#78BD4A', '#38C8E8'];
 const currentProgressColor = ref('#F76997');
@@ -44,8 +48,8 @@ const backdropColor = ref('#222222'); // Separate color for backdrop, starts wit
 
 // Helper function to calculate scaled dimensions that fill 70% viewport while maintaining aspect ratio
 function getScaledDimensions(imageWidth, imageHeight) {
-    const maxWidth = (typeof window !== 'undefined') ? window.innerWidth * 0.7 : 800;
-    const maxHeight = (typeof window !== 'undefined') ? window.innerHeight * 0.7 : 600;
+    const maxWidth = windowWidth.value * 0.7;
+    const maxHeight = windowHeight.value * 0.7;
     const imageRatio = imageWidth / imageHeight;
     const viewportRatio = maxWidth / maxHeight;
 
@@ -123,11 +127,11 @@ function preloadImagesAndUpdateProgress(desk) {
                                 emit('photoViewerReady', true);
                             }, 500);
 
-                            setTimeout(() => {
-                                emit('photoVisible');
-                                // Update backdrop color to current progress color after transition is complete
-                                backdropColor.value = currentProgressColor.value;
-                            }, 2000);
+                            // setTimeout(() => {
+                            emit('photoVisible');
+                            // Update backdrop color to current progress color after transition is complete
+                            backdropColor.value = currentProgressColor.value;
+                            // }, 2000);
                         }
                     });
                 }, 1000);
@@ -368,6 +372,19 @@ function updateSliderSizeForCurrentImage() {
         sliderNaturalHeight.value = size.height;
     }
 }
+
+function handleResize() {
+    windowWidth.value = window.innerWidth;
+    windowHeight.value = window.innerHeight;
+}
+
+onMounted(() => {
+    window.addEventListener('resize', handleResize);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize);
+});
 
 watch([() => props.desk, currentIndex], () => {
     updateSliderSizeForCurrentImage();
