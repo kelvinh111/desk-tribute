@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
 
 const router = createRouter({
   // createWebHistory uses the browser's History API to manage routing without a page reload.
@@ -13,13 +13,6 @@ const router = createRouter({
       component: HomeView, // Renders the HomeView component.
     },
     {
-      // A standard route for an 'About' page.
-      path: '/about',
-      name: 'about',
-      // This is a lazy-loaded component. It's only downloaded by the browser when the user navigates to '/about'.
-      component: () => import('../views/AboutView.vue'),
-    },
-    {
       // This is a dynamic route. The ':deskId' part is a parameter that can be any string.
       // For example, '/desk-1', '/desk-2', etc., will all match this route.
       path: '/:deskId',
@@ -30,6 +23,6 @@ const router = createRouter({
       component: HomeView,
     },
   ],
-})
+});
 
-export default router
+export default router;
