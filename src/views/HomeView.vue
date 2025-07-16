@@ -221,8 +221,12 @@ function pick(desk) {
 
 function onPhotoVisible() {
   if (store.selectedDeskClone) {
-    console.log('Photo is now visible, fading out clone element');
-    store.selectedDeskClone.cloneEl.style.opacity = '0';
+    gsap.to(store.selectedDeskClone.cloneEl, {
+      opacity: 0,
+      duration: 0.5,
+      delay: 0.5,
+      ease: 'power2.inOut',
+    });
   }
 }
 

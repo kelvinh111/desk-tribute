@@ -111,6 +111,8 @@ function preloadImagesAndUpdateProgress(desk) {
             duration: 0.3,
             ease: 'power2.inOut',
             onComplete: () => {
+                emit('photoVisible');
+
                 setTimeout(() => {
                     // Animate progress bar to 100%
                     gsap.to(loaded, {
@@ -127,11 +129,10 @@ function preloadImagesAndUpdateProgress(desk) {
                                 emit('photoViewerReady', true);
                             }, 500);
 
-                            // setTimeout(() => {
-                            emit('photoVisible');
-                            // Update backdrop color to current progress color after transition is complete
-                            backdropColor.value = currentProgressColor.value;
-                            // }, 2000);
+                            setTimeout(() => {
+                                // Update backdrop color to current progress color after transition is complete
+                                backdropColor.value = currentProgressColor.value;
+                            }, 2000);
                         }
                     });
                 }, 1000);
@@ -180,6 +181,7 @@ function preloadImagesAndUpdateProgress(desk) {
                                 if (loadedCount === totalImages) {
                                     // Emit first photo loaded event when progress reaches 100%
                                     emit('firstPhotoLoaded', photos[0]);
+                                    emit('photoVisible');
 
                                     setTimeout(() => {
                                         // Ensure slider size is set
@@ -194,7 +196,6 @@ function preloadImagesAndUpdateProgress(desk) {
                                         isSliderReady.value = true;
                                         emit('photoViewerReady', true);
                                     }, 500); setTimeout(() => {
-                                        emit('photoVisible');
                                         // Update backdrop color to current progress color after transition is complete
                                         backdropColor.value = currentProgressColor.value;
                                     }, 2000);
