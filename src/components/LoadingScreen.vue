@@ -1,10 +1,15 @@
 <template>
-    <div
-        v-if="isLoading"
-        class="loading-screen"
+    <Transition
+        name="loading-fade"
+        appear
     >
-        <div class="progress-display">{{ Math.round(progress) }}%</div>
-    </div>
+        <div
+            v-if="isLoading"
+            class="loading-screen"
+        >
+            <div class="progress-display">{{ Math.round(progress) }}%</div>
+        </div>
+    </Transition>
 </template>
 
 <script setup>
@@ -93,12 +98,19 @@ async function preloadImages() {
     // Small delay to show 100% for a moment
     setTimeout(() => {
         completeLoading();
-    }, 500);
+    }, 200); // Reduced delay since completeLoading now handles the timing
 }
 
 function completeLoading() {
-    isLoading.value = false;
-    emit('loading-complete');
+    // Add a small delay to show 100% before starting fade out
+    setTimeout(() => {
+        isLoading.value = false;
+
+        // Emit after fade transition completes
+        setTimeout(() => {
+            emit('loading-complete');
+        }, 500); // Match the fade-out duration
+    }, 300); // Brief pause to show 100%
 }
 
 onMounted(() => {
@@ -125,5 +137,24 @@ onMounted(() => {
     font-weight: bold;
     color: #333;
     font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Fade transition styles */
+.loading-fade-enter-active {
+    transition: opacity 0.3s ease-in;
+}
+
+.loading-fade-leave-active {
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-fade-enter-from,
+.loading-fade-leave-to {
+    opacity: 0;
+}
+
+.loading-fade-enter-to,
+.loading-fade-leave-from {
+    opacity: 1;
 }
 </style>

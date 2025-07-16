@@ -304,49 +304,76 @@ const updateCloneCenterTransform = () => {
     />
 
     <!-- Main App Content (show only after loading is complete) -->
-    <div v-else>
+    <Transition
+      name="app-fade"
+      appear
+    >
       <div
-        class="logo"
-        :class="{
-          'viewer-active': store.isPhotoViewerVisible,
-          'logo-disabled': !store.isLogoClickable
-        }"
-        @click="store.isLogoClickable && handlePhotoViewerClose()"
-      >DESK <span>WHERE CREATIVITY IS BORN</span></div>
+        v-if="isAppLoaded"
+        class="app-content"
+      >
+        <div
+          class="logo"
+          :class="{
+            'viewer-active': store.isPhotoViewerVisible,
+            'logo-disabled': !store.isLogoClickable
+          }"
+          @click="store.isLogoClickable && handlePhotoViewerClose()"
+        >DESK <span>WHERE CREATIVITY IS BORN</span></div>
 
-      <DeskGallery
-        ref="galleryComponentRef"
-        :desks="store.desks"
-        :is-gallery-faded="store.isGalleryFaded"
-        :selected-desk-clone="store.selectedDeskClone"
-        @pick="pick"
-      />
+        <DeskGallery
+          ref="galleryComponentRef"
+          :desks="store.desks"
+          :is-gallery-faded="store.isGalleryFaded"
+          :selected-desk-clone="store.selectedDeskClone"
+          @pick="pick"
+        />
 
-      <DeskSlider
-        ref="deskSliderRef"
-        :desks="store.desks"
-        :selected-desk-id="store.selectedDeskId"
-        :is-interactive="store.isDeskSliderInteractive"
-        @change-desk="changeDesk"
-      />
+        <DeskSlider
+          ref="deskSliderRef"
+          :desks="store.desks"
+          :selected-desk-id="store.selectedDeskId"
+          :is-interactive="store.isDeskSliderInteractive"
+          @change-desk="changeDesk"
+        />
 
-      <PhotoViewer
-        :desk="store.selectedDesk"
-        :visible="store.isPhotoViewerVisible"
-        :is-slider-visible="store.isPhotoSliderVisible"
-        @close="handlePhotoViewerClose"
-        @photo-visible="onPhotoVisible"
-        @first-photo-loaded="onFirstPhotoLoaded"
-        @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
-        @photo-viewer-ready="ready => store.setPhotoViewerReady(ready)"
-      />
-    </div>
+        <PhotoViewer
+          :desk="store.selectedDesk"
+          :visible="store.isPhotoViewerVisible"
+          :is-slider-visible="store.isPhotoSliderVisible"
+          @close="handlePhotoViewerClose"
+          @photo-visible="onPhotoVisible"
+          @first-photo-loaded="onFirstPhotoLoaded"
+          @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
+          @photo-viewer-ready="ready => store.setPhotoViewerReady(ready)"
+        />
+      </div>
+    </Transition>
   </main>
 </template>
 
 <style scoped lang="scss">
 main {
   background-color: #E8E8E8;
+}
+
+/* App fade-in transition */
+.app-fade-enter-active {
+  transition: opacity 0.6s ease-in;
+}
+
+.app-fade-leave-active {
+  transition: opacity 0.4s ease-out;
+}
+
+.app-fade-enter-from,
+.app-fade-leave-to {
+  opacity: 0;
+}
+
+.app-fade-enter-to,
+.app-fade-leave-from {
+  opacity: 1;
 }
 
 .logo {
