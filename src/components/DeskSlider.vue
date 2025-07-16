@@ -337,8 +337,9 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                     if (screenEl) {
                         // Get the desk data for the current selected desk
                         const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
-                        if (currentDesk && currentDesk.photos && currentDesk.photos.length > 0) {
-                            const firstPhotoUrl = currentDesk.photos[0];
+                        if (currentDesk && currentDesk.screen && currentDesk.screen.firstPhoto) {
+                            // Use desk.screen.firstPhoto instead of photos[0]
+                            const firstPhotoUrl = currentDesk.screen.firstPhoto;
 
                             // Set the final image first
                             screenEl.style.backgroundImage = `url(${firstPhotoUrl})`;

@@ -6,6 +6,7 @@ import { useDeskViewerStore } from '../stores/deskViewer.js';
 import DeskGallery from '../components/DeskGallery.vue';
 import DeskSlider from '../components/DeskSlider.vue';
 import PhotoViewer from '../components/PhotoViewer.vue';
+import LoadingScreen from '../components/LoadingScreen.vue';
 
 // --- Configuration Constants ---
 const ANIMATION_DURATION = 0.6;
@@ -17,16 +18,21 @@ const store = useDeskViewerStore();
 const galleryComponentRef = ref(null); // Ref for the gallery component
 const deskSliderRef = ref(null);
 
-// --- Vue Router ---
-const router = useRouter(); // Used to programmatically change the URL (e.g., router.push('/'.
-const route = useRoute(); // Used to read information from the current URL (e.g., route.params.deskId).
+// --- Loading State ---
+const isAppLoaded = ref(false);
 
-const handleResize = () => {
-  store.setWindowWidth(window.innerWidth);
-  updateCloneCenterTransform();
-};
+// --- Loading Screen Handler ---
+function onLoadingComplete() {
+  isAppLoaded.value = true;
 
-onMounted(() => {
+  // After loading is complete, handle any direct desk loading
+  nextTick(() => {
+    handleDirectDeskLoading();
+  });
+}
+
+// Handle direct desk loading after the app is fully loaded
+function handleDirectDeskLoading() {
   // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
   if (route.params.deskId) {
     const desk = store.desks.find(d => d.id === route.params.deskId);
@@ -37,7 +43,18 @@ onMounted(() => {
       }, 150);
     }
   }
+}
 
+// --- Vue Router ---
+const router = useRouter(); // Used to programmatically change the URL (e.g., router.push('/'.
+const route = useRoute(); // Used to read information from the current URL (e.g., route.params.deskId).
+
+const handleResize = () => {
+  store.setWindowWidth(window.innerWidth);
+  updateCloneCenterTransform();
+};
+
+onMounted(() => {
   handleResize();
   window.addEventListener('resize', handleResize);
 });
@@ -207,6 +224,26 @@ function pick(desk) {
     delay: 0.5, // Slight delay to allow the gallery to fade out
     onComplete: () => {
       // Animation complete - clone is now at center
+      // Trigger flashing effect immediately since we're using desk.screen.firstPhoto
+      const screenEl = cloneEl.querySelector('.desk-screen');
+      if (screenEl && desk.screen && desk.screen.firstPhoto) {
+        console.log('Starting flashing effect for:', desk.screen.firstPhoto);
+        // Set the final image first
+        screenEl.style.backgroundImage = `url(${desk.screen.firstPhoto})`;
+
+        // Create a longer lasting flashing effect using GSAP timeline for better control
+        const flashTl = gsap.timeline();
+
+        // Create multiple flash cycles explicitly
+        for (let i = 0; i < 8; i++) {
+          flashTl
+            .to(screenEl, { filter: 'brightness(0)', duration: 0.08, ease: 'none' })
+            .to(screenEl, { filter: 'brightness(1)', duration: 0.08, ease: 'none' });
+        }
+
+        // Ensure it ends with the image visible
+        flashTl.to(screenEl, { filter: 'brightness(1)', duration: 0.1, ease: 'none' });
+      }
     }
   });
 
@@ -231,27 +268,6 @@ function onPhotoVisible() {
 }
 
 function onFirstPhotoLoaded(photoUrl) {
-  if (store.selectedDeskClone) {
-    const screenEl = store.selectedDeskClone.cloneEl.querySelector('.desk-screen');
-    if (screenEl) {
-      // Set the final image first
-      screenEl.style.backgroundImage = `url(${photoUrl})`;
-
-      // Create a longer lasting flashing effect using GSAP timeline for better control
-      const flashTl = gsap.timeline();
-
-      // Create multiple flash cycles explicitly
-      for (let i = 0; i < 3; i++) {
-        flashTl
-          .to(screenEl, { filter: 'brightness(0)', duration: 0.05, ease: 'none' })
-          .to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
-      }
-
-      // Ensure it ends with the image visible
-      flashTl.to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
-    }
-  }
-
   // Unlock UI states when first photo is loaded
   store.setInitialPhotoLoading(false);
   store.setDeskSwitching(false);
@@ -281,41 +297,50 @@ const updateCloneCenterTransform = () => {
 
 <template>
   <main>
-    <div
-      class="logo"
-      :class="{
-        'viewer-active': store.isPhotoViewerVisible,
-        'logo-disabled': !store.isLogoClickable
-      }"
-      @click="store.isLogoClickable && handlePhotoViewerClose()"
-    >DESK <span>WHERE CREATIVITY IS BORN</span></div>
-
-    <DeskGallery
-      ref="galleryComponentRef"
-      :desks="store.desks"
-      :is-gallery-faded="store.isGalleryFaded"
-      :selected-desk-clone="store.selectedDeskClone"
-      @pick="pick"
+    <!-- Loading Screen (show until all images are loaded) -->
+    <LoadingScreen
+      v-if="!isAppLoaded"
+      @loading-complete="onLoadingComplete"
     />
 
-    <DeskSlider
-      ref="deskSliderRef"
-      :desks="store.desks"
-      :selected-desk-id="store.selectedDeskId"
-      :is-interactive="store.isDeskSliderInteractive"
-      @change-desk="changeDesk"
-    />
+    <!-- Main App Content (show only after loading is complete) -->
+    <div v-else>
+      <div
+        class="logo"
+        :class="{
+          'viewer-active': store.isPhotoViewerVisible,
+          'logo-disabled': !store.isLogoClickable
+        }"
+        @click="store.isLogoClickable && handlePhotoViewerClose()"
+      >DESK <span>WHERE CREATIVITY IS BORN</span></div>
 
-    <PhotoViewer
-      :desk="store.selectedDesk"
-      :visible="store.isPhotoViewerVisible"
-      :is-slider-visible="store.isPhotoSliderVisible"
-      @close="handlePhotoViewerClose"
-      @photo-visible="onPhotoVisible"
-      @first-photo-loaded="onFirstPhotoLoaded"
-      @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
-      @photo-viewer-ready="ready => store.setPhotoViewerReady(ready)"
-    />
+      <DeskGallery
+        ref="galleryComponentRef"
+        :desks="store.desks"
+        :is-gallery-faded="store.isGalleryFaded"
+        :selected-desk-clone="store.selectedDeskClone"
+        @pick="pick"
+      />
+
+      <DeskSlider
+        ref="deskSliderRef"
+        :desks="store.desks"
+        :selected-desk-id="store.selectedDeskId"
+        :is-interactive="store.isDeskSliderInteractive"
+        @change-desk="changeDesk"
+      />
+
+      <PhotoViewer
+        :desk="store.selectedDesk"
+        :visible="store.isPhotoViewerVisible"
+        :is-slider-visible="store.isPhotoSliderVisible"
+        @close="handlePhotoViewerClose"
+        @photo-visible="onPhotoVisible"
+        @first-photo-loaded="onFirstPhotoLoaded"
+        @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
+        @photo-viewer-ready="ready => store.setPhotoViewerReady(ready)"
+      />
+    </div>
   </main>
 </template>
 
