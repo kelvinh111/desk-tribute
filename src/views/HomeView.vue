@@ -145,8 +145,8 @@ function pick(desk) {
       width: finalRect.width,
       height: finalRect.height,
       opacity: 1,
-      duration: ANIMATION_DURATION,
-      ease: 'power2.inOut',
+      duration: 1,
+      ease: 'bounce.out',
       onComplete: () => {
         document.body.style.overflow = ''; // Also re-enable scrolling here for safety
 
