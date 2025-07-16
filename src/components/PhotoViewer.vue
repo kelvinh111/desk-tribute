@@ -111,7 +111,6 @@ function preloadImagesAndUpdateProgress(desk) {
             duration: 0.3,
             ease: 'power2.inOut',
             onComplete: () => {
-                emit('photoVisible');
 
                 setTimeout(() => {
                     // Animate progress bar to 100%
@@ -122,6 +121,7 @@ function preloadImagesAndUpdateProgress(desk) {
                         onComplete: () => {
                             // Emit first photo loaded event when progress reaches 100%
                             emit('firstPhotoLoaded', firstPhotoUrl);
+                            emit('photoVisible');
 
                             // Wait a bit more then show slider
                             setTimeout(() => {
