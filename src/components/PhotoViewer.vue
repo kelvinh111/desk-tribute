@@ -646,13 +646,15 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 110px);
+    // height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     z-index: 26;
-    transform: translateY(-30px);
+    padding-top: 110px;
+    // transform: translateY(-30px);
 }
 
 .slider-container {
@@ -758,7 +760,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     border: none;
     padding: 15px;
     cursor: pointer;
-    z-index: 22;
+    z-index: 27;
     top: 50%;
     transform: translateY(-50%);
 
@@ -846,12 +848,12 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 .fade-scale-enter-from,
 .fade-scale-leave-to {
     opacity: 0;
-    transform: scale(0.5) translateY(-30px);
+    transform: scale(0.5);
 }
 
 .fade-scale-enter-to,
 .fade-scale-leave-from {
     opacity: 1;
-    transform: scale(1) translateY(-30px);
+    transform: scale(1);
 }
 </style>
