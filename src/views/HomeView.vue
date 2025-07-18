@@ -292,7 +292,9 @@ function onPhotoViewerReady() {
 }
 
 function onFlashingComplete() {
-  // Now that the flashing effect is complete and slider is visible, fade out the clone
+  // Now that the flashing effect is complete and slider is visible, handle cleanup
+
+  // If there's a clone element (from gallery selection), fade it out
   if (store.selectedDeskClone) {
     gsap.to(store.selectedDeskClone.cloneEl, {
       opacity: 0,
@@ -300,6 +302,11 @@ function onFlashingComplete() {
       delay: 0.3, // Small delay after slider appears for smooth transition
       ease: 'power2.inOut',
     });
+  }
+
+  // If there's a pending DeskSlider animation (from desk switching), complete it
+  if (deskSliderRef.value) {
+    deskSliderRef.value.completeFlashingAnimation();
   }
 }
 

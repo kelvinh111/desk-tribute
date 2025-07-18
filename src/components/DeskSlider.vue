@@ -332,30 +332,17 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                 duration: ANIMATION_DURATION,
                 ease: 'bounce.out',
                 onComplete: () => {
-                    // Add flashing effect when item reaches center
+                    // Store the desk and screen element for later use when photos are loaded
                     const screenEl = activeSliderItemContent.querySelector('.desk-screen');
                     if (screenEl) {
                         // Get the desk data for the current selected desk
                         const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
                         if (currentDesk && currentDesk.screen && currentDesk.screen.firstPhoto) {
-                            // Use desk.screen.firstPhoto instead of photos[0]
-                            const firstPhotoUrl = currentDesk.screen.firstPhoto;
-
-                            // Set the final image first
-                            screenEl.style.backgroundImage = `url(${firstPhotoUrl})`;
-
-                            // Create a longer lasting flashing effect using GSAP timeline for better control
-                            const flashTl = gsap.timeline();
-
-                            // Create multiple flash cycles explicitly
-                            for (let i = 0; i < 3; i++) {
-                                flashTl
-                                    .to(screenEl, { filter: 'brightness(0)', duration: 0.05, ease: 'none' })
-                                    .to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
-                            }
-
-                            // Ensure it ends with the image visible
-                            flashTl.to(screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
+                            // Store the flashing effect data to be triggered when PhotoViewer finishes loading
+                            store.setPendingFlashEffect({
+                                screenEl: screenEl,
+                                firstPhotoUrl: currentDesk.screen.firstPhoto
+                            });
                         }
                     }
 
@@ -428,45 +415,10 @@ function completePhotoLoadAnimation() {
     const deskInfo = activeSliderItemContent.querySelector('.desk-info');
 
     if (type === 'switch') {
-        // Complete the desk switching animation: animate back to slider
-        gsap.fromTo(activeSliderItemContent, {
-            autoAlpha: 0,
-            scale: 2.04,
-            x: translateX,
-            y: translateY,
-        }, {
-            autoAlpha: 1,
-            scale: 1,
-            x: 0,
-            y: 0,
-            duration: ANIMATION_DURATION,
-            ease: 'power2.inOut',
-            onComplete: () => {
-                // Restore the original desk screen image when back to slider
-                const screenEl = activeSliderItemContent.querySelector('.desk-screen');
-                if (screenEl) {
-                    const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
-                    if (currentDesk && currentDesk.screen && currentDesk.screen.img) {
-                        screenEl.style.backgroundImage = `url(${currentDesk.screen.img})`;
-                        // Reset any filter effects
-                        screenEl.style.filter = 'brightness(1)';
-                    }
-                }
-
-                isHoverable.value = true;
-                store.setCarouselLocked(false);
-                pendingAnimation.value = null;
-            }
-        });
-
-        // Fade out desk info when returning to slider
-        if (deskInfo) {
-            gsap.to(deskInfo, {
-                opacity: 0,
-                duration: ANIMATION_DURATION,
-                ease: 'power2.inOut'
-            });
-        }
+        // For desk switching, don't animate back yet - wait for flashing effect to complete
+        // The animation back will be handled by completeFlashingAnimation()
+        console.log('Desk switch photos loaded, waiting for flashing effect to complete...');
+        return;
     } else if (type === 'initial') {
         // Complete the initial selection animation: animate from center to slider
         gsap.fromTo(activeSliderItemContent, {
@@ -503,9 +455,59 @@ function completePhotoLoadAnimation() {
     }
 }
 
+function completeFlashingAnimation() {
+    // This method is called after the flashing effect is complete
+    // It triggers the desk to animate back to the slider position
+    if (!pendingAnimation.value || pendingAnimation.value.type !== 'switch') return;
+
+    const { activeSliderItemContent, translateX, translateY } = pendingAnimation.value;
+    const deskInfo = activeSliderItemContent.querySelector('.desk-info');
+
+    // Complete the desk switching animation: animate back to slider
+    gsap.fromTo(activeSliderItemContent, {
+        autoAlpha: 0,
+        scale: 2.04,
+        x: translateX,
+        y: translateY,
+    }, {
+        autoAlpha: 1,
+        scale: 1,
+        x: 0,
+        y: 0,
+        duration: ANIMATION_DURATION,
+        ease: 'power2.inOut',
+        onComplete: () => {
+            // Restore the original desk screen image when back to slider
+            const screenEl = activeSliderItemContent.querySelector('.desk-screen');
+            if (screenEl) {
+                const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
+                if (currentDesk && currentDesk.screen && currentDesk.screen.img) {
+                    screenEl.style.backgroundImage = `url(${currentDesk.screen.img})`;
+                    // Reset any filter effects
+                    screenEl.style.filter = 'brightness(1)';
+                }
+            }
+
+            isHoverable.value = true;
+            store.setCarouselLocked(false);
+            pendingAnimation.value = null;
+        }
+    });
+
+    // Fade out desk info when returning to slider
+    if (deskInfo) {
+        gsap.to(deskInfo, {
+            opacity: 0,
+            duration: ANIMATION_DURATION,
+            ease: 'power2.inOut'
+        });
+    }
+}
+
 defineExpose({
     reset,
-    completePhotoLoadAnimation
+    completePhotoLoadAnimation,
+    completeFlashingAnimation
 });
 
 onMounted(() => {
