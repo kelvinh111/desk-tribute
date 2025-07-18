@@ -653,8 +653,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     justify-content: center;
     flex-direction: column;
     z-index: 26;
-    padding-top: 110px;
-    // transform: translateY(-30px);
+    padding-top: 80px;
 }
 
 .slider-container {
@@ -694,7 +693,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 
 .slider-info {
     position: absolute;
-    top: calc(50vh + var(--slider-height) / 2 + 20px);
+    top: calc(50vh + var(--slider-height) / 2);
     left: calc(50vw - var(--slider-width) / 2);
     width: var(--slider-width);
     display: flex;
@@ -719,7 +718,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     position: absolute;
     color: white;
     display: flex;
-    top: calc(50vh + var(--slider-height) / 2 + 20px);
+    top: calc(50vh + var(--slider-height) / 2);
     right: calc(50vw - var(--slider-width) / 2);
     z-index: 40;
     gap: 3px;
