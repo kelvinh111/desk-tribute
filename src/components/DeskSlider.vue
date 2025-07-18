@@ -456,6 +456,24 @@ function completePhotoLoadAnimation() {
             ease: 'power2.inOut',
             onComplete: () => {
                 isHoverable.value = true;
+
+                // Clear all hover states first
+                selectionState.hoverStates.forEach(state => {
+                    gsap.set(state, { progress: 0 });
+                });
+                markForUpdate();
+
+                // Then apply hover to currently hovered desk if applicable
+                if (hoverState.currentHoveredIndex !== null && hoverState.currentHoveredIndex !== selectionState.selectedIndex) {
+                    gsap.to(selectionState.hoverStates[hoverState.currentHoveredIndex], {
+                        progress: 1,
+                        duration: HOVER_ANIMATION_DURATION,
+                        ease: 'power2.out',
+                        overwrite: 'auto',
+                        onUpdate: markForUpdate
+                    });
+                }
+
                 store.setCarouselLocked(false);
                 pendingAnimation.value = null;
             }
@@ -517,6 +535,24 @@ function completeFlashingAnimation() {
             // }
 
             isHoverable.value = true; // Re-enable hover effects
+
+            // Clear all hover states first
+            selectionState.hoverStates.forEach(state => {
+                gsap.set(state, { progress: 0 });
+            });
+            markForUpdate();
+
+            // Then apply hover to currently hovered desk if applicable
+            if (hoverState.currentHoveredIndex !== null && hoverState.currentHoveredIndex !== selectionState.selectedIndex) {
+                gsap.to(selectionState.hoverStates[hoverState.currentHoveredIndex], {
+                    progress: 1,
+                    duration: HOVER_ANIMATION_DURATION,
+                    ease: 'power2.out',
+                    overwrite: 'auto',
+                    onUpdate: markForUpdate
+                });
+            }
+
             store.setCarouselLocked(false);
             pendingAnimation.value = null;
         }
