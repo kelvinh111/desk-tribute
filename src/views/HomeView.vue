@@ -277,14 +277,14 @@ function onPhotoViewerReady() {
     const flashTl = gsap.timeline();
 
     // Create multiple flash cycles explicitly
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 5; i++) {
       flashTl
-        .to(pendingFlash.screenEl, { filter: 'brightness(0)', duration: 0.08, ease: 'none' })
-        .to(pendingFlash.screenEl, { filter: 'brightness(1)', duration: 0.08, ease: 'none' });
+        .to(pendingFlash.screenEl, { filter: 'brightness(0)', duration: 0.02, ease: 'none' })
+        .to(pendingFlash.screenEl, { filter: 'brightness(1)', duration: 0.02, ease: 'none' });
     }
 
     // Ensure it ends with the image visible
-    flashTl.to(pendingFlash.screenEl, { filter: 'brightness(1)', duration: 0.1, ease: 'none' });
+    flashTl.to(pendingFlash.screenEl, { filter: 'brightness(1)', duration: 0.05, ease: 'none' });
 
     // Clear the pending flash effect
     store.setPendingFlashEffect(null);

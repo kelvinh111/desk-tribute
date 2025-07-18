@@ -133,7 +133,7 @@ function preloadImagesAndUpdateProgress(desk) {
                                 setTimeout(() => {
                                     isSliderVisible.value = true;
                                     emit('flashingComplete');
-                                }, 1800); // Wait 1.8 seconds for flashing effect to complete
+                                }, 500); // Wait 1.8 seconds for flashing effect to complete
                             }, 500);
 
                             setTimeout(() => {
@@ -207,7 +207,7 @@ function preloadImagesAndUpdateProgress(desk) {
                                         setTimeout(() => {
                                             isSliderVisible.value = true;
                                             emit('flashingComplete');
-                                        }, 1800); // Wait 1.8 seconds for flashing effect to complete
+                                        }, 500); // Wait 1.8 seconds for flashing effect to complete
                                     }, 500);
 
                                     setTimeout(() => {
