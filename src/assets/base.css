@@ -62,6 +62,7 @@
 
 body {
   min-height: 100vh;
+  min-width: 800px;
   color: var(--color-text);
   background: var(--color-background);
   line-height: 1.6;

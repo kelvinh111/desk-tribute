@@ -355,6 +355,7 @@ const updateCloneCenterTransform = () => {
 <style scoped lang="scss">
 main {
   background-color: #E8E8E8;
+  padding-bottom: 3rem; // Add some padding to the bottom
 }
 
 /* App fade-in transition */

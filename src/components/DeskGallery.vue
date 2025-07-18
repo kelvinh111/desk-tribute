@@ -159,6 +159,7 @@ defineExpose({
     transition: opacity 0.6s ease;
     margin: 0 auto;
     max-width: 100vw;
+    min-width: 650px;
     z-index: 1;
 }
 

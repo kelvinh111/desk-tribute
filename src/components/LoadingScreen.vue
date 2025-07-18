@@ -133,7 +133,7 @@ onMounted(() => {
 }
 
 .progress-display {
-    font-size: 3rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #333;
     font-family: system-ui, -apple-system, sans-serif;

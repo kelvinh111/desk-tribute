@@ -330,7 +330,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                 x: translateX,
                 y: translateY,
                 duration: ANIMATION_DURATION,
-                ease: 'power2.inOut',
+                ease: 'bounce.out',
                 onComplete: () => {
                     // Add flashing effect when item reaches center
                     const screenEl = activeSliderItemContent.querySelector('.desk-screen');
