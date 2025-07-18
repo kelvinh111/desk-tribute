@@ -23,6 +23,9 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
     // Clone management
     const selectedDeskClone = ref(null);
 
+    // Flashing effect management
+    const pendingFlashEffect = ref(null);
+
     // Window dimensions
     const windowWidth = ref(0);
 
@@ -99,6 +102,10 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isPhotoViewerReady.value = ready;
     }
 
+    function setPendingFlashEffect(flashData) {
+        pendingFlashEffect.value = flashData;
+    }
+
     function resetViewerState() {
         selectedDeskId.value = null;
         selectedDeskClone.value = null;
@@ -110,6 +117,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isDeskSwitching.value = false;
         isPhotoSliderTransitioning.value = false;
         isPhotoViewerReady.value = false;
+        pendingFlashEffect.value = null;
         clearHiddenDeskIds();
     } return {
         // State
@@ -121,6 +129,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         isGalleryFaded,
         isCarouselLocked,
         selectedDeskClone,
+        pendingFlashEffect,
         windowWidth,
         isInitialPhotoLoading,
         isDeskSwitching,
@@ -146,6 +155,7 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
         setDeskSwitching,
         setPhotoSliderTransitioning,
         setPhotoViewerReady,
+        setPendingFlashEffect,
         resetViewerState
     };
 });

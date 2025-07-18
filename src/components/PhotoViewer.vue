@@ -11,7 +11,7 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['close', 'isTransitioning', 'photoVisible', 'firstPhotoLoaded', 'photoViewerReady']);
+const emit = defineEmits(['close', 'isTransitioning', 'photoVisible', 'firstPhotoLoaded', 'photoViewerReady', 'flashingComplete']);
 
 const photoGalleryEl = ref(null);
 const progressBarEl = ref(null);
@@ -35,6 +35,7 @@ const transitionDirection = ref(1); // 1 for next (right-to-left), -1 for prev (
 
 const photoSizeCache = {}; // url -> {width, height}
 const isSliderReady = ref(false);
+const isSliderVisible = ref(false); // Controls actual slider visibility (delayed after flashing)
 const isProgressBarComplete = ref(false);
 
 // Reactive window dimensions
@@ -127,6 +128,12 @@ function preloadImagesAndUpdateProgress(desk) {
                             setTimeout(() => {
                                 isSliderReady.value = true;
                                 emit('photoViewerReady', true);
+
+                                // Delay showing the slider to allow flashing effect to complete
+                                setTimeout(() => {
+                                    isSliderVisible.value = true;
+                                    emit('flashingComplete');
+                                }, 1800); // Wait 1.8 seconds for flashing effect to complete
                             }, 500);
 
                             setTimeout(() => {
@@ -195,7 +202,15 @@ function preloadImagesAndUpdateProgress(desk) {
                                         }
                                         isSliderReady.value = true;
                                         emit('photoViewerReady', true);
-                                    }, 500); setTimeout(() => {
+
+                                        // Delay showing the slider to allow flashing effect to complete
+                                        setTimeout(() => {
+                                            isSliderVisible.value = true;
+                                            emit('flashingComplete');
+                                        }, 1800); // Wait 1.8 seconds for flashing effect to complete
+                                    }, 500);
+
+                                    setTimeout(() => {
                                         // Update backdrop color to current progress color after transition is complete
                                         backdropColor.value = currentProgressColor.value;
                                     }, 2000);
@@ -406,6 +421,7 @@ watch(() => props.visible, (newVal) => {
         }
         isProgressBarActive.value = true;
         isSliderReady.value = false;
+        isSliderVisible.value = false;
         emit('photoViewerReady', false);
         isProgressBarComplete.value = false;
         nextTick(() => {
@@ -434,6 +450,7 @@ watch(() => props.visible, (newVal) => {
             isProgressBarActive.value = false;
         }
         isSliderReady.value = false;
+        isSliderVisible.value = false;
         emit('photoViewerReady', false);
         isProgressBarComplete.value = false;
     }
@@ -457,6 +474,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         // Reset states for new desk
         isProgressBarActive.value = true;
         isSliderReady.value = false;
+        isSliderVisible.value = false;
         emit('photoViewerReady', false);
         isProgressBarComplete.value = false;
 
@@ -493,7 +511,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         </div>
         <transition name="fade-scale">
             <div
-                v-if="isSliderReady && visible && props.isSliderVisible"
+                v-if="isSliderVisible && visible && props.isSliderVisible"
                 class="slider-wrapper"
             >
                 <div

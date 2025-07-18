@@ -111,6 +111,8 @@ function pick(desk) {
     document.body.style.overflow = ''; // Re-enable scrolling
     router.push('/'); // Change the URL back to the root.
     store.setSelectedDeskId(null);
+    // Clear any pending flash effect when closing
+    store.setPendingFlashEffect(null);
   } else {
     document.body.style.overflow = 'hidden'; // Disable scrolling
     if (route.path !== '/' + desk.id) {
@@ -224,25 +226,13 @@ function pick(desk) {
     delay: 0.5, // Slight delay to allow the gallery to fade out
     onComplete: () => {
       // Animation complete - clone is now at center
-      // Trigger flashing effect immediately since we're using desk.screen.firstPhoto
-      const screenEl = cloneEl.querySelector('.desk-screen');
-      if (screenEl && desk.screen && desk.screen.firstPhoto) {
-        console.log('Starting flashing effect for:', desk.screen.firstPhoto);
-        // Set the final image first
-        screenEl.style.backgroundImage = `url(${desk.screen.firstPhoto})`;
-
-        // Create a longer lasting flashing effect using GSAP timeline for better control
-        const flashTl = gsap.timeline();
-
-        // Create multiple flash cycles explicitly
-        for (let i = 0; i < 8; i++) {
-          flashTl
-            .to(screenEl, { filter: 'brightness(0)', duration: 0.08, ease: 'none' })
-            .to(screenEl, { filter: 'brightness(1)', duration: 0.08, ease: 'none' });
-        }
-
-        // Ensure it ends with the image visible
-        flashTl.to(screenEl, { filter: 'brightness(1)', duration: 0.1, ease: 'none' });
+      // Store the desk and screen element for later use when photos are loaded
+      if (cloneEl.querySelector('.desk-screen') && desk.screen && desk.screen.firstPhoto) {
+        // Store the flashing effect data to be triggered when photos finish loading
+        store.setPendingFlashEffect({
+          screenEl: cloneEl.querySelector('.desk-screen'),
+          firstPhotoUrl: desk.screen.firstPhoto
+        });
       }
     }
   });
@@ -257,14 +247,8 @@ function pick(desk) {
 }
 
 function onPhotoVisible() {
-  if (store.selectedDeskClone) {
-    gsap.to(store.selectedDeskClone.cloneEl, {
-      opacity: 0,
-      duration: 0.5,
-      delay: 0.5,
-      ease: 'power2.inOut',
-    });
-  }
+  // PhotoViewer progress bar has completed but don't fade clone yet
+  // The clone will fade out when flashing effect is complete and slider appears
 }
 
 function onFirstPhotoLoaded(photoUrl) {
@@ -277,6 +261,45 @@ function onFirstPhotoLoaded(photoUrl) {
     setTimeout(() => {
       deskSliderRef.value.completePhotoLoadAnimation();
     }, 500); // Delay slightly to ensure the photo is fully loaded
+  }
+}
+
+function onPhotoViewerReady() {
+  // Trigger the flashing effect when PhotoViewer is ready (all photos loaded)
+  const pendingFlash = store.pendingFlashEffect;
+  if (pendingFlash && pendingFlash.screenEl && pendingFlash.firstPhotoUrl) {
+    console.log('PhotoViewer ready, starting flashing effect for:', pendingFlash.firstPhotoUrl);
+
+    // Set the final image first
+    pendingFlash.screenEl.style.backgroundImage = `url(${pendingFlash.firstPhotoUrl})`;
+
+    // Create a longer lasting flashing effect using GSAP timeline for better control
+    const flashTl = gsap.timeline();
+
+    // Create multiple flash cycles explicitly
+    for (let i = 0; i < 8; i++) {
+      flashTl
+        .to(pendingFlash.screenEl, { filter: 'brightness(0)', duration: 0.08, ease: 'none' })
+        .to(pendingFlash.screenEl, { filter: 'brightness(1)', duration: 0.08, ease: 'none' });
+    }
+
+    // Ensure it ends with the image visible
+    flashTl.to(pendingFlash.screenEl, { filter: 'brightness(1)', duration: 0.1, ease: 'none' });
+
+    // Clear the pending flash effect
+    store.setPendingFlashEffect(null);
+  }
+}
+
+function onFlashingComplete() {
+  // Now that the flashing effect is complete and slider is visible, fade out the clone
+  if (store.selectedDeskClone) {
+    gsap.to(store.selectedDeskClone.cloneEl, {
+      opacity: 0,
+      duration: 0.8,
+      delay: 0.3, // Small delay after slider appears for smooth transition
+      ease: 'power2.inOut',
+    });
   }
 }
 
@@ -344,8 +367,12 @@ const updateCloneCenterTransform = () => {
           @close="handlePhotoViewerClose"
           @photo-visible="onPhotoVisible"
           @first-photo-loaded="onFirstPhotoLoaded"
+          @flashing-complete="onFlashingComplete"
           @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
-          @photo-viewer-ready="ready => store.setPhotoViewerReady(ready)"
+          @photo-viewer-ready="ready => {
+            store.setPhotoViewerReady(ready);
+            if (ready) onPhotoViewerReady();
+          }"
         />
       </div>
     </Transition>
