@@ -483,6 +483,12 @@ function completeFlashingAnimation() {
     const { activeSliderItemContent, translateX, translateY } = pendingAnimation.value;
     const deskInfo = activeSliderItemContent.querySelector('.desk-info');
 
+    // Revert the screen image back to the original desk.screen.img
+    const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
+    if (currentDesk) {
+        deskScreenImages[currentDesk.id] = currentDesk.screen.img;
+    }
+
     // Complete the desk switching animation: animate back to slider
     gsap.fromTo(activeSliderItemContent, {
         autoAlpha: 0,
@@ -504,7 +510,13 @@ function completeFlashingAnimation() {
                 screenEl.style.filter = 'brightness(1)';
             }
 
-            isHoverable.value = true;
+            // // After 1 second, revert the screen image back to the original desk.screen.img
+            // const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
+            // if (currentDesk) {
+            //     deskScreenImages[currentDesk.id] = currentDesk.screen.img;
+            // }
+
+            isHoverable.value = true; // Re-enable hover effects
             store.setCarouselLocked(false);
             pendingAnimation.value = null;
         }
