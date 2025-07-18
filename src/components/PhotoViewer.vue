@@ -651,7 +651,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    z-index: 20;
+    z-index: 26;
     transform: translateY(-30px);
 }
 

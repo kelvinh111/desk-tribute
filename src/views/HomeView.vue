@@ -298,15 +298,19 @@ function onFlashingComplete() {
   if (store.selectedDeskClone) {
     gsap.to(store.selectedDeskClone.cloneEl, {
       opacity: 0,
-      duration: 0.8,
+      // duration: 0.8,
+      duration: 0,
       delay: 0.3, // Small delay after slider appears for smooth transition
       ease: 'power2.inOut',
-    });
-  }
+      onComplete: () => {
+        // Cleanup after fade out
 
-  // If there's a pending DeskSlider animation (from desk switching), complete it
-  if (deskSliderRef.value) {
-    deskSliderRef.value.completeFlashingAnimation();
+        // If there's a pending DeskSlider animation (from desk switching), complete it
+        if (deskSliderRef.value) {
+          deskSliderRef.value.completeFlashingAnimation();
+        }
+      }
+    });
   }
 }
 

@@ -423,13 +423,14 @@ function completePhotoLoadAnimation() {
         // Complete the initial selection animation: animate from center to slider
         gsap.fromTo(activeSliderItemContent, {
             autoAlpha: 0,
-            scale: 0.8,
+            scale: 2.04,
             // x: translateX,
             x: window.innerWidth / 2 - activeSliderItemContent.getBoundingClientRect().left - 70,
             y: translateY,
         }, {
             autoAlpha: 1,
             scale: 1,
+            delay: 0.6,
             x: 0,
             y: 0,
             duration: ANIMATION_DURATION,
