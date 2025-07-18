@@ -33,6 +33,21 @@ let needsPositionUpdate = false;
 const isHoverable = ref(true); // Flag to indicate if the desks are hoverable
 const pendingAnimation = ref(null); // Store animation data for completion after photo load
 
+// Track current screen images for each desk (reactive)
+const deskScreenImages = reactive({});
+
+// Initialize desk screen images when component mounts
+function initializeDeskScreenImages() {
+    props.desks.forEach(desk => {
+        deskScreenImages[desk.id] = desk.screen.img;
+    });
+}
+
+// Get current screen image for a desk
+function getCurrentScreenImage(deskId) {
+    return deskScreenImages[deskId] || props.desks.find(d => d.id === deskId)?.screen?.img;
+}
+
 const selectionState = reactive({
     selectedIndex: null,
     progress: 0,
@@ -341,7 +356,11 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
                             // Store the flashing effect data to be triggered when PhotoViewer finishes loading
                             store.setPendingFlashEffect({
                                 screenEl: screenEl,
-                                firstPhotoUrl: currentDesk.screen.firstPhoto
+                                firstPhotoUrl: currentDesk.screen.firstPhoto,
+                                deskId: currentDesk.id,
+                                updateScreenImage: (deskId, imageUrl) => {
+                                    deskScreenImages[deskId] = imageUrl;
+                                }
                             });
                         }
                     }
@@ -478,15 +497,11 @@ function completeFlashingAnimation() {
         duration: ANIMATION_DURATION,
         ease: 'power2.inOut',
         onComplete: () => {
-            // Restore the original desk screen image when back to slider
+            // The screen image is now handled by reactive state, no need to set it manually
+            // Reset any filter effects that might remain from flashing
             const screenEl = activeSliderItemContent.querySelector('.desk-screen');
             if (screenEl) {
-                const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
-                if (currentDesk && currentDesk.screen && currentDesk.screen.img) {
-                    screenEl.style.backgroundImage = `url(${currentDesk.screen.img})`;
-                    // Reset any filter effects
-                    screenEl.style.filter = 'brightness(1)';
-                }
+                screenEl.style.filter = 'brightness(1)';
             }
 
             isHoverable.value = true;
@@ -512,6 +527,7 @@ defineExpose({
 });
 
 onMounted(() => {
+    initializeDeskScreenImages();
     gsap.ticker.add(onTick);
     const slider = sliderRef.value;
     if (!slider) return;
@@ -668,7 +684,7 @@ onBeforeUnmount(() => {
                 </div>
                 <div
                     class="desk-screen"
-                    :style="{ backgroundImage: `url(${desk.screen.img})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }"
+                    :style="{ backgroundImage: `url(${getCurrentScreenImage(desk.id)})`, top: desk.screen.y, left: desk.screen.x, width: desk.screen.width, height: desk.screen.height }"
                 >
                 </div>
                 <div class="desk-info">

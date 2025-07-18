@@ -270,8 +270,13 @@ function onPhotoViewerReady() {
   if (pendingFlash && pendingFlash.screenEl && pendingFlash.firstPhotoUrl) {
     console.log('PhotoViewer ready, starting flashing effect for:', pendingFlash.firstPhotoUrl);
 
-    // Set the final image first
-    pendingFlash.screenEl.style.backgroundImage = `url(${pendingFlash.firstPhotoUrl})`;
+    // Update the reactive screen image using the callback (if available) or fallback to direct DOM manipulation
+    if (pendingFlash.updateScreenImage && pendingFlash.deskId) {
+      pendingFlash.updateScreenImage(pendingFlash.deskId, pendingFlash.firstPhotoUrl);
+    } else {
+      // Fallback for gallery → PhotoViewer (where there's no reactive state)
+      pendingFlash.screenEl.style.backgroundImage = `url(${pendingFlash.firstPhotoUrl})`;
+    }
 
     // Create a longer lasting flashing effect using GSAP timeline for better control
     const flashTl = gsap.timeline();
