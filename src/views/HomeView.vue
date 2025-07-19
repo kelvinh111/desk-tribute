@@ -216,6 +216,14 @@ function pick(desk) {
   const rect = deskElement.getBoundingClientRect(); // Get the position of the original grid item.
   const cloneEl = deskElement.cloneNode(true); // Create a clone.
   cloneEl.classList.add('desk-clone');
+
+  // Force default cursor on clone and all its children
+  cloneEl.style.cursor = 'default';
+  const allElements = cloneEl.querySelectorAll('*');
+  allElements.forEach(el => {
+    el.style.cursor = 'default';
+  });
+
   // Style the clone to be positioned exactly on top of the original.
   cloneEl.style.position = 'absolute'; // Use absolute positioning
   cloneEl.style.top = rect.top + window.scrollY + 'px';
@@ -501,7 +509,7 @@ main {
 
   .desk-monitor {
     z-index: 2; // Lower z-index but still clickable
-    cursor: pointer; // Visual indication that it's clickable
+    // cursor: pointer; // Visual indication that it's clickable
   }
 
   .desk-screen {
@@ -544,5 +552,18 @@ button {
 
 .unclickable {
   pointer-events: none;
+}
+
+.desk-clone {
+  cursor: default !important;
+
+  .desk-monitor,
+  .desk-screen,
+  .desk-decor,
+  .desk-name,
+  .desk-desc,
+  * {
+    cursor: default !important;
+  }
 }
 </style>
