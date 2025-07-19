@@ -701,6 +701,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     align-items: flex-start;
     transition: top 0.4s ease, left 0.4s ease, width 0.4s ease;
     color: white;
+    z-index: 41;
 
     h3 {
         margin: 0 0 5px 0;
