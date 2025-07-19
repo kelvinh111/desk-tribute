@@ -175,12 +175,34 @@ function pick(desk) {
         if (deskSliderRef.value) {
           deskSliderRef.value.reset();
         }
+
         // Delay the removal of the clone to allow the gallery to fade in
         setTimeout(() => {
           cloneEl.remove(); // Remove the clone from the DOM.
         }, ANIMATION_DURATION * 1000); // Match the transition duration
       }
     });
+
+    // Auto-scroll to ensure the original desk position will be visible in viewport
+    // This happens simultaneously with the clone animation
+    const currentDeskRect = deskElement.getBoundingClientRect();
+    const isCurrentlyVisible = (
+      currentDeskRect.top >= 0 &&
+      currentDeskRect.left >= 0 &&
+      currentDeskRect.bottom <= window.innerHeight &&
+      currentDeskRect.right <= window.innerWidth
+    );
+
+    if (!isCurrentlyVisible) {
+      // Calculate the scroll position to center the desk in the viewport
+      const scrollTop = currentDeskRect.top + window.scrollY - (window.innerHeight / 2) + (currentDeskRect.height / 2);
+
+      // Smooth scroll to the desk position (happens simultaneously with clone animation)
+      window.scrollTo({
+        top: scrollTop,
+        behavior: 'smooth'
+      });
+    }
 
     gsap.to([cloneEl.querySelector('.desk-name'), cloneEl.querySelector('.desk-desc')], {
       color: '#959595', // Reset the text color
