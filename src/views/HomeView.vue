@@ -390,6 +390,26 @@ const updateCloneCenterTransform = () => {
           @click="store.isLogoClickable && handlePhotoViewerClose()"
         >DESK <span>WHERE CREATIVITY IS BORN</span></div>
 
+        <nav class="nav-menu">
+          <a
+            href="#"
+            class="nav-item back-to-list"
+            :class="{
+              'visible': store.isPhotoViewerVisible,
+              'disabled': !store.isLogoClickable
+            }"
+            @click="store.isLogoClickable && handlePhotoViewerClose()"
+          >BACK TO LIST</a>
+          <a
+            href="#"
+            class="nav-item"
+          >ABOUT</a>
+          <a
+            href="#"
+            class="nav-item"
+          >SUBMIT YOUR DESK</a>
+        </nav>
+
         <DeskGallery
           ref="galleryComponentRef"
           :desks="store.desks"
@@ -452,7 +472,7 @@ main {
 
 .logo {
   position: fixed;
-  top: 20px;
+  top: 25px;
   left: 20px;
   font-size: 1.2rem;
   letter-spacing: 0.05rem;
@@ -483,6 +503,54 @@ main {
 
   &.logo-disabled {
     cursor: not-allowed;
+  }
+}
+
+.nav-menu {
+  position: fixed;
+  top: 34px;
+  right: 20px;
+  display: flex;
+  gap: 30px;
+  z-index: 30;
+
+  .nav-item {
+    color: black;
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: bold;
+    transition: color 0.4s ease, opacity 0.3s ease;
+    cursor: pointer;
+    opacity: 1;
+
+    &.back-to-list {
+      opacity: 0;
+      visibility: hidden;
+      transition: color 0.4s ease, opacity 0.3s ease, visibility 0.3s ease;
+
+      &.visible {
+        opacity: 0.4;
+        visibility: visible;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // Hover effect: fade non-hovered items
+  &:hover .nav-item:not(:hover) {
+    opacity: 0.4;
+  }
+
+  // When photo viewer is active, change nav items to white
+  .app-content:has(.logo.viewer-active) & .nav-item {
+    color: white;
   }
 }
 
