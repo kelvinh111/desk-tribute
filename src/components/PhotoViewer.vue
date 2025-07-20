@@ -525,6 +525,55 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                     }"
                 >
                     <div
+                        class="slider-overlay"
+                        :class="{ 'disabled': !isSliderReady || isTransitioning }"
+                    >
+                        <h3>Share this Desk</h3>
+                        <h4>Use the buttons below to post this desk to a social network</h4>
+                        <div class="social-buttons">
+                            <a
+                                @click="shareToFacebook"
+                                class="social-icon"
+                            >
+                                <img
+                                    src="../assets/icon_facebook.svg"
+                                    alt="Facebook"
+                                />
+                            </a>
+                            <a
+                                @click="shareToX"
+                                class="social-icon"
+                            >
+                                <img
+                                    src="../assets/icon_x.svg"
+                                    alt="X"
+                                />
+                            </a>
+                            <a
+                                @click="shareToPinterest"
+                                class="social-icon"
+                            >
+                                <img
+                                    src="../assets/icon_pinterest.svg"
+                                    alt="Pinterest"
+                                />
+                            </a>
+                            <a
+                                @click="shareCopyLink"
+                                class="social-icon"
+                            >
+                                <img
+                                    src="../assets/icon_copylink.svg"
+                                    alt="Copy Link"
+                                />
+                            </a>
+                        </div>
+                        <div
+                            class="slider-overlay-bg"
+                            :style="{ backgroundColor: currentProgressColor }"
+                        ></div>
+                    </div>
+                    <div
                         v-for="(photo, idx) in props.desk.photos"
                         :key="photo"
                         class="slide"
@@ -665,13 +714,83 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     justify-content: center;
 }
 
+.slider-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    color: white;
+    text-align: center;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+
+    &.disabled {
+        pointer-events: none;
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+    }
+
+    h4 {
+        margin-bottom: 15px;
+        font-size: 0.8rem;
+    }
+
+    .social-buttons {
+        display: flex;
+        gap: 15px;
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            opacity: 1;
+
+            img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        // When hovering over the container, fade out all icons except the hovered one
+        &:hover .social-icon:not(:hover) {
+            opacity: 0.5;
+        }
+    }
+
+    .slider-overlay-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.5;
+        /* Behind text */
+    }
+}
+
 .slide {
     position: absolute;
     width: 100%;
     height: 100%;
     background-size: cover;
     background-position: center;
-    // transition: opacity 0.3s;
 }
 
 .stripes {
@@ -701,7 +820,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     align-items: flex-start;
     transition: top 0.4s ease, left 0.4s ease, width 0.4s ease;
     color: white;
-    z-index: 41;
+    z-index: 39;
 
     h3 {
         margin: 0 0 5px 0;
