@@ -892,7 +892,7 @@ onBeforeUnmount(() => {
 .floating-label {
     position: fixed;
     color: white;
-    z-index: 1000;
+    z-index: 40;
     pointer-events: none;
     white-space: nowrap;
 

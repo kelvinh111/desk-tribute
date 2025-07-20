@@ -21,6 +21,17 @@ const deskSliderRef = ref(null);
 // --- Loading State ---
 const isAppLoaded = ref(false);
 
+// --- About Overlay State ---
+const isAboutOverlayVisible = ref(false);
+
+function showAboutOverlay() {
+  isAboutOverlayVisible.value = true;
+}
+
+function hideAboutOverlay() {
+  isAboutOverlayVisible.value = false;
+}
+
 // --- Loading Screen Handler ---
 function onLoadingComplete() {
   isAppLoaded.value = true;
@@ -65,6 +76,12 @@ onBeforeUnmount(() => {
 
 function handlePhotoViewerClose() {
   if (!store.isLogoClickable) return; // Prevent closing during transitions
+
+  // If about overlay is visible, close it first, then continue with normal behavior
+  if (isAboutOverlayVisible.value) {
+    hideAboutOverlay();
+    // Don't return here - continue with the normal photo viewer close logic
+  }
 
   if (store.selectedDesk) {
     pick(store.selectedDesk);
@@ -384,7 +401,7 @@ const updateCloneCenterTransform = () => {
         <div
           class="logo"
           :class="{
-            'viewer-active': store.isPhotoViewerVisible,
+            'viewer-active': store.isPhotoViewerVisible || isAboutOverlayVisible,
             'logo-disabled': !store.isLogoClickable
           }"
           @click="store.isLogoClickable && handlePhotoViewerClose()"
@@ -395,7 +412,7 @@ const updateCloneCenterTransform = () => {
             href="#"
             class="nav-item back-to-list"
             :class="{
-              'visible': store.isPhotoViewerVisible,
+              'visible': store.isPhotoViewerVisible || (isAboutOverlayVisible && store.isPhotoViewerVisible),
               'disabled': !store.isLogoClickable
             }"
             @click="store.isLogoClickable && handlePhotoViewerClose()"
@@ -403,6 +420,8 @@ const updateCloneCenterTransform = () => {
           <a
             href="#"
             class="nav-item"
+            :class="{ 'active': isAboutOverlayVisible }"
+            @click="showAboutOverlay"
           >ABOUT</a>
           <a
             href="#"
@@ -440,6 +459,28 @@ const updateCloneCenterTransform = () => {
             if (ready) onPhotoViewerReady();
           }"
         />
+
+        <!-- About Overlay -->
+        <Transition name="overlay-fade">
+          <div
+            v-if="isAboutOverlayVisible"
+            class="about-overlay"
+          >
+            <div class="about-content">
+              <button
+                class="close-button"
+                @click="hideAboutOverlay"
+              >✕</button>
+              <div class="about-text">
+                <h2>About DESK</h2>
+                <p>WHERE CREATIVITY IS BORN</p>
+                <p>A curated collection of creative workspaces that inspire productivity and imagination. Each desk
+                  tells a story of passion, dedication, and the beautiful chaos of creation.</p>
+                <p>Discover the spaces where ideas come to life.</p>
+              </div>
+            </div>
+          </div>
+        </Transition>
       </div>
     </Transition>
   </main>
@@ -479,7 +520,7 @@ main {
   font-weight: bold;
   color: black; // Dark gray
   transition: color 0.4s ease;
-  z-index: 30;
+  z-index: 200;
   cursor: default;
 
   span {
@@ -512,7 +553,7 @@ main {
   right: 20px;
   display: flex;
   gap: 30px;
-  z-index: 30;
+  z-index: 200;
 
   .nav-item {
     color: black;
@@ -543,12 +584,32 @@ main {
     }
   }
 
-  // Hover effect: fade non-hovered items
-  &:hover .nav-item:not(:hover) {
+  // Hover effect: fade non-hovered items (but not when about overlay is visible)
+  &:hover:not(:has(~ .about-overlay)) .nav-item:not(:hover) {
     opacity: 0.4;
   }
 
-  // When photo viewer is active, change nav items to white
+  // When about overlay is visible, special hover behavior
+  &:has(~ .about-overlay) {
+    .nav-item {
+      opacity: 0.4;
+
+      &.active {
+        opacity: 1;
+      }
+    }
+
+    // Override hover behavior when about overlay is visible
+    &:hover .nav-item:not(:hover) {
+      opacity: 0.4;
+    }
+
+    &:hover .nav-item:hover {
+      opacity: 1;
+    }
+  }
+
+  // When photo viewer is active OR about overlay is visible, change nav items to white
   .app-content:has(.logo.viewer-active) & .nav-item {
     color: white;
   }
@@ -633,5 +694,92 @@ button {
   * {
     cursor: default !important;
   }
+}
+
+/* About Overlay Styles */
+.about-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-content {
+  max-width: 600px;
+  padding: 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.about-text {
+  color: white;
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+
+    &:first-of-type {
+      font-size: 0.9rem;
+      font-weight: bold;
+      letter-spacing: 0.05rem;
+      opacity: 0.7;
+      margin-bottom: 2rem;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+      font-style: italic;
+      opacity: 0.8;
+    }
+  }
+}
+
+/* Overlay fade transition */
+.overlay-fade-enter-active,
+.overlay-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.overlay-fade-enter-from,
+.overlay-fade-leave-to {
+  opacity: 0;
 }
 </style>
