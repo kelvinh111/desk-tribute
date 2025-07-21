@@ -32,6 +32,17 @@ function hideAboutOverlay() {
   isAboutOverlayVisible.value = false;
 }
 
+// --- Submit Desk Overlay State ---
+const isSubmitDeskOverlayVisible = ref(false);
+
+function showSubmitDeskOverlay() {
+  isSubmitDeskOverlayVisible.value = true;
+}
+
+function hideSubmitDeskOverlay() {
+  isSubmitDeskOverlayVisible.value = false;
+}
+
 // --- Loading Screen Handler ---
 function onLoadingComplete() {
   isAppLoaded.value = true;
@@ -80,6 +91,12 @@ function handlePhotoViewerClose() {
   // If about overlay is visible, close it first, then continue with normal behavior
   if (isAboutOverlayVisible.value) {
     hideAboutOverlay();
+    // Don't return here - continue with the normal photo viewer close logic
+  }
+
+  // If submit desk overlay is visible, close it first, then continue with normal behavior
+  if (isSubmitDeskOverlayVisible.value) {
+    hideSubmitDeskOverlay();
     // Don't return here - continue with the normal photo viewer close logic
   }
 
@@ -401,7 +418,7 @@ const updateCloneCenterTransform = () => {
         <div
           class="logo"
           :class="{
-            'viewer-active': store.isPhotoViewerVisible || isAboutOverlayVisible,
+            'viewer-active': store.isPhotoViewerVisible || isAboutOverlayVisible || isSubmitDeskOverlayVisible,
             'logo-disabled': !store.isLogoClickable
           }"
           @click="store.isLogoClickable && handlePhotoViewerClose()"
@@ -412,7 +429,7 @@ const updateCloneCenterTransform = () => {
             href="#"
             class="nav-item back-to-list"
             :class="{
-              'visible': store.isPhotoViewerVisible || (isAboutOverlayVisible && store.isPhotoViewerVisible),
+              'visible': store.isPhotoViewerVisible || (isAboutOverlayVisible && store.isPhotoViewerVisible) || (isSubmitDeskOverlayVisible && store.isPhotoViewerVisible),
               'disabled': !store.isLogoClickable
             }"
             @click="store.isLogoClickable && handlePhotoViewerClose()"
@@ -426,6 +443,8 @@ const updateCloneCenterTransform = () => {
           <a
             href="#"
             class="nav-item"
+            :class="{ 'active': isSubmitDeskOverlayVisible }"
+            @click="showSubmitDeskOverlay"
           >SUBMIT YOUR DESK</a>
         </nav>
 
@@ -477,6 +496,30 @@ const updateCloneCenterTransform = () => {
                 <p>A curated collection of creative workspaces that inspire productivity and imagination. Each desk
                   tells a story of passion, dedication, and the beautiful chaos of creation.</p>
                 <p>Discover the spaces where ideas come to life.</p>
+              </div>
+            </div>
+          </div>
+        </Transition>
+
+        <!-- Submit Desk Overlay -->
+        <Transition name="overlay-fade">
+          <div
+            v-if="isSubmitDeskOverlayVisible"
+            class="submit-desk-overlay"
+          >
+            <div class="submit-desk-content">
+              <button
+                class="close-button"
+                @click="hideSubmitDeskOverlay"
+              >✕</button>
+              <div class="submit-desk-text">
+                <h2>Submit Your Desk</h2>
+                <p>SHARE YOUR CREATIVE SPACE</p>
+                <p>We're looking for inspiring workspaces that showcase creativity, productivity, and personal style.
+                  Whether it's a minimalist setup, a maximalist paradise, or anything in between, we'd love to feature
+                  your desk.</p>
+                <p>Coming soon: Submission form and guidelines for sharing your creative workspace with the community.
+                </p>
               </div>
             </div>
           </div>
@@ -585,7 +628,7 @@ main {
   }
 
   // Hover effect: fade non-hovered items (but not when about overlay is visible)
-  &:hover:not(:has(~ .about-overlay)) .nav-item:not(:hover) {
+  &:hover:not(:has(~ .about-overlay)):not(:has(~ .submit-desk-overlay)) .nav-item:not(:hover) {
     opacity: 0.4;
   }
 
@@ -600,6 +643,26 @@ main {
     }
 
     // Override hover behavior when about overlay is visible
+    &:hover .nav-item:not(:hover) {
+      opacity: 0.4;
+    }
+
+    &:hover .nav-item:hover {
+      opacity: 1;
+    }
+  }
+
+  // When submit desk overlay is visible, special hover behavior
+  &:has(~ .submit-desk-overlay) {
+    .nav-item {
+      opacity: 0.4;
+
+      &.active {
+        opacity: 1;
+      }
+    }
+
+    // Override hover behavior when submit desk overlay is visible
     &:hover .nav-item:not(:hover) {
       opacity: 0.4;
     }
@@ -781,5 +844,58 @@ button {
 .overlay-fade-enter-from,
 .overlay-fade-leave-to {
   opacity: 0;
+}
+
+/* Submit Desk Overlay Styles */
+.submit-desk-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-desk-content {
+  max-width: 600px;
+  padding: 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.submit-desk-text {
+  color: white;
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+
+    &:first-of-type {
+      font-size: 0.9rem;
+      font-weight: bold;
+      letter-spacing: 0.05rem;
+      opacity: 0.7;
+      margin-bottom: 2rem;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+      font-style: italic;
+      opacity: 0.8;
+    }
+  }
 }
 </style>
