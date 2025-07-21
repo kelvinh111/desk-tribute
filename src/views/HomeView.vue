@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { gsap } from 'gsap';
 import { useDeskViewerStore } from '../stores/deskViewer.js';
@@ -25,6 +25,10 @@ const isAppLoaded = ref(false);
 const isAboutOverlayVisible = ref(false);
 
 function showAboutOverlay() {
+  // If submit desk overlay is visible, just switch content
+  if (isSubmitDeskOverlayVisible.value) {
+    isSubmitDeskOverlayVisible.value = false;
+  }
   isAboutOverlayVisible.value = true;
 }
 
@@ -36,12 +40,19 @@ function hideAboutOverlay() {
 const isSubmitDeskOverlayVisible = ref(false);
 
 function showSubmitDeskOverlay() {
+  // If about overlay is visible, just switch content
+  if (isAboutOverlayVisible.value) {
+    isAboutOverlayVisible.value = false;
+  }
   isSubmitDeskOverlayVisible.value = true;
 }
 
 function hideSubmitDeskOverlay() {
   isSubmitDeskOverlayVisible.value = false;
 }
+
+// Computed property to check if any overlay is visible
+const isAnyOverlayVisible = computed(() => isAboutOverlayVisible.value || isSubmitDeskOverlayVisible.value);
 
 // --- Loading Screen Handler ---
 function onLoadingComplete() {
@@ -88,14 +99,9 @@ onBeforeUnmount(() => {
 function handlePhotoViewerClose() {
   if (!store.isLogoClickable) return; // Prevent closing during transitions
 
-  // If about overlay is visible, close it first, then continue with normal behavior
-  if (isAboutOverlayVisible.value) {
+  // If any overlay is visible, close it first, then continue with normal behavior
+  if (isAnyOverlayVisible.value) {
     hideAboutOverlay();
-    // Don't return here - continue with the normal photo viewer close logic
-  }
-
-  // If submit desk overlay is visible, close it first, then continue with normal behavior
-  if (isSubmitDeskOverlayVisible.value) {
     hideSubmitDeskOverlay();
     // Don't return here - continue with the normal photo viewer close logic
   }
@@ -418,7 +424,7 @@ const updateCloneCenterTransform = () => {
         <div
           class="logo"
           :class="{
-            'viewer-active': store.isPhotoViewerVisible || isAboutOverlayVisible || isSubmitDeskOverlayVisible,
+            'viewer-active': store.isPhotoViewerVisible || isAnyOverlayVisible,
             'logo-disabled': !store.isLogoClickable
           }"
           @click="store.isLogoClickable && handlePhotoViewerClose()"
@@ -429,7 +435,7 @@ const updateCloneCenterTransform = () => {
             href="#"
             class="nav-item back-to-list"
             :class="{
-              'visible': store.isPhotoViewerVisible || (isAboutOverlayVisible && store.isPhotoViewerVisible) || (isSubmitDeskOverlayVisible && store.isPhotoViewerVisible),
+              'visible': store.isPhotoViewerVisible || (isAnyOverlayVisible && store.isPhotoViewerVisible),
               'disabled': !store.isLogoClickable
             }"
             @click="store.isLogoClickable && handlePhotoViewerClose()"
@@ -479,49 +485,55 @@ const updateCloneCenterTransform = () => {
           }"
         />
 
-        <!-- About Overlay -->
+        <!-- Unified Overlay -->
         <Transition name="overlay-fade">
           <div
-            v-if="isAboutOverlayVisible"
-            class="about-overlay"
+            v-if="isAnyOverlayVisible"
+            class="overlay"
           >
-            <div class="about-content">
-              <button
-                class="close-button"
-                @click="hideAboutOverlay"
-              >✕</button>
-              <div class="about-text">
-                <h2>About DESK</h2>
-                <p>WHERE CREATIVITY IS BORN</p>
-                <p>A curated collection of creative workspaces that inspire productivity and imagination. Each desk
-                  tells a story of passion, dedication, and the beautiful chaos of creation.</p>
-                <p>Discover the spaces where ideas come to life.</p>
+            <!-- About Content -->
+            <Transition name="content-fade">
+              <div
+                v-if="isAboutOverlayVisible"
+                key="about"
+                class="overlay-content"
+              >
+                <button
+                  class="close-button"
+                  @click="hideAboutOverlay"
+                >✕</button>
+                <div class="overlay-text">
+                  <h2>About DESK</h2>
+                  <p>WHERE CREATIVITY IS BORN</p>
+                  <p>A curated collection of creative workspaces that inspire productivity and imagination. Each desk
+                    tells a story of passion, dedication, and the beautiful chaos of creation.</p>
+                  <p>Discover the spaces where ideas come to life.</p>
+                </div>
               </div>
-            </div>
-          </div>
-        </Transition>
+            </Transition>
 
-        <!-- Submit Desk Overlay -->
-        <Transition name="overlay-fade">
-          <div
-            v-if="isSubmitDeskOverlayVisible"
-            class="submit-desk-overlay"
-          >
-            <div class="submit-desk-content">
-              <button
-                class="close-button"
-                @click="hideSubmitDeskOverlay"
-              >✕</button>
-              <div class="submit-desk-text">
-                <h2>Submit Your Desk</h2>
-                <p>SHARE YOUR CREATIVE SPACE</p>
-                <p>We're looking for inspiring workspaces that showcase creativity, productivity, and personal style.
-                  Whether it's a minimalist setup, a maximalist paradise, or anything in between, we'd love to feature
-                  your desk.</p>
-                <p>Coming soon: Submission form and guidelines for sharing your creative workspace with the community.
-                </p>
+            <!-- Submit Desk Content -->
+            <Transition name="content-fade">
+              <div
+                v-if="isSubmitDeskOverlayVisible"
+                key="submit"
+                class="overlay-content"
+              >
+                <button
+                  class="close-button"
+                  @click="hideSubmitDeskOverlay"
+                >✕</button>
+                <div class="overlay-text">
+                  <h2>Submit Your Desk</h2>
+                  <p>SHARE YOUR CREATIVE SPACE</p>
+                  <p>We're looking for inspiring workspaces that showcase creativity, productivity, and personal style.
+                    Whether it's a minimalist setup, a maximalist paradise, or anything in between, we'd love to feature
+                    your desk.</p>
+                  <p>Coming soon: Submission form and guidelines for sharing your creative workspace with the community.
+                  </p>
+                </div>
               </div>
-            </div>
+            </Transition>
           </div>
         </Transition>
       </div>
@@ -627,13 +639,13 @@ main {
     }
   }
 
-  // Hover effect: fade non-hovered items (but not when about overlay is visible)
-  &:hover:not(:has(~ .about-overlay)):not(:has(~ .submit-desk-overlay)) .nav-item:not(:hover) {
+  // Hover effect: fade non-hovered items (but not when overlay is visible)
+  &:hover:not(:has(~ .overlay)) .nav-item:not(:hover) {
     opacity: 0.4;
   }
 
-  // When about overlay is visible, special hover behavior
-  &:has(~ .about-overlay) {
+  // When overlay is visible, special hover behavior
+  &:has(~ .overlay) {
     .nav-item {
       opacity: 0.4;
 
@@ -642,27 +654,7 @@ main {
       }
     }
 
-    // Override hover behavior when about overlay is visible
-    &:hover .nav-item:not(:hover) {
-      opacity: 0.4;
-    }
-
-    &:hover .nav-item:hover {
-      opacity: 1;
-    }
-  }
-
-  // When submit desk overlay is visible, special hover behavior
-  &:has(~ .submit-desk-overlay) {
-    .nav-item {
-      opacity: 0.4;
-
-      &.active {
-        opacity: 1;
-      }
-    }
-
-    // Override hover behavior when submit desk overlay is visible
+    // Override hover behavior when overlay is visible
     &:hover .nav-item:not(:hover) {
       opacity: 0.4;
     }
@@ -759,83 +751,77 @@ button {
   }
 }
 
-/* About Overlay Styles */
-.about-overlay {
+/* Unified Overlay Styles */
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.9);
-  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 
-.about-content {
-  max-width: 600px;
-  padding: 3rem;
+.overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
-  position: relative;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.overlay-text {
+  color: white;
+}
+
+.overlay-text h2 {
+  font-size: 2.5rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.overlay-text p:first-of-type {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+.overlay-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .close-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: -1rem;
+  right: -1rem;
   background: none;
   border: none;
   color: white;
-  font-size: 1.5rem;
+  font-size: 2rem;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
+  line-height: 1;
+  z-index: 1;
 }
 
-.about-text {
-  color: white;
-
-  h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    letter-spacing: 0.1rem;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-
-    &:first-of-type {
-      font-size: 0.9rem;
-      font-weight: bold;
-      letter-spacing: 0.05rem;
-      opacity: 0.7;
-      margin-bottom: 2rem;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-      font-style: italic;
-      opacity: 0.8;
-    }
-  }
+.close-button:hover {
+  color: #ccc;
 }
 
-/* Overlay fade transition */
+/* Transition animations */
 .overlay-fade-enter-active,
 .overlay-fade-leave-active {
   transition: opacity 0.3s ease;
@@ -846,56 +832,13 @@ button {
   opacity: 0;
 }
 
-/* Submit Desk Overlay Styles */
-.submit-desk-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.content-fade-enter-active,
+.content-fade-leave-active {
+  transition: opacity 0.5s ease;
 }
 
-.submit-desk-content {
-  max-width: 600px;
-  padding: 3rem;
-  text-align: center;
-  position: relative;
-}
-
-.submit-desk-text {
-  color: white;
-
-  h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    letter-spacing: 0.1rem;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-
-    &:first-of-type {
-      font-size: 0.9rem;
-      font-weight: bold;
-      letter-spacing: 0.05rem;
-      opacity: 0.7;
-      margin-bottom: 2rem;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-      font-style: italic;
-      opacity: 0.8;
-    }
-  }
+.content-fade-enter-from,
+.content-fade-leave-to {
+  opacity: 0;
 }
 </style>
