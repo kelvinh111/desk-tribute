@@ -815,10 +815,12 @@ button {
   padding: 0.5rem;
   line-height: 1;
   z-index: 1;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.5s ease;
 }
 
 .close-button:hover {
   color: #ccc;
+  transform: rotate(180deg);
 }
 
 /* Transition animations */
