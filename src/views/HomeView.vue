@@ -60,25 +60,50 @@ function onLoadingComplete() {
 
   // After loading is complete, handle any direct desk loading
   nextTick(() => {
-    handleDirectDeskLoading();
+    // Add a small delay to ensure all components are mounted
+    setTimeout(() => {
+      handleDirectDeskLoading();
+    }, 100);
   });
-}
-
-// Handle direct desk loading after the app is fully loaded
+}// Handle direct desk loading after the app is fully loaded
 function handleDirectDeskLoading() {
   // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
   if (route.params.deskId) {
-    const desk = store.desks.find(d => d.id === route.params.deskId);
+    const deskId = parseInt(route.params.deskId, 10); // Convert string to number
+    const desk = store.desks.find(d => d.id === deskId);
     if (desk) {
-      // Use a small timeout to ensure Masonry has finished its initial layout.
-      setTimeout(() => {
-        pick(desk);
-      }, 150);
+      console.log('Direct desk loading:', desk);
+
+      // Immediately fade the gallery to hide it
+      store.setGalleryFaded(true);
+
+      // Ensure gallery is mounted before trying to pick
+      const checkGalleryAndPick = () => {
+        const galleryRef = galleryComponentRef.value?.galleryRef;
+        if (galleryRef) {
+          const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${deskId}"]`);
+          if (deskElement) {
+            // For direct loading, call pick with a flag to skip animation
+            pick(desk, true); // true = direct loading, skip gallery animation
+          } else {
+            // If desk element not found, try again after a short delay
+            setTimeout(checkGalleryAndPick, 100);
+          }
+        } else {
+          // If gallery ref not available, try again after a short delay
+          setTimeout(checkGalleryAndPick, 100);
+        }
+      };
+
+      // Start checking for gallery availability immediately
+      checkGalleryAndPick();
+    } else {
+      console.warn('Desk not found with ID:', deskId);
+      // If desk not found, redirect to home
+      router.push('/');
     }
   }
-}
-
-// --- Vue Router ---
+}// --- Vue Router ---
 const router = useRouter(); // Used to programmatically change the URL (e.g., router.push('/'.
 const route = useRoute(); // Used to read information from the current URL (e.g., route.params.deskId).
 
@@ -139,7 +164,7 @@ function changeDesk(desk) {
 }
 
 // This is the main function that orchestrates the opening and closing of a desk item.
-function pick(desk) {
+function pick(desk, isDirectLoading = false) {
   const galleryRef = galleryComponentRef.value?.galleryRef;
   if (!galleryRef) return;
   const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`);
@@ -266,53 +291,88 @@ function pick(desk) {
 
   // Style the clone to be positioned exactly on top of the original.
   cloneEl.style.position = 'absolute'; // Use absolute positioning
-  cloneEl.style.top = rect.top + window.scrollY + 'px';
-  cloneEl.style.left = rect.left + 'px';
-  cloneEl.style.width = rect.width + 'px';
-  cloneEl.style.height = rect.height + 'px';
   cloneEl.style.zIndex = '10'; // Ensure it's above the backdrop and everything else
   document.body.appendChild(cloneEl);
   deskElement.style.visibility = 'hidden'; // Hide the original item.
   store.addHiddenDeskId(desk.id); // Track this desk as hidden
-  // Fade out the rest of the gallery.
-  store.setGalleryFaded(true);
-  store.setSelectedDeskClone({ desk, originalRect: rect, cloneEl }); // Store the clone's state.
 
   // Show the photo viewer immediately when clone is created
   store.setPhotoViewerVisible(true);
 
-  // Animate the clone from its starting position to the center of the screen.
-  const cloneWidth = cloneEl.offsetWidth;
-  const cloneHeight = cloneEl.offsetHeight;
-  const targetLeft = (window.innerWidth - cloneWidth) / 2;
-  const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY;
+  if (isDirectLoading) {
+    // For direct loading: Position clone immediately at center and skip animations
+    const cloneWidth = cloneEl.offsetWidth;
+    const cloneHeight = cloneEl.offsetHeight;
+    const targetLeft = (window.innerWidth - cloneWidth) / 2;
+    const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY;
 
-  gsap.to(cloneEl, {
-    top: targetTop,
-    left: targetLeft,
-    duration: 1,
-    // ease: 'power2.inOut',
-    ease: 'bounce.out', // Use a bounce effect for a more dynamic feel
-    delay: 0.5, // Slight delay to allow the gallery to fade out
-    onComplete: () => {
-      // Animation complete - clone is now at center
-      // Store the desk and screen element for later use when photos are loaded
-      if (cloneEl.querySelector('.desk-screen') && desk.screen && desk.screen.firstPhoto) {
-        // Store the flashing effect data to be triggered when photos finish loading
-        store.setPendingFlashEffect({
-          screenEl: cloneEl.querySelector('.desk-screen'),
-          firstPhotoUrl: desk.screen.firstPhoto
-        });
-      }
+    // Set clone immediately to center position
+    cloneEl.style.top = targetTop + 'px';
+    cloneEl.style.left = targetLeft + 'px';
+    cloneEl.style.width = rect.width + 'px';
+    cloneEl.style.height = rect.height + 'px';
+
+    // Set text color to white immediately
+    const nameEl = cloneEl.querySelector('.desk-name');
+    const descEl = cloneEl.querySelector('.desk-desc');
+    if (nameEl) nameEl.style.color = 'white';
+    if (descEl) descEl.style.color = 'white';
+
+    // Fade out the gallery immediately
+    store.setGalleryFaded(true);
+    store.setSelectedDeskClone({ desk, originalRect: rect, cloneEl }); // Store the clone's state.
+
+    // Set up flashing effect immediately
+    if (cloneEl.querySelector('.desk-screen') && desk.screen && desk.screen.firstPhoto) {
+      store.setPendingFlashEffect({
+        screenEl: cloneEl.querySelector('.desk-screen'),
+        firstPhotoUrl: desk.screen.firstPhoto
+      });
     }
-  });
+  } else {
+    // For normal gallery clicks: Animate from gallery position to center
+    cloneEl.style.top = rect.top + window.scrollY + 'px';
+    cloneEl.style.left = rect.left + 'px';
+    cloneEl.style.width = rect.width + 'px';
+    cloneEl.style.height = rect.height + 'px';
 
-  gsap.to([cloneEl.querySelector('.desk-name'), cloneEl.querySelector('.desk-desc')], {
-    color: 'white',
-    duration: ANIMATION_DURATION,
-    ease: 'power2.inOut',
-    delay: 0.2, // Slight delay to allow the gallery to fade out
-  });
+    // Fade out the rest of the gallery.
+    store.setGalleryFaded(true);
+    store.setSelectedDeskClone({ desk, originalRect: rect, cloneEl }); // Store the clone's state.
+
+    // Animate the clone from its starting position to the center of the screen.
+    const cloneWidth = cloneEl.offsetWidth;
+    const cloneHeight = cloneEl.offsetHeight;
+    const targetLeft = (window.innerWidth - cloneWidth) / 2;
+    const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY;
+
+    gsap.to(cloneEl, {
+      top: targetTop,
+      left: targetLeft,
+      duration: 1,
+      // ease: 'power2.inOut',
+      ease: 'bounce.out', // Use a bounce effect for a more dynamic feel
+      delay: 0.5, // Slight delay to allow the gallery to fade out
+      onComplete: () => {
+        // Animation complete - clone is now at center
+        // Store the desk and screen element for later use when photos are loaded
+        if (cloneEl.querySelector('.desk-screen') && desk.screen && desk.screen.firstPhoto) {
+          // Store the flashing effect data to be triggered when photos finish loading
+          store.setPendingFlashEffect({
+            screenEl: cloneEl.querySelector('.desk-screen'),
+            firstPhotoUrl: desk.screen.firstPhoto
+          });
+        }
+      }
+    });
+
+    gsap.to([cloneEl.querySelector('.desk-name'), cloneEl.querySelector('.desk-desc')], {
+      color: 'white',
+      duration: ANIMATION_DURATION,
+      ease: 'power2.inOut',
+      delay: 0.2, // Slight delay to allow the gallery to fade out
+    });
+  }
 
 }
 
