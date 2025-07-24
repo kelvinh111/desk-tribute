@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
 import { gsap } from 'gsap';
 import { useDeskViewerStore } from '../stores/deskViewer.js';
+import { audioManager } from '../utils/audioManager.js';
 
 const props = defineProps({
     desks: Array,
@@ -88,6 +89,11 @@ const floatingLabel = reactive({
 function handleItemClick(desk) {
     if (!props.isInteractive || carousel.hasDragged || store.isCarouselLocked) return;
     if (props.selectedDeskId && props.selectedDeskId !== desk.id) {
+        // Play click sound effect only when interactive
+        if (props.isInteractive) {
+            audioManager.play('gallery_click');
+        }
+
         isHoverable.value = false; // Disable hover effects when a desk is selected
         store.setCarouselLocked(true);
         emit('change-desk', desk);
@@ -104,6 +110,11 @@ function updateFloatingLabel(event) {
 
 function showFloatingLabel(desk, event) {
     if (!props.isInteractive) return; // Don't show floating label when not interactive
+
+    // Play hover sound effect only when interactive
+    if (props.isInteractive) {
+        audioManager.play('gallery_hover');
+    }
 
     // Clear any pending hide timeout
     if (floatingLabel.hideTimeout) {
