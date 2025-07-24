@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { gsap } from 'gsap';
 import { useDeskViewerStore } from '../stores/deskViewer.js';
+import { audioManager } from '../utils/audioManager.js';
 import DeskGallery from '../components/DeskGallery.vue';
 import DeskSlider from '../components/DeskSlider.vue';
 import PhotoViewer from '../components/PhotoViewer.vue';
@@ -30,10 +31,22 @@ function showAboutOverlay() {
     isSubmitDeskOverlayVisible.value = false;
   }
   isAboutOverlayVisible.value = true;
+
+  // Pause gallery effects when overlay is shown
+  if (galleryComponentRef.value?.pauseGalleryEffects) {
+    galleryComponentRef.value.pauseGalleryEffects();
+  }
 }
 
 function hideAboutOverlay() {
   isAboutOverlayVisible.value = false;
+
+  // Resume gallery effects when overlay is closed (only if no other overlay is visible)
+  if (!isSubmitDeskOverlayVisible.value && !store.isPhotoViewerVisible) {
+    if (galleryComponentRef.value?.resumeGalleryEffects) {
+      galleryComponentRef.value.resumeGalleryEffects();
+    }
+  }
 }
 
 // --- Submit Desk Overlay State ---
@@ -45,10 +58,22 @@ function showSubmitDeskOverlay() {
     isAboutOverlayVisible.value = false;
   }
   isSubmitDeskOverlayVisible.value = true;
+
+  // Pause gallery effects when overlay is shown
+  if (galleryComponentRef.value?.pauseGalleryEffects) {
+    galleryComponentRef.value.pauseGalleryEffects();
+  }
 }
 
 function hideSubmitDeskOverlay() {
   isSubmitDeskOverlayVisible.value = false;
+
+  // Resume gallery effects when overlay is closed (only if no other overlay is visible)
+  if (!isAboutOverlayVisible.value && !store.isPhotoViewerVisible) {
+    if (galleryComponentRef.value?.resumeGalleryEffects) {
+      galleryComponentRef.value.resumeGalleryEffects();
+    }
+  }
 }
 
 // Computed property to check if any overlay is visible
@@ -241,6 +266,11 @@ function pick(desk, isDirectLoading = false) {
           deskSliderRef.value.reset();
         }
 
+        // Resume gallery effects when returning to gallery view
+        if (galleryComponentRef.value?.resumeGalleryEffects) {
+          galleryComponentRef.value.resumeGalleryEffects();
+        }
+
         // Delay the removal of the clone to allow the gallery to fade in
         setTimeout(() => {
           cloneEl.remove(); // Remove the clone from the DOM.
@@ -400,6 +430,9 @@ function onPhotoViewerReady() {
   if (pendingFlash && pendingFlash.screenEl && pendingFlash.firstPhotoUrl) {
     console.log('PhotoViewer ready, starting flashing effect for:', pendingFlash.firstPhotoUrl);
 
+    // Play photoviewer load sound effect
+    audioManager.play('photoviewer_load');
+
     // Update the reactive screen image using the callback (if available) or fallback to direct DOM manipulation
     if (pendingFlash.updateScreenImage && pendingFlash.deskId) {
       pendingFlash.updateScreenImage(pendingFlash.deskId, pendingFlash.firstPhotoUrl);
@@ -488,7 +521,8 @@ const updateCloneCenterTransform = () => {
               'viewer-active': store.isPhotoViewerVisible || isAnyOverlayVisible,
               'logo-disabled': !store.isLogoClickable
             }"
-            @click="store.isLogoClickable && handlePhotoViewerClose()"
+            @click="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && (audioManager.play('header_click'), handlePhotoViewerClose())"
+            @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && audioManager.play('header_hover')"
           >DESK <span>WHERE CREATIVITY IS BORN</span></div>
 
           <nav class="nav-menu">
@@ -499,19 +533,22 @@ const updateCloneCenterTransform = () => {
                 'visible': store.isPhotoViewerVisible || (isAnyOverlayVisible && store.isPhotoViewerVisible),
                 'disabled': !store.isLogoClickable
               }"
-              @click="store.isLogoClickable && handlePhotoViewerClose()"
+              @click="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && (audioManager.play('header_click'), handlePhotoViewerClose())"
+              @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && audioManager.play('header_hover')"
             >BACK TO LIST</a>
             <a
               href="#"
               class="nav-item"
               :class="{ 'active': isAboutOverlayVisible }"
-              @click="showAboutOverlay"
+              @click="audioManager.play('header_click'), showAboutOverlay()"
+              @mouseenter="audioManager.play('header_hover')"
             >ABOUT</a>
             <a
               href="#"
               class="nav-item"
               :class="{ 'active': isSubmitDeskOverlayVisible }"
-              @click="showSubmitDeskOverlay"
+              @click="audioManager.play('header_click'), showSubmitDeskOverlay()"
+              @mouseenter="audioManager.play('header_hover')"
             >SUBMIT YOUR DESK</a>
           </nav>
         </header>

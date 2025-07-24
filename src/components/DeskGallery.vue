@@ -146,6 +146,20 @@ const stopJumping = () => {
     jumpCounter = 0; // Reset counter when stopping
 };
 
+// Pause all gallery effects (cycling and jumping)
+const pauseGalleryEffects = () => {
+    stopCycling();
+    stopJumping();
+    console.log('🔇 Gallery effects paused');
+};
+
+// Resume all gallery effects (cycling and jumping)
+const resumeGalleryEffects = () => {
+    startCycling();
+    startJumping();
+    console.log('🔊 Gallery effects resumed');
+};
+
 const galleryWidth = () => {
     if (typeof window === 'undefined') return '100%';
     const numberOfColumns = Math.min(displayDesks.value.length, Math.floor(windowWidth.value / COLUMN_WIDTH));
@@ -171,6 +185,12 @@ const handleDeskClick = (desk, event) => {
     // Enable audio on first user interaction
     audioManager.manuallyEnable();
 
+    // Play click sound effect
+    audioManager.play('gallery_click');
+
+    // Pause gallery effects when a desk is selected
+    pauseGalleryEffects();
+
     // Remove the glitch effect immediately when desk is clicked
     const deskElement = event.target.closest('.desk');
     if (deskElement) {
@@ -188,7 +208,12 @@ onMounted(() => {
     // Initialize audio manager with gallery sounds
     audioManager.initialize({
         'gallery_shuffle': '/src/assets/sounds/gallery_shuffle.mp3',
-        'gallery_jump': '/src/assets/sounds/gallery_jump.mp3'
+        'gallery_jump': '/src/assets/sounds/gallery_jump.mp3',
+        'gallery_hover': '/src/assets/sounds/gallery_hover.mp3',
+        'gallery_click': '/src/assets/sounds/gallery_click.mp3',
+        'photoviewer_load': '/src/assets/sounds/photoviewer_load.mp3',
+        'header_hover': '/src/assets/sounds/header_hover.mp3',
+        'header_click': '/src/assets/sounds/header_click.mp3'
     });
 
     nextTick(() => {
@@ -215,7 +240,9 @@ onMounted(() => {
 });
 
 defineExpose({
-    galleryRef
+    galleryRef,
+    pauseGalleryEffects,
+    resumeGalleryEffects
 });
 </script>
 
@@ -255,7 +282,7 @@ defineExpose({
                             height: desk.monitor.height
                         }"
                         @click="handleDeskClick(desk, $event)"
-                        @mouseenter="$event.target.closest('.desk').classList.add('monitor-hovered')"
+                        @mouseenter="$event.target.closest('.desk').classList.add('monitor-hovered'); audioManager.play('gallery_hover')"
                         @mouseleave="$event.target.closest('.desk').classList.remove('monitor-hovered')"
                     ></div>
                     <div
