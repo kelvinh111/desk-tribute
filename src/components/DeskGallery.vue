@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
 import Masonry from 'masonry-layout';
+import { audioManager } from '../utils/audioManager.js';
 
 const props = defineProps({
     desks: Array,
@@ -37,6 +38,9 @@ const cycleDeskOrder = () => {
     if (displayDesks.value.length > 1) {
         const lastDesk = displayDesks.value.pop();
         displayDesks.value.unshift(lastDesk);
+
+        // Play shuffle sound effect
+        audioManager.play('gallery_shuffle');
 
         // Refresh masonry layout after DOM update
         nextTick(() => {
@@ -83,6 +87,9 @@ const jumpDesk = (deskElement) => {
     const screen = deskElement.querySelector('.desk-screen');
 
     if (monitor && screen) {
+        // Play jump sound effect
+        audioManager.play('gallery_jump');
+
         // Add jump class to trigger CSS animation
         monitor.classList.add('jumping');
         screen.classList.add('jumping');
@@ -161,6 +168,9 @@ const handleResize = () => {
 };
 
 const handleDeskClick = (desk, event) => {
+    // Enable audio on first user interaction
+    audioManager.manuallyEnable();
+
     // Remove the glitch effect immediately when desk is clicked
     const deskElement = event.target.closest('.desk');
     if (deskElement) {
@@ -174,6 +184,12 @@ const handleDeskClick = (desk, event) => {
 onMounted(() => {
     // Initialize display desks
     initializeDisplayDesks();
+
+    // Initialize audio manager with gallery sounds
+    audioManager.initialize({
+        'gallery_shuffle': '/src/assets/sounds/gallery_shuffle.mp3',
+        'gallery_jump': '/src/assets/sounds/gallery_jump.mp3'
+    });
 
     nextTick(() => {
         masonryInstance = new Masonry(galleryRef.value, {
@@ -189,9 +205,7 @@ onMounted(() => {
         startJumping();
     });
     window.addEventListener('resize', handleResize);
-});
-
-onBeforeUnmount(() => {
+}); onBeforeUnmount(() => {
     stopCycling();
     stopJumping();
     window.removeEventListener('resize', handleResize);
