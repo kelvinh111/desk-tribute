@@ -749,7 +749,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 
     .social-buttons {
         display: flex;
-        gap: 15px;
+        gap: 10px;
 
         .social-icon {
             display: flex;

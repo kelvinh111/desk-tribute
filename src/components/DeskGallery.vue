@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
 import Masonry from 'masonry-layout';
 
 const props = defineProps({
@@ -12,14 +12,58 @@ const emit = defineEmits(['pick']);
 
 const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry gallery.
 const GUTTER = 35; // The space between gallery items in the Masonry layout.
+const CYCLE_INTERVAL = 6000; // 3 seconds in milliseconds
 
 const galleryRef = ref(null);
 let masonryInstance = null;
 const windowWidth = ref(window.innerWidth);
+let cycleInterval = null;
+
+// Create a reactive copy of the desks array for manipulation
+const displayDesks = ref([]);
+
+// Initialize display desks when props.desks changes
+const initializeDisplayDesks = () => {
+    if (props.desks && props.desks.length > 0) {
+        displayDesks.value = [...props.desks];
+    }
+};
+
+// Cycle function to move last desk to beginning
+const cycleDeskOrder = () => {
+    if (displayDesks.value.length > 1) {
+        const lastDesk = displayDesks.value.pop();
+        displayDesks.value.unshift(lastDesk);
+
+        // Refresh masonry layout after DOM update
+        nextTick(() => {
+            if (masonryInstance) {
+                masonryInstance.reloadItems();
+                masonryInstance.layout();
+            }
+        });
+    }
+};
+
+// Start the cycling interval
+const startCycling = () => {
+    if (cycleInterval) {
+        clearInterval(cycleInterval);
+    }
+    cycleInterval = setInterval(cycleDeskOrder, CYCLE_INTERVAL);
+};
+
+// Stop the cycling interval
+const stopCycling = () => {
+    if (cycleInterval) {
+        clearInterval(cycleInterval);
+        cycleInterval = null;
+    }
+};
 
 const galleryWidth = () => {
     if (typeof window === 'undefined') return '100%';
-    const numberOfColumns = Math.min(props.desks.length, Math.floor(windowWidth.value / COLUMN_WIDTH));
+    const numberOfColumns = Math.min(displayDesks.value.length, Math.floor(windowWidth.value / COLUMN_WIDTH));
     const calculatedWidth = COLUMN_WIDTH * numberOfColumns + GUTTER * (numberOfColumns - 1);
 
     if (calculatedWidth <= windowWidth.value) {
@@ -50,17 +94,24 @@ const handleDeskClick = (desk, event) => {
 };
 
 onMounted(() => {
+    // Initialize display desks
+    initializeDisplayDesks();
+
     nextTick(() => {
         masonryInstance = new Masonry(galleryRef.value, {
             itemSelector: '.gallery-item',
             columnWidth: COLUMN_WIDTH,
             gutter: GUTTER,
         });
+
+        // Start cycling after masonry is initialized
+        startCycling();
     });
     window.addEventListener('resize', handleResize);
 });
 
 onBeforeUnmount(() => {
+    stopCycling();
     window.removeEventListener('resize', handleResize);
     if (masonryInstance) {
         masonryInstance.destroy();
@@ -84,7 +135,7 @@ defineExpose({
             tag="div"
         >
             <div
-                v-for="desk in desks"
+                v-for="desk in displayDesks"
                 :key="desk.id"
                 class="gallery-item"
                 :data-desk-id="desk.id"

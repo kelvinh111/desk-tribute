@@ -481,38 +481,40 @@ const updateCloneCenterTransform = () => {
         v-if="isAppLoaded"
         class="app-content"
       >
-        <div
-          class="logo"
-          :class="{
-            'viewer-active': store.isPhotoViewerVisible || isAnyOverlayVisible,
-            'logo-disabled': !store.isLogoClickable
-          }"
-          @click="store.isLogoClickable && handlePhotoViewerClose()"
-        >DESK <span>WHERE CREATIVITY IS BORN</span></div>
-
-        <nav class="nav-menu">
-          <a
-            href="#"
-            class="nav-item back-to-list"
+        <header class="header">
+          <div
+            class="logo"
             :class="{
-              'visible': store.isPhotoViewerVisible || (isAnyOverlayVisible && store.isPhotoViewerVisible),
-              'disabled': !store.isLogoClickable
+              'viewer-active': store.isPhotoViewerVisible || isAnyOverlayVisible,
+              'logo-disabled': !store.isLogoClickable
             }"
             @click="store.isLogoClickable && handlePhotoViewerClose()"
-          >BACK TO LIST</a>
-          <a
-            href="#"
-            class="nav-item"
-            :class="{ 'active': isAboutOverlayVisible }"
-            @click="showAboutOverlay"
-          >ABOUT</a>
-          <a
-            href="#"
-            class="nav-item"
-            :class="{ 'active': isSubmitDeskOverlayVisible }"
-            @click="showSubmitDeskOverlay"
-          >SUBMIT YOUR DESK</a>
-        </nav>
+          >DESK <span>WHERE CREATIVITY IS BORN</span></div>
+
+          <nav class="nav-menu">
+            <a
+              href="#"
+              class="nav-item back-to-list"
+              :class="{
+                'visible': store.isPhotoViewerVisible || (isAnyOverlayVisible && store.isPhotoViewerVisible),
+                'disabled': !store.isLogoClickable
+              }"
+              @click="store.isLogoClickable && handlePhotoViewerClose()"
+            >BACK TO LIST</a>
+            <a
+              href="#"
+              class="nav-item"
+              :class="{ 'active': isAboutOverlayVisible }"
+              @click="showAboutOverlay"
+            >ABOUT</a>
+            <a
+              href="#"
+              class="nav-item"
+              :class="{ 'active': isSubmitDeskOverlayVisible }"
+              @click="showSubmitDeskOverlay"
+            >SUBMIT YOUR DESK</a>
+          </nav>
+        </header>
 
         <DeskGallery
           ref="galleryComponentRef"
@@ -605,6 +607,7 @@ const updateCloneCenterTransform = () => {
 main {
   background-color: #E8E8E8;
   padding-bottom: 3rem; // Add some padding to the bottom
+  min-width: 650px;
 }
 
 /* App fade-in transition */
@@ -626,17 +629,29 @@ main {
   opacity: 1;
 }
 
-.logo {
+.header {
   position: fixed;
-  top: 25px;
-  left: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-width: 650px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 20px 0 20px;
+  z-index: 200;
+  pointer-events: none; // Allow clicks to pass through to content below
+}
+
+.logo {
+  position: static; // Changed from fixed
   font-size: 1.2rem;
   letter-spacing: 0.05rem;
   font-weight: bold;
   color: black; // Dark gray
   transition: color 0.4s ease;
-  z-index: 200;
   cursor: default;
+  pointer-events: auto; // Enable clicks on logo
 
   span {
     padding-left: 0.5rem;
@@ -663,12 +678,11 @@ main {
 }
 
 .nav-menu {
-  position: fixed;
-  top: 34px;
-  right: 20px;
+  position: static; // Changed from fixed
+  margin-top: 9px; // Adjust to align with logo baseline
   display: flex;
   gap: 30px;
-  z-index: 200;
+  pointer-events: auto; // Enable clicks on nav items
 
   .nav-item {
     color: black;
@@ -823,6 +837,7 @@ button {
   align-items: center;
   justify-content: center;
   z-index: 100;
+  min-width: 650px;
 }
 
 .overlay-content {
