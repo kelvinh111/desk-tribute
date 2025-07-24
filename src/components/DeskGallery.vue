@@ -26,6 +26,7 @@ const windowWidth = ref(window.innerWidth);
 let cycleInterval = null;
 let jumpInterval = null;
 let jumpCounter = 0; // Track jump intervals to detect cycle timing
+let lastJumpedDeskId = null; // Track the last desk that jumped
 
 // Create a reactive copy of the desks array for manipulation
 const displayDesks = ref([]);
@@ -127,8 +128,28 @@ const triggerRandomJump = () => {
     const visibleDesks = Array.from(galleryItems).filter(item => isElementInViewport(item));
 
     if (visibleDesks.length > 0) {
-        const randomIndex = Math.floor(Math.random() * visibleDesks.length);
-        const randomDesk = visibleDesks[randomIndex];
+        let availableDesks = visibleDesks;
+
+        // If we have more than one visible desk and we know which desk jumped last,
+        // filter out the last jumped desk to ensure variety
+        if (visibleDesks.length > 1 && lastJumpedDeskId !== null) {
+            availableDesks = visibleDesks.filter(desk => {
+                const deskId = desk.getAttribute('data-desk-id');
+                return deskId !== lastJumpedDeskId.toString();
+            });
+        }
+
+        // If filtering left us with no desks (shouldn't happen), fall back to all visible desks
+        if (availableDesks.length === 0) {
+            availableDesks = visibleDesks;
+        }
+
+        const randomIndex = Math.floor(Math.random() * availableDesks.length);
+        const randomDesk = availableDesks[randomIndex];
+
+        // Update the last jumped desk ID
+        lastJumpedDeskId = parseInt(randomDesk.getAttribute('data-desk-id'));
+
         jumpDesk(randomDesk);
     }
 };
@@ -148,6 +169,7 @@ const stopJumping = () => {
         jumpInterval = null;
     }
     jumpCounter = 0; // Reset counter when stopping
+    lastJumpedDeskId = null; // Reset last jumped desk tracking
 };
 
 // Pause all gallery effects (cycling and jumping)
