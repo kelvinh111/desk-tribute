@@ -79,6 +79,15 @@ function hideSubmitDeskOverlay() {
 // Computed property to check if any overlay is visible
 const isAnyOverlayVisible = computed(() => isAboutOverlayVisible.value || isSubmitDeskOverlayVisible.value);
 
+// Track whether gallery effects should be enabled (disabled during direct loading)
+const shouldGalleryEffectsRun = ref(true);
+
+// Computed property to determine if gallery effects should start
+const shouldStartGalleryEffects = computed(() => {
+  // Don't start effects if we're directly loading a desk or if PhotoViewer is visible
+  return shouldGalleryEffectsRun.value && !store.isPhotoViewerVisible && !isAnyOverlayVisible.value;
+});
+
 // --- Loading Screen Handler ---
 function onLoadingComplete() {
   isAppLoaded.value = true;
@@ -98,6 +107,9 @@ function handleDirectDeskLoading() {
     const desk = store.desks.find(d => d.id === deskId);
     if (desk) {
       console.log('Direct desk loading:', desk);
+
+      // Disable gallery effects for direct loading
+      shouldGalleryEffectsRun.value = false;
 
       // Immediately fade the gallery to hide it
       store.setGalleryFaded(true);
@@ -270,6 +282,9 @@ function pick(desk, isDirectLoading = false) {
         if (galleryComponentRef.value?.resumeGalleryEffects) {
           galleryComponentRef.value.resumeGalleryEffects();
         }
+
+        // Re-enable gallery effects for future interactions
+        shouldGalleryEffectsRun.value = true;
 
         // Delay the removal of the clone to allow the gallery to fade in
         setTimeout(() => {
@@ -558,6 +573,7 @@ const updateCloneCenterTransform = () => {
           :desks="store.desks"
           :is-gallery-faded="store.isGalleryFaded"
           :selected-desk-clone="store.selectedDeskClone"
+          :should-start-effects="shouldStartGalleryEffects"
           @pick="pick"
         />
 
@@ -599,7 +615,8 @@ const updateCloneCenterTransform = () => {
               >
                 <button
                   class="close-button"
-                  @click="hideAboutOverlay"
+                  @click="audioManager.play('photoviewer_click'), hideAboutOverlay()"
+                  @mouseenter="audioManager.play('photoviewer_hover')"
                 >✕</button>
                 <div class="overlay-text">
                   <h2>About DESK</h2>
@@ -620,7 +637,8 @@ const updateCloneCenterTransform = () => {
               >
                 <button
                   class="close-button"
-                  @click="hideSubmitDeskOverlay"
+                  @click="audioManager.play('photoviewer_click'), hideSubmitDeskOverlay()"
+                  @mouseenter="audioManager.play('photoviewer_hover')"
                 >✕</button>
                 <div class="overlay-text">
                   <h2>Submit Your Desk</h2>

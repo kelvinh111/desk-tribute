@@ -6,7 +6,11 @@ import { audioManager } from '../utils/audioManager.js';
 const props = defineProps({
     desks: Array,
     isGalleryFaded: Boolean,
-    selectedDeskClone: Object
+    selectedDeskClone: Object,
+    shouldStartEffects: {
+        type: Boolean,
+        default: true
+    }
 });
 
 const emit = defineEmits(['pick']);
@@ -160,6 +164,21 @@ const resumeGalleryEffects = () => {
     console.log('🔊 Gallery effects resumed');
 };
 
+// Watch for changes in shouldStartEffects prop
+watch(() => props.shouldStartEffects, (newValue) => {
+    if (newValue && !cycleInterval && !jumpInterval) {
+        // Start effects if they should be running but aren't
+        startCycling();
+        startJumping();
+        console.log('🔊 Gallery effects started via prop change');
+    } else if (!newValue) {
+        // Stop effects if they shouldn't be running
+        stopCycling();
+        stopJumping();
+        console.log('🔇 Gallery effects stopped via prop change');
+    }
+});
+
 const galleryWidth = () => {
     if (typeof window === 'undefined') return '100%';
     const numberOfColumns = Math.min(displayDesks.value.length, Math.floor(windowWidth.value / COLUMN_WIDTH));
@@ -213,7 +232,9 @@ onMounted(() => {
         'gallery_click': '/src/assets/sounds/gallery_click.mp3',
         'photoviewer_load': '/src/assets/sounds/photoviewer_load.mp3',
         'header_hover': '/src/assets/sounds/header_hover.mp3',
-        'header_click': '/src/assets/sounds/header_click.mp3'
+        'header_click': '/src/assets/sounds/header_click.mp3',
+        'photoviewer_hover': '/src/assets/sounds/photoviewer_hover.mp3',
+        'photoviewer_click': '/src/assets/sounds/photoviewer_click.mp3'
     });
 
     nextTick(() => {
@@ -223,11 +244,14 @@ onMounted(() => {
             gutter: GUTTER,
         });
 
-        // Start cycling after masonry is initialized
-        startCycling();
+        // Only start cycling and jumping if shouldStartEffects is true
+        if (props.shouldStartEffects) {
+            // Start cycling after masonry is initialized
+            startCycling();
 
-        // Start jumping effect
-        startJumping();
+            // Start jumping effect
+            startJumping();
+        }
     });
     window.addEventListener('resize', handleResize);
 }); onBeforeUnmount(() => {

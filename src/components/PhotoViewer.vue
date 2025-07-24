@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, nextTick, computed, onMounted, onBeforeUnmount } from 'vue';
 import { gsap } from 'gsap';
+import { audioManager } from '../utils/audioManager.js';
 
 const props = defineProps({
     desk: Object,
@@ -532,7 +533,8 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                         <h4>Use the buttons below to post this desk to a social network</h4>
                         <div class="social-buttons">
                             <a
-                                @click="shareToFacebook"
+                                @click="audioManager.play('photoviewer_click'), shareToFacebook()"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
                                 <img
@@ -541,7 +543,8 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                                 />
                             </a>
                             <a
-                                @click="shareToX"
+                                @click="audioManager.play('photoviewer_click'), shareToX()"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
                                 <img
@@ -550,7 +553,8 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                                 />
                             </a>
                             <a
-                                @click="shareToPinterest"
+                                @click="audioManager.play('photoviewer_click'), shareToPinterest()"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
                                 <img
@@ -559,7 +563,8 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                                 />
                             </a>
                             <a
-                                @click="shareCopyLink"
+                                @click="audioManager.play('photoviewer_click'), shareCopyLink()"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
                                 <img
@@ -613,7 +618,8 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                         :key="idx"
                         class="slider-pager-item"
                         :class="{ active: idx === currentIndex, disabled: !isSliderReady }"
-                        @click="isSliderReady ? goToSlide(idx) : null"
+                        @click="!isSliderReady ? null : (audioManager.play('photoviewer_click'), goToSlide(idx))"
+                        @mouseenter="!isSliderReady ? null : audioManager.play('photoviewer_hover')"
                     ></div>
                 </div>
             </div>
@@ -621,7 +627,8 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         <div
             class="nav-button prev"
             :class="{ 'disabled': !isSliderReady || isTransitioning || currentIndex === 0 }"
-            @click="prevSlide"
+            @click="(!isSliderReady || isTransitioning || currentIndex === 0) ? null : (audioManager.play('photoviewer_click'), prevSlide())"
+            @mouseenter="(!isSliderReady || isTransitioning || currentIndex === 0) ? null : audioManager.play('photoviewer_hover')"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
         >
             <div class="icon-wrapper">
@@ -631,7 +638,8 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         </div>
         <div
             class="nav-button next"
-            @click="nextSlide"
+            @click="(!isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1)) ? null : (audioManager.play('photoviewer_click'), nextSlide())"
+            @mouseenter="(!isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1)) ? null : audioManager.play('photoviewer_hover')"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
             :class="{ 'disabled': !isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1) }"
         >
