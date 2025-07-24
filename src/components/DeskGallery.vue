@@ -12,7 +12,7 @@ const emit = defineEmits(['pick']);
 
 const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry gallery.
 const GUTTER = 35; // The space between gallery items in the Masonry layout.
-const CYCLE_INTERVAL = 6000; // 6 seconds in milliseconds
+const CYCLE_INTERVAL = 8000; // 8 seconds in milliseconds
 const JUMP_INTERVAL = 2000; // 2 seconds for jump effect
 
 const galleryRef = ref(null);
@@ -20,6 +20,7 @@ let masonryInstance = null;
 const windowWidth = ref(window.innerWidth);
 let cycleInterval = null;
 let jumpInterval = null;
+let jumpCounter = 0; // Track jump intervals to detect cycle timing
 
 // Create a reactive copy of the desks array for manipulation
 const displayDesks = ref([]);
@@ -45,6 +46,8 @@ const cycleDeskOrder = () => {
             }
         });
     }
+
+    // Don't reset jump counter - let it continue its natural progression
 };
 
 // Start the cycling interval
@@ -96,6 +99,19 @@ const jumpDesk = (deskElement) => {
 const triggerRandomJump = () => {
     if (!galleryRef.value) return;
 
+    // Increment jump counter
+    jumpCounter++;
+
+    // Check if this jump timing coincides with cycle timing
+    // CYCLE_INTERVAL(8000) / JUMP_INTERVAL(2000) = 4, so every 4th jump coincides with cycle
+    const cycleJumpRatio = CYCLE_INTERVAL / JUMP_INTERVAL;
+    const isCycleTime = jumpCounter % cycleJumpRatio === 0;
+
+    // Skip jumping if it's cycle time
+    if (isCycleTime) {
+        return;
+    }
+
     const galleryItems = galleryRef.value.querySelectorAll('.gallery-item');
     const visibleDesks = Array.from(galleryItems).filter(item => isElementInViewport(item));
 
@@ -120,6 +136,7 @@ const stopJumping = () => {
         clearInterval(jumpInterval);
         jumpInterval = null;
     }
+    jumpCounter = 0; // Reset counter when stopping
 };
 
 const galleryWidth = () => {
