@@ -12,12 +12,14 @@ const emit = defineEmits(['pick']);
 
 const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry gallery.
 const GUTTER = 35; // The space between gallery items in the Masonry layout.
-const CYCLE_INTERVAL = 6000; // 3 seconds in milliseconds
+const CYCLE_INTERVAL = 6000; // 6 seconds in milliseconds
+const JUMP_INTERVAL = 2000; // 2 seconds for jump effect
 
 const galleryRef = ref(null);
 let masonryInstance = null;
 const windowWidth = ref(window.innerWidth);
 let cycleInterval = null;
+let jumpInterval = null;
 
 // Create a reactive copy of the desks array for manipulation
 const displayDesks = ref([]);
@@ -58,6 +60,65 @@ const stopCycling = () => {
     if (cycleInterval) {
         clearInterval(cycleInterval);
         cycleInterval = null;
+    }
+};
+
+// Function to check if an element is visible in viewport
+const isElementInViewport = (el) => {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= window.innerHeight &&
+        rect.right <= window.innerWidth
+    );
+};
+
+// Function to make a desk jump
+const jumpDesk = (deskElement) => {
+    const monitor = deskElement.querySelector('.desk-monitor');
+    const screen = deskElement.querySelector('.desk-screen');
+
+    if (monitor && screen) {
+        // Add jump class to trigger CSS animation
+        monitor.classList.add('jumping');
+        screen.classList.add('jumping');
+
+        // Remove jump class after animation completes
+        setTimeout(() => {
+            monitor.classList.remove('jumping');
+            screen.classList.remove('jumping');
+        }, 800); // Animation duration
+    }
+};
+
+// Function to pick a random visible desk and make it jump
+const triggerRandomJump = () => {
+    if (!galleryRef.value) return;
+
+    const galleryItems = galleryRef.value.querySelectorAll('.gallery-item');
+    const visibleDesks = Array.from(galleryItems).filter(item => isElementInViewport(item));
+
+    if (visibleDesks.length > 0) {
+        const randomIndex = Math.floor(Math.random() * visibleDesks.length);
+        const randomDesk = visibleDesks[randomIndex];
+        jumpDesk(randomDesk);
+    }
+};
+
+// Start the jump interval
+const startJumping = () => {
+    if (jumpInterval) {
+        clearInterval(jumpInterval);
+    }
+    jumpInterval = setInterval(triggerRandomJump, JUMP_INTERVAL);
+};
+
+// Stop the jump interval
+const stopJumping = () => {
+    if (jumpInterval) {
+        clearInterval(jumpInterval);
+        jumpInterval = null;
     }
 };
 
@@ -106,12 +167,16 @@ onMounted(() => {
 
         // Start cycling after masonry is initialized
         startCycling();
+
+        // Start jumping effect
+        startJumping();
     });
     window.addEventListener('resize', handleResize);
 });
 
 onBeforeUnmount(() => {
     stopCycling();
+    stopJumping();
     window.removeEventListener('resize', handleResize);
     if (masonryInstance) {
         masonryInstance.destroy();
@@ -259,12 +324,24 @@ defineExpose({
     .desk-monitor {
         z-index: 2; // Lower z-index but still clickable
         cursor: pointer; // Visual indication that it's clickable
+        transition: transform 0.1s ease; // Smooth transition for jump effect
+
+        &.jumping {
+            animation: jump 0.8s ease-in-out;
+            transform-origin: bottom center; // Squeeze from bottom center
+        }
     }
 
     .desk-screen {
         z-index: 3; // Higher z-index to appear on top
         pointer-events: none; // Allow clicks to pass through to monitor below
         overflow: hidden; // Ensure glitch effects don't exceed screen bounds
+        transition: transform 0.1s ease; // Smooth transition for jump effect
+
+        &.jumping {
+            animation: jump 0.8s ease-in-out;
+            transform-origin: bottom center; // Squeeze from bottom center
+        }
     }
 
     .glitch-container {
@@ -686,6 +763,53 @@ defineExpose({
     100% {
         transform: translateX(0) translateY(0);
         opacity: 0.8;
+    }
+}
+
+// Jump animation keyframes
+@keyframes jump {
+    0% {
+        transform: translateY(0) scaleY(1);
+    }
+
+    10% {
+        transform: translateY(0) scaleY(0.8);
+    }
+
+    20% {
+        transform: translateY(0) scaleY(1);
+    }
+
+    30% {
+        transform: translateY(-80px) scaleY(1);
+    }
+
+    35% {
+        transform: translateY(-100px) scaleY(1);
+    }
+
+    45% {
+        transform: translateY(-100px) scaleY(1);
+    }
+
+    60% {
+        transform: translateY(-80px) scaleY(1);
+    }
+
+    75% {
+        transform: translateY(0) scaleY(1);
+    }
+
+    85% {
+        transform: translateY(0) scaleY(0.8);
+    }
+
+    95% {
+        transform: translateY(0) scaleY(1);
+    }
+
+    100% {
+        transform: translateY(0) scaleY(1);
     }
 }
 </style>
