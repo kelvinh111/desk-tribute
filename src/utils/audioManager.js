@@ -7,6 +7,7 @@ class AudioManager {
         this.audioEnabled = false;
         this.defaultVolume = 0.5;
         this.isInitialized = false;
+        this.isMuted = false; // Add global mute state
     }
 
     /**
@@ -80,6 +81,11 @@ class AudioManager {
      * @param {number} options.startTime - Start time in seconds
      */
     play(soundName, options = {}) {
+        // Don't play if globally muted
+        if (this.isMuted) {
+            return;
+        }
+
         const audio = this.audioElements.get(soundName);
 
         if (!audio) {
@@ -154,6 +160,33 @@ class AudioManager {
      */
     isEnabled() {
         return this.audioEnabled;
+    }
+
+    /**
+     * Set muted state
+     * @param {boolean} muted - Whether to mute all sounds
+     */
+    setMuted(muted) {
+        this.isMuted = muted;
+        console.log(`🔊 Audio ${muted ? 'muted' : 'unmuted'}`);
+    }
+
+    /**
+     * Toggle mute state
+     * @returns {boolean} - New mute state
+     */
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+        console.log(`🔊 Audio ${this.isMuted ? 'muted' : 'unmuted'}`);
+        return this.isMuted;
+    }
+
+    /**
+     * Check if audio is muted
+     * @returns {boolean}
+     */
+    isMutedState() {
+        return this.isMuted;
     }
 
     /**

@@ -8,6 +8,8 @@ import DeskGallery from '../components/DeskGallery.vue';
 import DeskSlider from '../components/DeskSlider.vue';
 import PhotoViewer from '../components/PhotoViewer.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
+import IconSpeakerOn from '../assets/icon_speaker_on.svg';
+import IconSpeakerOff from '../assets/icon_speaker_off.svg';
 
 // --- Configuration Constants ---
 const ANIMATION_DURATION = 0.6;
@@ -88,6 +90,13 @@ const shouldStartGalleryEffects = computed(() => {
   return shouldGalleryEffectsRun.value && !store.isPhotoViewerVisible && !isAnyOverlayVisible.value;
 });
 
+// --- Audio Mute State ---
+const isAudioMuted = ref(false);
+
+function toggleAudioMute() {
+  isAudioMuted.value = audioManager.toggleMute();
+}
+
 // --- Loading Screen Handler ---
 function onLoadingComplete() {
   isAppLoaded.value = true;
@@ -152,6 +161,9 @@ const handleResize = () => {
 onMounted(() => {
   handleResize();
   window.addEventListener('resize', handleResize);
+
+  // Initialize audio muted state
+  isAudioMuted.value = audioManager.isMutedState();
 });
 
 onBeforeUnmount(() => {
@@ -565,6 +577,21 @@ const updateCloneCenterTransform = () => {
               @click="audioManager.play('header_click'), showSubmitDeskOverlay()"
               @mouseenter="audioManager.play('header_hover')"
             >SUBMIT YOUR DESK</a>
+            <a
+              href="#"
+              class="nav-item audio-toggle"
+              :class="{ 'muted': isAudioMuted }"
+              @click="toggleAudioMute()"
+              @mouseenter="!isAudioMuted && audioManager.play('header_hover')"
+              title="Toggle Sound Effects"
+            >
+              <img
+                :src="isAudioMuted ? IconSpeakerOff : IconSpeakerOn"
+                alt="Speaker"
+                width="15"
+                height="15"
+              />
+            </a>
           </nav>
         </header>
 
@@ -796,6 +823,38 @@ main {
   // When photo viewer is active OR about overlay is visible, change nav items to white
   .app-content:has(.logo.viewer-active) & .nav-item {
     color: white;
+  }
+}
+
+// Audio toggle specific styles
+.nav-item.audio-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15px;
+  height: 15px;
+
+  img {
+    transition: opacity 0.3s ease, filter 0.4s ease;
+    filter: brightness(0); // Make the black SVG appear as the current text color
+  }
+
+  &.muted {
+    opacity: 0.5;
+
+    img {
+      filter: brightness(0) sepia(1) saturate(5) hue-rotate(330deg) brightness(1.2); // Red tint for muted state
+    }
+  }
+
+  &:hover {
+    img {
+      opacity: 0.8;
+    }
+
+    &.muted img {
+      filter: brightness(0) sepia(1) saturate(5) hue-rotate(320deg) brightness(1.4); // Brighter red on hover
+    }
   }
 }
 
