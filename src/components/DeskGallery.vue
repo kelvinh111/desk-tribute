@@ -176,14 +176,12 @@ const stopJumping = () => {
 const pauseGalleryEffects = () => {
     stopCycling();
     stopJumping();
-    console.log('🔇 Gallery effects paused');
 };
 
 // Resume all gallery effects (cycling and jumping)
 const resumeGalleryEffects = () => {
     startCycling();
     startJumping();
-    console.log('🔊 Gallery effects resumed');
 };
 
 // Watch for changes in shouldStartEffects prop
@@ -192,12 +190,10 @@ watch(() => props.shouldStartEffects, (newValue) => {
         // Start effects if they should be running but aren't
         startCycling();
         startJumping();
-        console.log('🔊 Gallery effects started via prop change');
     } else if (!newValue) {
         // Stop effects if they shouldn't be running
         stopCycling();
         stopJumping();
-        console.log('🔇 Gallery effects stopped via prop change');
     }
 });
 
@@ -245,19 +241,6 @@ const handleDeskClick = (desk, event) => {
 onMounted(() => {
     // Initialize display desks
     initializeDisplayDesks();
-
-    // Initialize audio manager with gallery sounds
-    audioManager.initialize({
-        'gallery_shuffle': '/src/assets/sounds/gallery_shuffle.mp3',
-        'gallery_jump': '/src/assets/sounds/gallery_jump.mp3',
-        'gallery_hover': '/src/assets/sounds/gallery_hover.mp3',
-        'gallery_click': '/src/assets/sounds/gallery_click.mp3',
-        'photoviewer_load': '/src/assets/sounds/photoviewer_load.mp3',
-        'header_hover': '/src/assets/sounds/header_hover.mp3',
-        'header_click': '/src/assets/sounds/header_click.mp3',
-        'photoviewer_hover': '/src/assets/sounds/photoviewer_hover.mp3',
-        'photoviewer_click': '/src/assets/sounds/photoviewer_click.mp3'
-    });
 
     nextTick(() => {
         masonryInstance = new Masonry(galleryRef.value, {

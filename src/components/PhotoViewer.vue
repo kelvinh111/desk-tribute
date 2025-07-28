@@ -441,7 +441,7 @@ watch(() => props.visible, (newVal) => {
         if (bar) {
             gsap.to(bar, {
                 opacity: 0,
-                duration: 0.6, // ANIMATION_DURATION
+                duration: 0.6,
                 ease: 'power2.inOut',
                 onComplete: () => {
                     isProgressBarActive.value = false;

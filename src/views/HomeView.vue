@@ -4,6 +4,8 @@ import { useRouter, useRoute } from 'vue-router';
 import { gsap } from 'gsap';
 import { useDeskViewerStore } from '../stores/deskViewer.js';
 import { audioManager } from '../utils/audioManager.js';
+import { useGalleryEffects } from '../composables/useGalleryEffects.js';
+import { useOverlays } from '../composables/useOverlays.js';
 import DeskGallery from '../components/DeskGallery.vue';
 import DeskSlider from '../components/DeskSlider.vue';
 import PhotoViewer from '../components/PhotoViewer.vue';
@@ -11,88 +13,45 @@ import LoadingScreen from '../components/LoadingScreen.vue';
 import IconSpeakerOn from '../assets/icon_speaker_on.svg';
 import IconSpeakerOff from '../assets/icon_speaker_off.svg';
 
-// --- Configuration Constants ---
+// Constants
 const ANIMATION_DURATION = 0.6;
+const DIRECT_LOADING_DELAY = 100;
+const CLONE_ANIMATION_DELAY = 500;
+const PHOTO_LOAD_DELAY = 500;
 
-// --- Store ---
+// Initialize services
 const store = useDeskViewerStore();
+const router = useRouter();
+const route = useRoute();
 
-// --- Refs for DOM Elements ---
-const galleryComponentRef = ref(null); // Ref for the gallery component
+// Component refs
+const galleryComponentRef = ref(null);
 const deskSliderRef = ref(null);
 
-// --- Loading State ---
-const isAppLoaded = ref(false);
-
-// --- About Overlay State ---
-const isAboutOverlayVisible = ref(false);
-
-function showAboutOverlay() {
-  // If submit desk overlay is visible, just switch content
-  if (isSubmitDeskOverlayVisible.value) {
-    isSubmitDeskOverlayVisible.value = false;
+// Composables
+const galleryEffects = useGalleryEffects(galleryComponentRef);
+const overlays = useOverlays((action) => {
+  if (action === 'pause') {
+    galleryEffects.pauseEffects();
+  } else if (action === 'resume') {
+    galleryEffects.resumeEffects(overlays.isAnyOverlayVisible.value, store.isPhotoViewerVisible);
   }
-  isAboutOverlayVisible.value = true;
-
-  // Pause gallery effects when overlay is shown
-  if (galleryComponentRef.value?.pauseGalleryEffects) {
-    galleryComponentRef.value.pauseGalleryEffects();
-  }
-}
-
-function hideAboutOverlay() {
-  isAboutOverlayVisible.value = false;
-
-  // Resume gallery effects when overlay is closed (only if no other overlay is visible)
-  if (!isSubmitDeskOverlayVisible.value && !store.isPhotoViewerVisible) {
-    if (galleryComponentRef.value?.resumeGalleryEffects) {
-      galleryComponentRef.value.resumeGalleryEffects();
-    }
-  }
-}
-
-// --- Submit Desk Overlay State ---
-const isSubmitDeskOverlayVisible = ref(false);
-
-function showSubmitDeskOverlay() {
-  // If about overlay is visible, just switch content
-  if (isAboutOverlayVisible.value) {
-    isAboutOverlayVisible.value = false;
-  }
-  isSubmitDeskOverlayVisible.value = true;
-
-  // Pause gallery effects when overlay is shown
-  if (galleryComponentRef.value?.pauseGalleryEffects) {
-    galleryComponentRef.value.pauseGalleryEffects();
-  }
-}
-
-function hideSubmitDeskOverlay() {
-  isSubmitDeskOverlayVisible.value = false;
-
-  // Resume gallery effects when overlay is closed (only if no other overlay is visible)
-  if (!isAboutOverlayVisible.value && !store.isPhotoViewerVisible) {
-    if (galleryComponentRef.value?.resumeGalleryEffects) {
-      galleryComponentRef.value.resumeGalleryEffects();
-    }
-  }
-}
-
-// Computed property to check if any overlay is visible
-const isAnyOverlayVisible = computed(() => isAboutOverlayVisible.value || isSubmitDeskOverlayVisible.value);
-
-// Track whether gallery effects should be enabled (disabled during direct loading)
-const shouldGalleryEffectsRun = ref(true);
-
-// Computed property to determine if gallery effects should start
-const shouldStartGalleryEffects = computed(() => {
-  // Don't start effects if we're directly loading a desk or if PhotoViewer is visible
-  return shouldGalleryEffectsRun.value && !store.isPhotoViewerVisible && !isAnyOverlayVisible.value;
 });
 
-// --- Audio Mute State ---
+// State management
+const isAppLoaded = ref(false);
 const isAudioMuted = ref(false);
 
+// Computed properties
+const shouldStartGalleryEffects = computed(() => {
+  return galleryEffects.shouldGalleryEffectsRun.value &&
+    !store.isPhotoViewerVisible &&
+    !overlays.isAnyOverlayVisible.value;
+});
+
+/**
+ * Toggle audio mute state
+ */
 function toggleAudioMute() {
   isAudioMuted.value = audioManager.toggleMute();
 }
@@ -106,19 +65,16 @@ function onLoadingComplete() {
     // Add a small delay to ensure all components are mounted
     setTimeout(() => {
       handleDirectDeskLoading();
-    }, 100);
+    }, DIRECT_LOADING_DELAY);
   });
-}// Handle direct desk loading after the app is fully loaded
+}
+
 function handleDirectDeskLoading() {
-  // This logic handles loading the page directly with a deskId in the URL (e.g., from a bookmark or refresh).
   if (route.params.deskId) {
-    const deskId = parseInt(route.params.deskId, 10); // Convert string to number
+    const deskId = parseInt(route.params.deskId, 10);
     const desk = store.desks.find(d => d.id === deskId);
     if (desk) {
-      console.log('Direct desk loading:', desk);
-
-      // Disable gallery effects for direct loading
-      shouldGalleryEffectsRun.value = false;
+      galleryEffects.setEffectsEnabled(false);
 
       // Immediately fade the gallery to hide it
       store.setGalleryFaded(true);
@@ -149,9 +105,7 @@ function handleDirectDeskLoading() {
       router.push('/');
     }
   }
-}// --- Vue Router ---
-const router = useRouter(); // Used to programmatically change the URL (e.g., router.push('/'.
-const route = useRoute(); // Used to read information from the current URL (e.g., route.params.deskId).
+}
 
 const handleResize = () => {
   store.setWindowWidth(window.innerWidth);
@@ -174,9 +128,9 @@ function handlePhotoViewerClose() {
   if (!store.isLogoClickable) return; // Prevent closing during transitions
 
   // If any overlay is visible, close it first, then continue with normal behavior
-  if (isAnyOverlayVisible.value) {
-    hideAboutOverlay();
-    hideSubmitDeskOverlay();
+  if (overlays.isAnyOverlayVisible.value) {
+    overlays.hideAboutOverlay();
+    overlays.hideSubmitDeskOverlay();
     // Don't return here - continue with the normal photo viewer close logic
   }
 
@@ -296,7 +250,7 @@ function pick(desk, isDirectLoading = false) {
         }
 
         // Re-enable gallery effects for future interactions
-        shouldGalleryEffectsRun.value = true;
+        galleryEffects.setEffectsEnabled(true);
 
         // Delay the removal of the clone to allow the gallery to fade in
         setTimeout(() => {
@@ -455,8 +409,6 @@ function onPhotoViewerReady() {
   // Trigger the flashing effect when PhotoViewer is ready (all photos loaded)
   const pendingFlash = store.pendingFlashEffect;
   if (pendingFlash && pendingFlash.screenEl && pendingFlash.firstPhotoUrl) {
-    console.log('PhotoViewer ready, starting flashing effect for:', pendingFlash.firstPhotoUrl);
-
     // Play photoviewer load sound effect
     audioManager.play('photoviewer_load');
 
@@ -545,11 +497,11 @@ const updateCloneCenterTransform = () => {
           <div
             class="logo"
             :class="{
-              'viewer-active': store.isPhotoViewerVisible || isAnyOverlayVisible,
+              'viewer-active': store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value,
               'logo-disabled': !store.isLogoClickable
             }"
-            @click="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && (audioManager.play('header_click'), handlePhotoViewerClose())"
-            @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && audioManager.play('header_hover')"
+            @click="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && (audioManager.play('header_click'), handlePhotoViewerClose())"
+            @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && audioManager.play('header_hover')"
           >DESK <span>WHERE CREATIVITY IS BORN</span></div>
 
           <nav class="nav-menu">
@@ -557,24 +509,24 @@ const updateCloneCenterTransform = () => {
               href="#"
               class="nav-item back-to-list"
               :class="{
-                'visible': store.isPhotoViewerVisible || (isAnyOverlayVisible && store.isPhotoViewerVisible),
+                'visible': store.isPhotoViewerVisible || (overlays.isAnyOverlayVisible.value && store.isPhotoViewerVisible),
                 'disabled': !store.isLogoClickable
               }"
-              @click="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && (audioManager.play('header_click'), handlePhotoViewerClose())"
-              @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || isAnyOverlayVisible) && audioManager.play('header_hover')"
+              @click="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && (audioManager.play('header_click'), handlePhotoViewerClose())"
+              @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && audioManager.play('header_hover')"
             >BACK TO LIST</a>
             <a
               href="#"
               class="nav-item"
-              :class="{ 'active': isAboutOverlayVisible }"
-              @click="audioManager.play('header_click'), showAboutOverlay()"
+              :class="{ 'active': overlays.isAboutOverlayVisible.value }"
+              @click="audioManager.play('header_click'), overlays.showAboutOverlay()"
               @mouseenter="audioManager.play('header_hover')"
             >ABOUT</a>
             <a
               href="#"
               class="nav-item"
-              :class="{ 'active': isSubmitDeskOverlayVisible }"
-              @click="audioManager.play('header_click'), showSubmitDeskOverlay()"
+              :class="{ 'active': overlays.isSubmitDeskOverlayVisible.value }"
+              @click="audioManager.play('header_click'), overlays.showSubmitDeskOverlay()"
               @mouseenter="audioManager.play('header_hover')"
             >SUBMIT YOUR DESK</a>
             <a
@@ -630,19 +582,19 @@ const updateCloneCenterTransform = () => {
         <!-- Unified Overlay -->
         <Transition name="overlay-fade">
           <div
-            v-if="isAnyOverlayVisible"
+            v-if="overlays.isAnyOverlayVisible.value"
             class="overlay"
           >
             <!-- About Content -->
             <Transition name="content-fade">
               <div
-                v-if="isAboutOverlayVisible"
+                v-if="overlays.isAboutOverlayVisible.value"
                 key="about"
                 class="overlay-content"
               >
                 <button
                   class="close-button"
-                  @click="audioManager.play('photoviewer_click'), hideAboutOverlay()"
+                  @click="audioManager.play('photoviewer_click'), overlays.hideAboutOverlay()"
                   @mouseenter="audioManager.play('photoviewer_hover')"
                 >✕</button>
                 <div class="overlay-text">
@@ -658,13 +610,13 @@ const updateCloneCenterTransform = () => {
             <!-- Submit Desk Content -->
             <Transition name="content-fade">
               <div
-                v-if="isSubmitDeskOverlayVisible"
+                v-if="overlays.isSubmitDeskOverlayVisible.value"
                 key="submit"
                 class="overlay-content"
               >
                 <button
                   class="close-button"
-                  @click="audioManager.play('photoviewer_click'), hideSubmitDeskOverlay()"
+                  @click="audioManager.play('photoviewer_click'), overlays.hideSubmitDeskOverlay()"
                   @mouseenter="audioManager.play('photoviewer_hover')"
                 >✕</button>
                 <div class="overlay-text">

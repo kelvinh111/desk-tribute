@@ -447,7 +447,6 @@ function completePhotoLoadAnimation() {
     if (type === 'switch') {
         // For desk switching, don't animate back yet - wait for flashing effect to complete
         // The animation back will be handled by completeFlashingAnimation()
-        console.log('Desk switch photos loaded, waiting for flashing effect to complete...');
         return;
     } else if (type === 'initial') {
         // Complete the initial selection animation: animate from center to slider

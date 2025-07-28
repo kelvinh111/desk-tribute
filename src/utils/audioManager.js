@@ -66,7 +66,6 @@ class AudioManager {
 
             await Promise.all(unlockPromises);
             this.audioEnabled = true;
-            console.log('🔊 Audio enabled after user interaction');
         } catch (error) {
             console.warn('Could not enable audio:', error);
         }
@@ -94,7 +93,6 @@ class AudioManager {
         }
 
         if (!this.audioEnabled) {
-            console.log(`🔇 Audio not enabled yet for "${soundName}" - waiting for user interaction`);
             return;
         }
 
@@ -168,7 +166,6 @@ class AudioManager {
      */
     setMuted(muted) {
         this.isMuted = muted;
-        console.log(`🔊 Audio ${muted ? 'muted' : 'unmuted'}`);
     }
 
     /**
@@ -177,7 +174,6 @@ class AudioManager {
      */
     toggleMute() {
         this.isMuted = !this.isMuted;
-        console.log(`🔊 Audio ${this.isMuted ? 'muted' : 'unmuted'}`);
         return this.isMuted;
     }
 
