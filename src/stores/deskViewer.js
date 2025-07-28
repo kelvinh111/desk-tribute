@@ -2,39 +2,105 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import itemsData from '../model/desk.json';
 
+/**
+ * Desk Viewer Store - Central State Management
+ * 
+ * Manages all state related to the desk gallery application including:
+ * - Gallery and photo viewer states
+ * - Desk selection and cloning for animations
+ * - UI interaction locks and transition states
+ * - Photo viewer readiness and loading states
+ * 
+ * This store ensures coordinated state management across the complex
+ * animation sequences and user interactions in the application.
+ */
 export const useDeskViewerStore = defineStore('deskViewer', () => {
-    // Core data
+
+    // ==========================================
+    // CORE DATA & DESK MANAGEMENT
+    // ==========================================
+
+    /** @type {import('vue').Ref<Array>} Raw desk data from JSON file */
     const desks = ref(itemsData);
+
+    /** @type {import('vue').Ref<number|null>} Currently selected desk ID for photo viewing */
     const selectedDeskId = ref(null);
+
+    /** @type {import('vue').Ref<Set<number>>} Set of desk IDs that are temporarily hidden during animations */
     const hiddenDeskIds = ref(new Set());
 
-    // Viewer states
+    // ==========================================
+    // VIEWER & DISPLAY STATES
+    // ==========================================
+
+    /** @type {import('vue').Ref<boolean>} Controls PhotoViewer component visibility */
     const isPhotoViewerVisible = ref(false);
+
+    /** @type {import('vue').Ref<boolean>} Controls photo slider visibility within PhotoViewer */
     const isPhotoSliderVisible = ref(true);
+
+    /** @type {import('vue').Ref<boolean>} Controls gallery fade effect during desk selection */
     const isGalleryFaded = ref(false);
+
+    /** @type {import('vue').Ref<boolean>} Locks photo carousel during critical animations */
     const isCarouselLocked = ref(false);
 
-    // Transition states for UI locking
-    const isInitialPhotoLoading = ref(false); // Gallery desk clicked, waiting for first photo
-    const isDeskSwitching = ref(false); // Desk switching in progress
-    const isPhotoSliderTransitioning = ref(false); // Photo slider animating between slides
-    const isPhotoViewerReady = ref(false); // PhotoViewer slider is ready and visible
+    // ==========================================
+    // TRANSITION & LOADING STATES
+    // UI locking mechanism to prevent user interactions during critical animations
+    // ==========================================
 
-    // Clone management
+    /** @type {import('vue').Ref<boolean>} Gallery desk clicked, waiting for first photo to load */
+    const isInitialPhotoLoading = ref(false);
+
+    /** @type {import('vue').Ref<boolean>} Desk switching operation in progress (prevents UI interactions) */
+    const isDeskSwitching = ref(false);
+
+    /** @type {import('vue').Ref<boolean>} Photo slider animating between slides */
+    const isPhotoSliderTransitioning = ref(false);
+
+    /** @type {import('vue').Ref<boolean>} PhotoViewer slider is fully loaded and ready for interaction */
+    const isPhotoViewerReady = ref(false);
+
+    // ==========================================
+    // ANIMATION & EFFECT MANAGEMENT
+    // ==========================================
+
+    /** @type {import('vue').Ref<Object|null>} Stores cloned desk element data for pop-in/pop-out animations */
     const selectedDeskClone = ref(null);
 
-    // Flashing effect management
+    /** @type {import('vue').Ref<Object|null>} Pending screen flashing effect data for desk transitions */
     const pendingFlashEffect = ref(null);
 
-    // Window dimensions
+    // ==========================================
+    // RESPONSIVE & LAYOUT DATA
+    // ==========================================
+
+    /** @type {import('vue').Ref<number>} Current window width for responsive calculations */
     const windowWidth = ref(0);
 
-    // Computed
+    // ==========================================
+    // COMPUTED PROPERTIES
+    // ==========================================
+
+    /**
+     * Get the currently selected desk object
+     * @returns {Object|null} The desk object matching selectedDeskId, or null if none selected
+     */
     const selectedDesk = computed(() => {
         if (!selectedDeskId.value) return null;
         return desks.value.find(d => d.id === selectedDeskId.value);
     });
 
+    /**
+     * Determine if the logo/header should respond to clicks
+     * 
+     * The logo is clickable only when no critical operations are in progress.
+     * This prevents users from interrupting animations or loading sequences
+     * that could leave the UI in an inconsistent state.
+     * 
+     * @returns {boolean} True if logo should respond to clicks
+     */
     const isLogoClickable = computed(() => {
         return !isInitialPhotoLoading.value &&
             !isDeskSwitching.value &&
@@ -42,6 +108,17 @@ export const useDeskViewerStore = defineStore('deskViewer', () => {
             !isCarouselLocked.value;
     });
 
+    /**
+     * Determine if the desk slider should accept user interactions
+     * 
+     * The desk slider becomes interactive when:
+     * - No critical loading/switching operations are active
+     * - PhotoViewer is either ready for interaction OR not visible at all
+     * 
+     * This ensures smooth user experience during complex state transitions.
+     * 
+     * @returns {boolean} True if desk slider should respond to user input
+     */
     const isDeskSliderInteractive = computed(() => {
         return !isInitialPhotoLoading.value &&
             !isDeskSwitching.value &&

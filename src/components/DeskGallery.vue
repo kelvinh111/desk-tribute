@@ -3,63 +3,145 @@ import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue'
 import Masonry from 'masonry-layout';
 import { audioManager } from '../utils/audioManager.js';
 
+/**
+ * DeskGallery Component
+ * 
+ * Main gallery component that displays desk items in a responsive Masonry layout.
+ * Features automated visual effects including desk shuffling, jump animations,
+ * and responsive grid management. Handles complex state management for desk
+ * selection animations and clone element coordination.
+ * 
+ * Key Features:
+ * - Responsive Masonry grid layout
+ * - Automated desk shuffling and jump effects
+ * - Smooth fade transitions during desk selection
+ * - Clone element management for pop-in/pop-out animations
+ * - Audio feedback for user interactions
+ * - Lifecycle management for interval-based effects
+ */
+
+// ==========================================
+// COMPONENT PROPS & EMITS
+// ==========================================
+
 const props = defineProps({
+    /** @type {Array} Array of desk objects to display in the gallery */
     desks: Array,
+
+    /** @type {boolean} Controls gallery fade effect during desk selection */
     isGalleryFaded: Boolean,
+
+    /** @type {Object|null} Clone data for desk pop-in/pop-out animations */
     selectedDeskClone: Object,
+
+    /** @type {boolean} Master control for whether automated effects should run */
     shouldStartEffects: {
         type: Boolean,
         default: true
     }
 });
 
+/** Emitted when a desk item is clicked/selected */
 const emit = defineEmits(['pick']);
 
-const COLUMN_WIDTH = 285; // This is the width of each column in the Masonry gallery.
-const GUTTER = 35; // The space between gallery items in the Masonry layout.
-const CYCLE_INTERVAL = 8000; // 8 seconds in milliseconds
-const JUMP_INTERVAL = 2000; // 2 seconds for jump effect
+// ==========================================
+// LAYOUT & TIMING CONSTANTS
+// ==========================================
 
+/** @type {number} Width of each column in the Masonry grid layout (pixels) */
+const COLUMN_WIDTH = 285;
+
+/** @type {number} Spacing between gallery items in the Masonry layout (pixels) */
+const GUTTER = 35;
+
+/** @type {number} Interval for desk cycling/shuffling effect (milliseconds) */
+const CYCLE_INTERVAL = 8000; // 8 seconds
+
+/** @type {number} Interval for individual desk jump animations (milliseconds) */
+const JUMP_INTERVAL = 2000; // 2 seconds
+
+// ==========================================
+// COMPONENT STATE & REFS
+// ==========================================
+
+/** @type {import('vue').Ref} Reference to the main gallery DOM element */
 const galleryRef = ref(null);
-let masonryInstance = null;
-const windowWidth = ref(window.innerWidth);
-let cycleInterval = null;
-let jumpInterval = null;
-let jumpCounter = 0; // Track jump intervals to detect cycle timing
-let lastJumpedDeskId = null; // Track the last desk that jumped
 
-// Create a reactive copy of the desks array for manipulation
+/** @type {Masonry|null} Masonry layout instance for responsive grid management */
+let masonryInstance = null;
+
+/** @type {import('vue').Ref<number>} Current window width for responsive calculations */
+const windowWidth = ref(window.innerWidth);
+
+/** @type {number|null} Interval ID for desk cycling effect */
+let cycleInterval = null;
+
+/** @type {number|null} Interval ID for desk jump animations */
+let jumpInterval = null;
+
+/** @type {number} Counter to track jump intervals and detect cycle timing */
+let jumpCounter = 0;
+
+/** @type {number|null} ID of the last desk that performed a jump animation */
+let lastJumpedDeskId = null;
+
+/** @type {import('vue').Ref<Array>} Reactive copy of desks array for manipulation during effects */
 const displayDesks = ref([]);
 
-// Initialize display desks when props.desks changes
+// ==========================================
+// GALLERY DATA MANAGEMENT
+// ==========================================
+
+/**
+ * Initialize the display desks array from props
+ * 
+ * Creates a reactive copy of the props.desks array that can be manipulated
+ * for visual effects like shuffling without affecting the original data.
+ */
 const initializeDisplayDesks = () => {
     if (props.desks && props.desks.length > 0) {
         displayDesks.value = [...props.desks];
     }
 };
 
-// Cycle function to move last desk to beginning
+// ==========================================
+// AUTOMATED EFFECTS - CYCLING
+// ==========================================
+
+/**
+ * Cycle desk order by moving the last desk to the beginning
+ * 
+ * This creates a smooth shuffling effect where desks continuously
+ * reorder themselves. The Masonry layout is refreshed after each
+ * cycle to maintain proper positioning.
+ */
 const cycleDeskOrder = () => {
     if (displayDesks.value.length > 1) {
+        // Move last desk to beginning of array
         const lastDesk = displayDesks.value.pop();
         displayDesks.value.unshift(lastDesk);
 
-        // Play shuffle sound effect
+        // Provide audio feedback for the shuffle
         audioManager.play('gallery_shuffle');
 
-        // Refresh masonry layout after DOM update
+        // Update Masonry layout to reflect new order
         nextTick(() => {
             if (masonryInstance) {
-                masonryInstance.reloadItems();
-                masonryInstance.layout();
+                masonryInstance.reloadItems();  // Refresh item references
+                masonryInstance.layout();       // Recalculate and animate positions
             }
         });
     }
 
-    // Don't reset jump counter - let it continue its natural progression
+    // Note: Jump counter continues its natural progression independently
 };
 
-// Start the cycling interval
+/**
+ * Start the automated desk cycling interval
+ * 
+ * Initiates the background process that continuously reorders desks
+ * to create dynamic visual interest in the gallery.
+ */
 const startCycling = () => {
     if (cycleInterval) {
         clearInterval(cycleInterval);

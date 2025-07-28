@@ -1,13 +1,24 @@
 /**
  * Global Audio Manager for handling sound effects across the application
+ * 
+ * Provides centralized audio management with browser autoplay compliance,
+ * global mute functionality, and optimized sound effect playback for
+ * enhanced user experience throughout the desk gallery application.
+ * 
+ * Features:
+ * - Browser autoplay policy compliance
+ * - Global mute/unmute functionality
+ * - Optimized audio preloading and caching
+ * - Graceful fallback for audio loading failures
+ * - User interaction detection for audio enablement
  */
 class AudioManager {
     constructor() {
-        this.audioElements = new Map();
-        this.audioEnabled = false;
-        this.defaultVolume = 0.5;
-        this.isInitialized = false;
-        this.isMuted = false; // Add global mute state
+        this.audioElements = new Map();     // Stores all preloaded audio elements
+        this.audioEnabled = false;          // Tracks if audio is enabled (autoplay compliance)
+        this.defaultVolume = 0.5;           // Default volume level for all sounds
+        this.isInitialized = false;         // Prevents duplicate initialization
+        this.isMuted = false;               // Global mute state for user control
     }
 
     /**
@@ -31,17 +42,21 @@ class AudioManager {
 
     /**
      * Set up listeners to enable audio after user interaction
-     * This is required due to browser autoplay policies
+     * 
+     * Modern browsers require user interaction before allowing audio playback
+     * to prevent unwanted autoplay. This method sets up one-time listeners
+     * that will enable audio on the first user interaction (click, key, touch).
      */
     setupUserInteractionListeners() {
         const enableAudioOnInteraction = () => {
             this.enableAudio();
-            // Remove listeners after first interaction
+            // Clean up listeners after first interaction to prevent memory leaks
             document.removeEventListener('click', enableAudioOnInteraction);
             document.removeEventListener('keydown', enableAudioOnInteraction);
             document.removeEventListener('touchstart', enableAudioOnInteraction);
         };
 
+        // Listen for multiple interaction types to ensure cross-platform compatibility
         document.addEventListener('click', enableAudioOnInteraction);
         document.addEventListener('keydown', enableAudioOnInteraction);
         document.addEventListener('touchstart', enableAudioOnInteraction);
@@ -49,38 +64,54 @@ class AudioManager {
 
     /**
      * Enable audio playback by "unlocking" all audio elements
-     * This bypasses browser autoplay restrictions after user interaction
+     * 
+     * This method bypasses browser autoplay restrictions by briefly playing
+     * and immediately pausing each audio element after user interaction.
+     * This "unlocks" the audio elements for future programmatic playback.
      */
     async enableAudio() {
         if (this.audioEnabled || this.audioElements.size === 0) return;
 
         try {
+            // Create unlock promises for all audio elements
             const unlockPromises = Array.from(this.audioElements.values()).map(audio => {
                 return audio.play().then(() => {
-                    audio.pause();
-                    audio.currentTime = 0;
+                    audio.pause();        // Immediately pause to avoid unwanted sound
+                    audio.currentTime = 0; // Reset to beginning for future playback
                 }).catch(() => {
-                    // Ignore errors during unlock process
+                    // Silently ignore unlock failures - some browsers may still block
                 });
             });
 
             await Promise.all(unlockPromises);
             this.audioEnabled = true;
+            console.log('Audio system unlocked and ready');
         } catch (error) {
             console.warn('Could not enable audio:', error);
         }
     }
 
     /**
-     * Play a sound by name
-     * @param {string} soundName - The name of the sound to play
-     * @param {Object} options - Optional settings
-     * @param {number} options.volume - Volume override (0-1)
-     * @param {boolean} options.loop - Whether to loop the sound
-     * @param {number} options.startTime - Start time in seconds
+     * Play a sound effect by name with optional configuration
+     * 
+     * @param {string} soundName - The registered name of the sound to play
+     * @param {Object} options - Optional playback configuration
+     * @param {number} options.volume - Volume override (0-1), defaults to defaultVolume
+     * @param {boolean} options.loop - Whether to loop the sound continuously
+     * @param {number} options.startTime - Start playback from specific time in seconds
+     * 
+     * @example
+     * // Basic usage
+     * audioManager.play('gallery_click');
+     * 
+     * // With custom volume
+     * audioManager.play('gallery_hover', { volume: 0.3 });
+     * 
+     * // Looping background sound
+     * audioManager.play('ambient', { loop: true, volume: 0.2 });
      */
     play(soundName, options = {}) {
-        // Don't play if globally muted
+        // Respect global mute setting - early return for performance
         if (this.isMuted) {
             return;
         }
@@ -88,16 +119,18 @@ class AudioManager {
         const audio = this.audioElements.get(soundName);
 
         if (!audio) {
-            console.warn(`🔇 Sound "${soundName}" not found`);
+            console.warn(`🔇 Sound "${soundName}" not found in audio registry`);
             return;
         }
 
+        // Respect browser autoplay restrictions - fail silently if not unlocked
         if (!this.audioEnabled) {
             return;
         }
 
         try {
-            // Reset audio to start (allows overlapping plays)
+            // Reset audio to beginning to allow overlapping sound effects
+            // This enables rapid-fire sounds like multiple hover effects
             audio.currentTime = options.startTime || 0;
 
             // Apply volume override if provided

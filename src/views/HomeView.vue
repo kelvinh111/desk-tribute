@@ -16,8 +16,6 @@ import IconSpeakerOff from '../assets/icon_speaker_off.svg';
 // Constants
 const ANIMATION_DURATION = 0.6;
 const DIRECT_LOADING_DELAY = 100;
-const CLONE_ANIMATION_DELAY = 500;
-const PHOTO_LOAD_DELAY = 500;
 
 // Initialize services
 const store = useDeskViewerStore();
@@ -387,11 +385,6 @@ function pick(desk, isDirectLoading = false) {
 
 }
 
-function onPhotoVisible() {
-  // PhotoViewer progress bar has completed but don't fade clone yet
-  // The clone will fade out when flashing effect is complete and slider appears
-}
-
 function onFirstPhotoLoaded(photoUrl) {
   // Unlock UI states when first photo is loaded
   store.setInitialPhotoLoading(false);
@@ -569,7 +562,6 @@ const updateCloneCenterTransform = () => {
           :visible="store.isPhotoViewerVisible"
           :is-slider-visible="store.isPhotoSliderVisible"
           @close="handlePhotoViewerClose"
-          @photo-visible="onPhotoVisible"
           @first-photo-loaded="onFirstPhotoLoaded"
           @flashing-complete="onFlashingComplete"
           @is-transitioning="isTransitioning => store.setPhotoSliderTransitioning(isTransitioning)"
@@ -772,9 +764,15 @@ main {
     }
   }
 
-  // When photo viewer is active OR about overlay is visible, change nav items to white
-  .app-content:has(.logo.viewer-active) & .nav-item {
+  // When photo viewer is active OR any overlay is visible, change nav items to white
+  .app-content:has(.logo.viewer-active) & .nav-item,
+  .app-content:has(.overlay) & .nav-item {
     color: white;
+
+    // Make speaker icon white when viewer is active or overlay is visible
+    &.audio-toggle img {
+      filter: brightness(0) invert(1); // Convert black to white
+    }
   }
 }
 
@@ -785,27 +783,16 @@ main {
   justify-content: center;
   min-width: 15px;
   height: 15px;
+  margin-top: 1px;
 
   img {
     transition: opacity 0.3s ease, filter 0.4s ease;
     filter: brightness(0); // Make the black SVG appear as the current text color
   }
 
-  &.muted {
-    opacity: 0.5;
-
-    img {
-      filter: brightness(0) sepia(1) saturate(5) hue-rotate(330deg) brightness(1.2); // Red tint for muted state
-    }
-  }
-
   &:hover {
     img {
       opacity: 0.8;
-    }
-
-    &.muted img {
-      filter: brightness(0) sepia(1) saturate(5) hue-rotate(320deg) brightness(1.4); // Brighter red on hover
     }
   }
 }
