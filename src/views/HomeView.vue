@@ -10,6 +10,7 @@ import DeskGallery from '../components/DeskGallery.vue';
 import DeskSlider from '../components/DeskSlider.vue';
 import PhotoViewer from '../components/PhotoViewer.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
+import DeskSubmissionForm from '../components/DeskSubmissionForm.vue';
 import IconSpeakerOn from '../assets/icon_speaker_on.svg';
 import IconSpeakerOff from '../assets/icon_speaker_off.svg';
 
@@ -135,6 +136,18 @@ function handlePhotoViewerClose() {
   if (store.selectedDesk) {
     pick(store.selectedDesk);
   }
+}
+
+/**
+ * Handle desk submission from the form
+ * @param {FormData} formData - The submitted desk data with images
+ */
+function handleDeskSubmission(formData) {
+  console.log('Desk submission received:', formData);
+
+  // TODO: Implement submission to backend (Supabase)
+  // For now, just log the data and show a success message
+  alert('Thank you for your submission! We\'ll review your desk and get back to you soon.');
 }
 
 function changeDesk(desk) {
@@ -611,15 +624,10 @@ const updateCloneCenterTransform = () => {
                   @click="audioManager.play('photoviewer_click'), overlays.hideSubmitDeskOverlay()"
                   @mouseenter="audioManager.play('photoviewer_hover')"
                 >✕</button>
-                <div class="overlay-text">
-                  <h2>Submit Your Desk</h2>
-                  <p>SHARE YOUR CREATIVE SPACE</p>
-                  <p>We're looking for inspiring workspaces that showcase creativity, productivity, and personal style.
-                    Whether it's a minimalist setup, a maximalist paradise, or anything in between, we'd love to feature
-                    your desk.</p>
-                  <p>Coming soon: Submission form and guidelines for sharing your creative workspace with the community.
-                  </p>
-                </div>
+                <DeskSubmissionForm
+                  @close="overlays.hideSubmitDeskOverlay"
+                  @submit="handleDeskSubmission"
+                />
               </div>
             </Transition>
           </div>
