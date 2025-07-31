@@ -125,11 +125,11 @@
                                         :src="profilePicturePreview"
                                         alt="Profile preview"
                                     />
-                                    <button
+                                    <!-- <button
                                         type="button"
                                         class="remove-image"
                                         @click.stop="removeImage('profilePicture')"
-                                    >×</button>
+                                    >×</button> -->
                                 </div>
                             </div>
                             <div class="upload-specs"><small>W: 300PX, H: 200PX<br />72DPI, JPEG</small></div>
@@ -163,11 +163,11 @@
                                         :src="getDeskImagePreview(index)"
                                         alt="Desk preview"
                                     />
-                                    <button
+                                    <!-- <button
                                         type="button"
                                         class="remove-image"
                                         @click.stop="removeImage(`deskPicture${index}`)"
-                                    >×</button>
+                                    >×</button> -->
                                 </div>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
             @change="handleFileSelect($event, 'profilePicture')"
         />
         <input
-            v-for="index in 6"
+            v-for="index in 5"
             :key="index"
             :ref="el => deskPictureInputs[index - 1] = el"
             type="file"
@@ -295,7 +295,7 @@ const formData = reactive({
 
     // Images
     profilePicture: null,
-    deskPictures: new Array(5).fill(null), // 6 desk image slots
+    deskPictures: new Array(5).fill(null), // 5 desk image slots
 
     // Terms
     agreeToTerms: false
@@ -310,7 +310,7 @@ const isSubmitting = ref(false);
 /** @type {Object} Image preview URLs for display */
 const imagePreviews = reactive({
     profilePicture: null,
-    deskPictures: new Array(6).fill(null)
+    deskPictures: new Array(5).fill(null)
 });
 
 // ==========================================
@@ -332,21 +332,6 @@ const IMAGE_REQUIREMENTS = {
 // ==========================================
 // COMPUTED PROPERTIES
 // ==========================================
-
-/**
- * Check if the form is valid for submission
- * @returns {boolean} True if all required fields are valid
- */
-const isFormValid = computed(() => {
-    return formData.fullName &&
-        formData.email &&
-        formData.jobTitle &&
-        formData.city &&
-        formData.profilePicture &&
-        formData.deskPictures.some(img => img !== null) &&
-        formData.agreeToTerms &&
-        Object.keys(errors).length === 0;
-});
 
 /**
  * Get profile picture preview URL
@@ -558,31 +543,6 @@ function validateImageDimensions(file, imageType) {
 
         img.src = URL.createObjectURL(file);
     });
-}
-
-/**
- * Remove uploaded image
- * @param {string} imageType - Type of image to remove
- */
-function removeImage(imageType) {
-    audioManager.play('photoviewer_click');
-
-    if (imageType === 'profilePicture') {
-        formData.profilePicture = null;
-        if (imagePreviews.profilePicture) {
-            URL.revokeObjectURL(imagePreviews.profilePicture);
-            imagePreviews.profilePicture = null;
-        }
-    } else {
-        const index = parseInt(imageType.replace('deskPicture', ''));
-        formData.deskPictures[index] = null;
-        if (imagePreviews.deskPictures[index]) {
-            URL.revokeObjectURL(imagePreviews.deskPictures[index]);
-            imagePreviews.deskPictures[index] = null;
-        }
-    }
-
-    clearError(imageType);
 }
 
 /**
@@ -833,12 +793,6 @@ label {
     }
 }
 
-.error-message {
-    font-size: 0.8rem;
-    color: #ff6b6b;
-    margin-top: 0.25rem;
-}
-
 // ==========================================
 // SOCIAL MEDIA FIELDS
 // ==========================================
@@ -917,7 +871,6 @@ label {
 .desk-upload-grid {
     display: flex;
     justify-content: space-between;
-
 }
 
 .upload-box {
@@ -931,6 +884,14 @@ label {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+
+    &:not(:first-child) {
+        border-color: #333;
+
+        .upload-text {
+            color: #333;
+        }
+    }
 
     &:hover {
         border-color: white;
@@ -967,11 +928,6 @@ label {
     padding: 1rem;
 }
 
-.upload-icon {
-    font-size: 2rem;
-    opacity: 0.6;
-}
-
 .upload-text {
     font-size: 0.6rem;
     font-weight: 600;
@@ -997,28 +953,6 @@ label {
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-
-    .remove-image {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        width: 2rem;
-        height: 2rem;
-        border: none;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.3s ease;
-
-        &:hover {
-            background: rgba(255, 107, 107, 0.8);
-        }
     }
 }
 
@@ -1096,10 +1030,6 @@ label {
     &::after {
         opacity: 1;
     }
-}
-
-.checkbox.error+.checkmark {
-    border-color: #ff6b6b;
 }
 
 .terms-link {
