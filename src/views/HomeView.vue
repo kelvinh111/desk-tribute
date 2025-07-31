@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { gsap } from 'gsap';
 import { useDeskViewerStore } from '../stores/deskViewer.js';
@@ -47,6 +47,37 @@ const shouldStartGalleryEffects = computed(() => {
     !store.isPhotoViewerVisible &&
     !overlays.isAnyOverlayVisible.value;
 });
+
+// ==========================================
+// SCROLL MANAGEMENT FOR OVERLAYS
+// ==========================================
+
+// Watch for overlay visibility changes to manage body scroll
+watch(() => overlays.isAnyOverlayVisible.value, (isVisible) => {
+  if (isVisible) {
+    // Disable body scroll when overlay is shown
+    document.body.style.overflow = 'hidden';
+  } else {
+    // Re-enable body scroll when overlay is hidden, but only if PhotoViewer is not active
+    // If PhotoViewer is active, it should manage its own scroll state
+    if (!store.isPhotoViewerVisible) {
+      document.body.style.overflow = '';
+    }
+  }
+});
+
+// Also watch for PhotoViewer state changes to ensure proper scroll management
+watch(() => store.isPhotoViewerVisible, (isPhotoViewerVisible) => {
+  // If PhotoViewer becomes visible while an overlay is also visible, let overlay take precedence
+  // If PhotoViewer becomes hidden while overlay is visible, ensure scroll remains disabled
+  if (!isPhotoViewerVisible && overlays.isAnyOverlayVisible.value) {
+    document.body.style.overflow = 'hidden';
+  }
+});
+
+// ==========================================
+// METHODS
+// ==========================================
 
 /**
  * Toggle audio mute state
@@ -121,6 +152,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
+  // Ensure body scroll is restored when component unmounts
+  document.body.style.overflow = '';
 });
 
 function handlePhotoViewerClose() {
