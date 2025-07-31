@@ -194,9 +194,33 @@
                         href="#"
                         class="terms-link"
                         @click.prevent="showTerms"
+                        @mouseenter="showTooltip = true"
+                        @mouseleave="showTooltip = false"
                     >Terms and Conditions</a>
                     <span class="required">*</span>
                 </label>
+
+                <!-- Terms and Conditions Tooltip -->
+                <div
+                    v-if="showTooltip"
+                    class="terms-tooltip"
+                >
+                    <div class="tooltip-content">
+                        <h3>Terms and Conditions</h3>
+                        <ol>
+                            <li>Your pictures must be your original creation and must not infringe the intellectual
+                                property rights (including but not limited to moral rights) of any third party anywhere
+                                in the world.</li>
+                            <li>The pictures must be suitable for a person of any age to view and must comply with all
+                                relevant law, regulations and codes.</li>
+                            <li>DESK can publish pictures of the submitted desk on desk.cmbcm.com and Apps for mobile
+                                devices.</li>
+                            <li>DESK can publish pictures of the submitted desk in future DESK offline Posters and
+                                Books.</li>
+                        </ol>
+                    </div>
+                    <div class="tooltip-arrow"></div>
+                </div>
             </div>
 
             <div class="action-buttons">
@@ -306,6 +330,9 @@ const errors = reactive({});
 
 /** @type {import('vue').Ref<boolean>} Submission state */
 const isSubmitting = ref(false);
+
+/** @type {import('vue').Ref<boolean>} Tooltip visibility state */
+const showTooltip = ref(false);
 
 /** @type {Object} Image preview URLs for display */
 const imagePreviews = reactive({
@@ -653,6 +680,16 @@ async function handleSubmit() {
             }
         });
 
+        // Debug: Log FormData contents
+        console.log('Submitting form data:');
+        for (let [key, value] of submitData.entries()) {
+            if (value instanceof File) {
+                console.log(`${key}:`, `File(${value.name}, ${value.size} bytes, ${value.type})`);
+            } else {
+                console.log(`${key}:`, value);
+            }
+        }
+
         // Emit submission event with form data
         emit('submit', submitData);
 
@@ -965,6 +1002,88 @@ label {
     flex-direction: column;
     gap: 0.5rem;
     margin: 1rem 0;
+    position: relative;
+}
+
+.terms-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    margin-bottom: 22px;
+    z-index: 1000;
+    width: 600px;
+    margin-left: calc(-1 * (600px - 100%) / 2);
+    animation: fadeIn 0.3s ease-out;
+
+    .tooltip-content {
+        background: rgba(0, 0, 0, 0.9);
+        color: #666;
+        padding: 1.2rem;
+        border: 1px solid #666;
+        font-size: 0.6rem;
+        line-height: 1.4;
+
+        h3 {
+            color: #888;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 0 0 0.75rem 0;
+        }
+
+        ol {
+            margin: 0;
+            padding-left: 1rem;
+
+            li {
+                margin-bottom: 0.5rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: -8px;
+            left: 200px;
+            transform: rotate(-45deg);
+            width: 16px;
+            height: 16px;
+            border-left: 1px solid #666;
+            border-bottom: 1px solid #666;
+            background-color: black;
+            opacity: 1;
+            z-index: 1;
+        }
+    }
+
+    .tooltip-arrow {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid rgba(0, 0, 0, 0.9);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .checkbox-container {
