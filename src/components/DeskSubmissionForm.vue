@@ -1,135 +1,117 @@
 <template>
     <div class="desk-submission-form">
         <h2>Submit Your Desk</h2>
-        <p class="subtitle">SHARE YOUR CREATIVE SPACE</p>
 
         <form
             @submit.prevent="handleSubmit"
             class="form"
         >
             <!-- Personal Information Section -->
-            <div class="form-section">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fullName">Full Name <span class="required">*</span></label>
-                        <input
-                            id="fullName"
-                            v-model="formData.fullName"
-                            type="text"
-                            class="form-input"
-                            :class="{ 'error': errors.fullName }"
-                            placeholder="Enter your full name"
-                            required
-                        />
-                        <span
-                            v-if="errors.fullName"
-                            class="error-message"
-                        >{{ errors.fullName }}</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">E-mail <span class="required">*</span></label>
-                        <input
-                            id="email"
-                            v-model="formData.email"
-                            type="email"
-                            class="form-input"
-                            :class="{ 'error': errors.email }"
-                            placeholder="your.email@example.com"
-                            required
-                        />
-                        <span
-                            v-if="errors.email"
-                            class="error-message"
-                        >{{ errors.email }}</span>
-                    </div>
+            <div class="form-section basic-fields">
+                <div class="form-field">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input
+                        id="fullName"
+                        v-model="formData.fullName"
+                        type="text"
+                        class="form-input"
+                        :class="{ 'error': errors.fullName }"
+                        required
+                    />
+                    <span
+                        v-if="errors.fullName"
+                        class="error-message"
+                    >{{ errors.fullName }}</span>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="jobTitle">Job Title <span class="required">*</span></label>
-                        <input
-                            id="jobTitle"
-                            v-model="formData.jobTitle"
-                            type="text"
-                            class="form-input"
-                            :class="{ 'error': errors.jobTitle }"
-                            placeholder="e.g. UI/UX Designer"
-                            required
-                        />
-                        <span
-                            v-if="errors.jobTitle"
-                            class="error-message"
-                        >{{ errors.jobTitle }}</span>
-                    </div>
+                <div class="form-field">
+                    <label for="email">E-mail <span class="required">*</span></label>
+                    <input
+                        id="email"
+                        v-model="formData.email"
+                        type="email"
+                        class="form-input"
+                        :class="{ 'error': errors.email }"
+                        required
+                    />
+                    <span
+                        v-if="errors.email"
+                        class="error-message"
+                    >{{ errors.email }}</span>
+                </div>
 
-                    <div class="form-group">
-                        <label for="city">City <span class="required">*</span></label>
-                        <input
-                            id="city"
-                            v-model="formData.city"
-                            type="text"
-                            class="form-input"
-                            :class="{ 'error': errors.city }"
-                            placeholder="e.g. New York"
-                            required
-                        />
-                        <span
-                            v-if="errors.city"
-                            class="error-message"
-                        >{{ errors.city }}</span>
-                    </div>
+                <div class="form-field">
+                    <label for="jobTitle">Job Title <span class="required">*</span></label>
+                    <input
+                        id="jobTitle"
+                        v-model="formData.jobTitle"
+                        type="text"
+                        class="form-input"
+                        :class="{ 'error': errors.jobTitle }"
+                        required
+                    />
+                    <span
+                        v-if="errors.jobTitle"
+                        class="error-message"
+                    >{{ errors.jobTitle }}</span>
+                </div>
+
+                <div class="form-field">
+                    <label for="city">City <span class="required">*</span></label>
+                    <input
+                        id="city"
+                        v-model="formData.city"
+                        type="text"
+                        class="form-input"
+                        :class="{ 'error': errors.city }"
+                        required
+                    />
+                    <span
+                        v-if="errors.city"
+                        class="error-message"
+                    >{{ errors.city }}</span>
                 </div>
             </div>
 
             <!-- Social Media Section -->
-            <div class="form-section">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="facebook">Facebook</label>
-                        <input
-                            id="facebook"
-                            v-model="formData.facebook"
-                            type="url"
-                            class="form-input"
-                            placeholder="https://facebook.com/yourprofile"
-                        />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="twitter">Twitter</label>
-                        <input
-                            id="twitter"
-                            v-model="formData.twitter"
-                            type="url"
-                            class="form-input"
-                            placeholder="https://twitter.com/yourhandle"
-                        />
-                    </div>
+            <div class="form-section sns-fields">
+                <div class="form-field">
+                    <label for="facebook">Facebook</label>
+                    <input
+                        id="facebook"
+                        v-model="formData.facebook"
+                        type="url"
+                        class="form-input"
+                    />
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="google">Google +</label>
-                        <input
-                            id="google"
-                            v-model="formData.google"
-                            type="url"
-                            class="form-input"
-                            placeholder="https://plus.google.com/yourprofile"
-                        />
-                    </div>
+                <div class="form-field">
+                    <label for="twitter">X</label>
+                    <input
+                        id="twitter"
+                        v-model="formData.twitter"
+                        type="url"
+                        class="form-input"
+                    />
+                </div>
+                <div class="form-field">
+                    <label for="linkedin">LinkedIn</label>
+                    <input
+                        id="linkedin"
+                        v-model="formData.linkedin"
+                        type="url"
+                        class="form-input"
+                    />
+                </div>
 
-                    <div class="form-group">
-                        <label for="website">Blog / Website</label>
-                        <input
-                            id="website"
-                            v-model="formData.website"
-                            type="url"
-                            class="form-input"
-                            placeholder="https://yourwebsite.com"
-                        />
-                    </div>
+                <div class="form-field">
+                    <label for="website">Blog / Website</label>
+                    <input
+                        id="website"
+                        v-model="formData.website"
+                        type="url"
+                        class="form-input"
+                    />
                 </div>
             </div>
 
@@ -151,9 +133,8 @@
                                     v-if="!formData.profilePicture"
                                     class="upload-placeholder"
                                 >
-                                    <div class="upload-icon">📷</div>
                                     <div class="upload-text">UPLOAD IMAGE</div>
-                                    <div class="upload-specs">W: 300PX, H: 200PX<br />72DPI, JPEG</div>
+                                    <!-- <div class="upload-specs">W: 300PX, H: 200PX<br />72DPI, JPEG</div> -->
                                 </div>
                                 <div
                                     v-else
@@ -170,6 +151,7 @@
                                     >×</button>
                                 </div>
                             </div>
+                            <div class="upload-specs"><small>W: 300PX, H: 200PX<br />72DPI, JPEG</small></div>
                             <span
                                 v-if="errors.profilePicture"
                                 class="error-message"
@@ -194,9 +176,7 @@
                                     v-if="!image"
                                     class="upload-placeholder"
                                 >
-                                    <div class="upload-icon">📷</div>
                                     <div class="upload-text">UPLOAD IMAGE</div>
-                                    <div class="upload-specs">W: 1200PX, H: 600PX = 1200PX<br />72DPI, JPEG</div>
                                 </div>
                                 <div
                                     v-else
@@ -214,6 +194,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="upload-specs">W: 1200PX, H: 600PX = 1200PX<br />72DPI, JPEG</div>
                         <span
                             v-if="errors.deskPictures"
                             class="error-message"
@@ -223,48 +204,46 @@
             </div>
 
             <!-- Terms and Actions -->
-            <div class="form-section">
-                <div class="terms-section">
-                    <label class="checkbox-container">
-                        <input
-                            v-model="formData.agreeToTerms"
-                            type="checkbox"
-                            class="checkbox"
-                            :class="{ 'error': errors.agreeToTerms }"
-                            required
-                        />
-                        <span class="checkmark"></span>
-                        I agree with the
-                        <a
-                            href="#"
-                            class="terms-link"
-                            @click.prevent="showTerms"
-                        >Terms and Conditions</a>
-                        <span class="required">*</span>
-                    </label>
-                    <span
-                        v-if="errors.agreeToTerms"
-                        class="error-message"
-                    >{{ errors.agreeToTerms }}</span>
-                </div>
+            <div class="terms-section">
+                <label class="checkbox-container">
+                    <input
+                        v-model="formData.agreeToTerms"
+                        type="checkbox"
+                        class="checkbox"
+                        :class="{ 'error': errors.agreeToTerms }"
+                        required
+                    />
+                    <span class="checkmark"></span>
+                    I agree with the
+                    <a
+                        href="#"
+                        class="terms-link"
+                        @click.prevent="showTerms"
+                    >Terms and Conditions</a>
+                    <span class="required">*</span>
+                </label>
+                <span
+                    v-if="errors.agreeToTerms"
+                    class="error-message"
+                >{{ errors.agreeToTerms }}</span>
+            </div>
 
-                <div class="action-buttons">
-                    <button
-                        type="button"
-                        class="btn btn-cancel"
-                        @click="handleCancel"
-                        :disabled="isSubmitting"
-                    >
-                        CANCEL
-                    </button>
-                    <button
-                        type="submit"
-                        class="btn btn-submit"
-                        :disabled="isSubmitting || !isFormValid"
-                    >
-                        {{ isSubmitting ? 'SUBMITTING...' : 'SUBMIT' }}
-                    </button>
-                </div>
+            <div class="action-buttons">
+                <button
+                    type="submit"
+                    class="btn btn-submit"
+                    :disabled="isSubmitting || !isFormValid"
+                >
+                    {{ isSubmitting ? 'SUBMITTING...' : 'SUBMIT' }}
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-cancel"
+                    @click="handleCancel"
+                    :disabled="isSubmitting"
+                >
+                    CANCEL
+                </button>
             </div>
         </form>
 
@@ -343,12 +322,12 @@ const formData = reactive({
     // Social Media (Optional)
     facebook: '',
     twitter: '',
-    google: '',
+    linkedin: '',
     website: '',
 
     // Images
     profilePicture: null,
-    deskPictures: new Array(6).fill(null), // 6 desk image slots
+    deskPictures: new Array(5).fill(null), // 6 desk image slots
 
     // Terms
     agreeToTerms: false
@@ -711,79 +690,80 @@ function showTerms() {
 
 <style scoped lang="scss">
 .desk-submission-form {
-    max-width: 800px;
-    width: 100%;
-    color: white;
+    width: 600px;
+    color: #666;
+    text-align: left;
 }
 
 h2 {
-    font-size: 2.5rem;
-    font-weight: normal;
-    margin-bottom: 0.5rem;
-    letter-spacing: 2px;
-    text-align: center;
-}
-
-.subtitle {
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 3px;
-    color: #999;
-    margin-bottom: 3rem;
-    text-align: center;
+    font-size: 2.3rem;
+    font-weight: 200;
+    margin-bottom: 2rem;
+    color: #fff;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .form-section {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
+    width: 100%;
+    gap: 20px;
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    &.basic-fields {
+        flex-wrap: wrap;
 
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+        .form-field {
+            width: calc(50% - 10px);
+        }
+    }
+
+    &.sns-fields {
+        flex-wrap: nowrap;
+
+        .form-field {
+            width: 25%;
+        }
     }
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+.form-field {
+
+    input {}
 }
 
 label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #ccc;
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #666;
+    font-size: 0.85rem;
+    transition: color 0.6s ease;
+
+    &:has(+ .form-input:focus) {
+        color: white !important;
+    }
 }
 
 .required {
-    color: #ff6b6b;
+    // color: #666;
 }
 
 .form-input {
-    padding: 0.8rem 1rem;
-    border: 2px solid #555;
-    border-radius: 4px;
-    background: #333;
-    color: white;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+    padding: 0.5rem;
+    // font-size: 1rem;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: #666;
+    transition: background-color 0.6s ease;
+    outline: none;
 
     &:focus {
-        outline: none;
-        border-color: #667eea;
+        background-color: white !important;
     }
 
     &.error {
@@ -801,14 +781,25 @@ label {
     margin-top: 0.25rem;
 }
 
+.sns-fields {
+    label {
+        color: #333;
+    }
+
+    .form-input {
+        background-color: #333;
+    }
+}
+
 // ==========================================
 // IMAGE UPLOAD STYLES
 // ==========================================
 
 .image-upload-section {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 3rem;
+    grid-template-columns: 1fr 5fr;
+    width: 100%;
+    gap: 2rem;
 
     @media (max-width: 1024px) {
         grid-template-columns: 1fr;
@@ -819,19 +810,30 @@ label {
 .upload-group {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    // gap: 1rem;
+
+    label:has(+ .upload-container .upload-box:hover) {
+        color: white;
+    }
+
+    label:has(+ .desk-upload-grid .upload-box:hover) {
+        color: white;
+    }
+
+    &:has(.desk-upload-grid .upload-box:hover) .upload-specs {
+        color: white;
+    }
 }
 
 .upload-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    // display: flex;
+    // flex-direction: column;
+    // gap: 0.5rem;
 }
 
 .desk-upload-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    display: flex;
+    justify-content: space-between;
 
     @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
@@ -839,9 +841,9 @@ label {
 }
 
 .upload-box {
+    width: 90px;
     aspect-ratio: 3/2;
-    border: 2px dashed #555;
-    border-radius: 8px;
+    border: 1px solid #666;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -851,8 +853,15 @@ label {
     overflow: hidden;
 
     &:hover {
-        border-color: #667eea;
-        background: rgba(102, 126, 234, 0.1);
+        border-color: white;
+
+        .upload-text {
+            color: white;
+        }
+
+        &+.upload-specs {
+            color: white;
+        }
     }
 
     &.has-image {
@@ -880,15 +889,19 @@ label {
 }
 
 .upload-text {
-    font-size: 0.9rem;
+    font-size: 0.6rem;
     font-weight: 600;
-    color: #667eea;
+    color: #666;
+    white-space: nowrap;
+    transition: color 0.5s ease;
 }
 
 .upload-specs {
     font-size: 0.7rem;
-    color: #888;
+    color: #666;
     line-height: 1.3;
+    transition: color 0.5s ease;
+    margin-top: 0.4rem;
 }
 
 .uploaded-image {
@@ -939,10 +952,23 @@ label {
 .checkbox-container {
     display: flex;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: 0.5rem;
     cursor: pointer;
     font-size: 0.9rem;
     line-height: 1.4;
+
+    &:hover {
+        color: white;
+
+        .checkmark {
+            background: white;
+        }
+
+        .terms-link {
+            color: white;
+        }
+    }
+
 }
 
 .checkbox {
@@ -952,8 +978,7 @@ label {
 .checkmark {
     width: 1.2rem;
     height: 1.2rem;
-    border: 2px solid #555;
-    border-radius: 3px;
+    background-color: #666;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -963,16 +988,17 @@ label {
 
     &::after {
         content: '✓';
-        color: white;
+        color: black;
         font-size: 0.9rem;
+        font-weight: bold;
         opacity: 0;
         transition: opacity 0.3s ease;
     }
 }
 
 .checkbox:checked+.checkmark {
-    background: #667eea;
-    border-color: #667eea;
+    // background: #667eea;
+    // border-color: #667eea;
 
     &::after {
         opacity: 1;
@@ -984,8 +1010,9 @@ label {
 }
 
 .terms-link {
-    color: #667eea;
+    color: #666;
     text-decoration: underline;
+    transition: color 0.5s ease;
 
     &:hover {
         color: #5a6fd8;
@@ -994,48 +1021,31 @@ label {
 
 .action-buttons {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 2rem;
+    gap: 20px;
+    padding-left: calc(50% + 10px);
 }
 
 .btn {
-    padding: 0.8rem 2rem;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    outline: none;
+    border: solid 1px #666;
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 120px;
-
-    &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-}
-
-.btn-cancel {
+    flex-grow: 1;
+    height: 32px;
     background: transparent;
-    border-color: #666;
-    color: #ccc;
+    color: #666;
 
-    &:hover:not(:disabled) {
-        border-color: #888;
-        color: white;
-    }
-}
-
-.btn-submit {
-    background: #667eea;
-    color: white;
-
-    &:hover:not(:disabled) {
-        background: #5a6fd8;
+    &:hover {
+        background: #ddd;
+        color: black;
     }
 
     &:disabled {
-        background: #555;
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 }
 </style>

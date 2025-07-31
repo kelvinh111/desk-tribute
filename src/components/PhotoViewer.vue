@@ -553,13 +553,13 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                                 />
                             </a>
                             <a
-                                @click="audioManager.play('photoviewer_click'), shareToPinterest()"
+                                @click="audioManager.play('photoviewer_click'), shareToLinkedin()"
                                 @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
                                 <img
-                                    src="../assets/icon_pinterest.svg"
-                                    alt="Pinterest"
+                                    src="../assets/icon_linkedin.svg"
+                                    alt="Linkedin"
                                 />
                             </a>
                             <a
