@@ -5,6 +5,7 @@
         <form
             @submit.prevent="handleSubmit"
             class="form"
+            novalidate
         >
             <!-- Personal Information Section -->
             <div class="form-section basic-fields">
@@ -16,12 +17,7 @@
                         type="text"
                         class="form-input"
                         :class="{ 'error': errors.fullName }"
-                        required
                     />
-                    <span
-                        v-if="errors.fullName"
-                        class="error-message"
-                    >{{ errors.fullName }}</span>
                 </div>
 
                 <div class="form-field">
@@ -32,12 +28,7 @@
                         type="email"
                         class="form-input"
                         :class="{ 'error': errors.email }"
-                        required
                     />
-                    <span
-                        v-if="errors.email"
-                        class="error-message"
-                    >{{ errors.email }}</span>
                 </div>
 
                 <div class="form-field">
@@ -48,12 +39,7 @@
                         type="text"
                         class="form-input"
                         :class="{ 'error': errors.jobTitle }"
-                        required
                     />
-                    <span
-                        v-if="errors.jobTitle"
-                        class="error-message"
-                    >{{ errors.jobTitle }}</span>
                 </div>
 
                 <div class="form-field">
@@ -64,12 +50,7 @@
                         type="text"
                         class="form-input"
                         :class="{ 'error': errors.city }"
-                        required
                     />
-                    <span
-                        v-if="errors.city"
-                        class="error-message"
-                    >{{ errors.city }}</span>
                 </div>
             </div>
 
@@ -152,10 +133,6 @@
                                 </div>
                             </div>
                             <div class="upload-specs"><small>W: 300PX, H: 200PX<br />72DPI, JPEG</small></div>
-                            <span
-                                v-if="errors.profilePicture"
-                                class="error-message"
-                            >{{ errors.profilePicture }}</span>
                         </div>
                     </div>
 
@@ -194,24 +171,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="upload-specs">W: 1200PX, H: 600PX = 1200PX<br />72DPI, JPEG</div>
-                        <span
-                            v-if="errors.deskPictures"
-                            class="error-message"
-                        >{{ errors.deskPictures }}</span>
+                        <div class="upload-specs"><small>W: 1200PX, H: 600PX ~ 1200PX<br />72DPI, JPEG</small></div>
                     </div>
                 </div>
             </div>
 
             <!-- Terms and Actions -->
             <div class="terms-section">
-                <label class="checkbox-container">
+                <label
+                    class="checkbox-container"
+                    :class="{ 'error': errors.agreeToTerms }"
+                >
                     <input
                         v-model="formData.agreeToTerms"
                         type="checkbox"
                         class="checkbox"
                         :class="{ 'error': errors.agreeToTerms }"
-                        required
                     />
                     <span class="checkmark"></span>
                     I agree with the
@@ -222,17 +197,13 @@
                     >Terms and Conditions</a>
                     <span class="required">*</span>
                 </label>
-                <span
-                    v-if="errors.agreeToTerms"
-                    class="error-message"
-                >{{ errors.agreeToTerms }}</span>
             </div>
 
             <div class="action-buttons">
                 <button
                     type="submit"
                     class="btn btn-submit"
-                    :disabled="isSubmitting || !isFormValid"
+                    :disabled="isSubmitting"
                 >
                     {{ isSubmitting ? 'SUBMITTING...' : 'SUBMIT' }}
                 </button>
@@ -268,7 +239,7 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, watch } from 'vue';
 import { audioManager } from '../utils/audioManager.js';
 
 /**
@@ -301,11 +272,8 @@ const emit = defineEmits(['close', 'submit']);
 /** @type {import('vue').Ref} Profile picture file input ref */
 const profilePictureInput = ref(null);
 
-/** @type {Array<import('vue').Ref>} Desk picture file input refs */
-const deskPictureInputs = [];
-for (let i = 0; i < 6; i++) {
-    deskPictureInputs[i] = ref(null);
-}
+/** @type {Array} Desk picture file input refs */
+const deskPictureInputs = reactive([]);
 
 // ==========================================
 // FORM STATE MANAGEMENT
@@ -358,7 +326,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 /** @type {Object} Required image dimensions */
 const IMAGE_REQUIREMENTS = {
     profilePicture: { width: 300, height: 200 },
-    deskPicture: { width: 1200, height: 600 }
+    deskPicture: { width: 1200, minHeight: 600, maxHeight: 1200 }
 };
 
 // ==========================================
@@ -389,6 +357,62 @@ const profilePicturePreview = computed(() => {
 });
 
 // ==========================================
+// REACTIVE ERROR CLEARING
+// ==========================================
+
+// Watch for changes in form fields and clear errors when fixed
+watch(() => formData.fullName, (newVal) => {
+    if (newVal && newVal.trim() && errors.fullName) {
+        clearError('fullName');
+    }
+});
+
+watch(() => formData.email, (newVal) => {
+    if (newVal && newVal.trim() && errors.email) {
+        // Basic email validation to clear error
+        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newVal)) {
+            clearError('email');
+        }
+    }
+});
+
+watch(() => formData.jobTitle, (newVal) => {
+    if (newVal && newVal.trim() && errors.jobTitle) {
+        clearError('jobTitle');
+    }
+});
+
+watch(() => formData.city, (newVal) => {
+    if (newVal && newVal.trim() && errors.city) {
+        clearError('city');
+    }
+});
+
+watch(() => formData.profilePicture, (newVal) => {
+    if (newVal && errors.profilePicture) {
+        clearError('profilePicture');
+    }
+});
+
+watch(() => formData.deskPictures, (newVal) => {
+    if (newVal.some(img => img !== null) && errors.deskPictures) {
+        clearError('deskPictures');
+    }
+    // Clear individual desk picture errors
+    newVal.forEach((img, index) => {
+        if (img && errors[`deskPicture${index}`]) {
+            clearError(`deskPicture${index}`);
+        }
+    });
+}, { deep: true });
+
+watch(() => formData.agreeToTerms, (newVal) => {
+    if (newVal && errors.agreeToTerms) {
+        clearError('agreeToTerms');
+    }
+});
+
+// ==========================================
 // IMAGE HANDLING METHODS
 // ==========================================
 
@@ -403,7 +427,7 @@ function triggerFileInput(imageType) {
         profilePictureInput.value?.click();
     } else {
         const index = parseInt(imageType.replace('deskPicture', ''));
-        deskPictureInputs[index]?.value?.click();
+        deskPictureInputs[index]?.click();
     }
 }
 
@@ -497,13 +521,31 @@ function validateImageDimensions(file, imageType) {
                 ? IMAGE_REQUIREMENTS.profilePicture
                 : IMAGE_REQUIREMENTS.deskPicture;
 
-            if (img.width !== requirements.width || img.height !== requirements.height) {
-                setError(imageType,
-                    `Image must be exactly ${requirements.width}x${requirements.height} pixels`
-                );
-                resolve(false);
+            if (imageType === 'profilePicture') {
+                // Profile picture needs exact dimensions
+                if (img.width !== requirements.width || img.height !== requirements.height) {
+                    setError(imageType,
+                        `Image must be exactly ${requirements.width}x${requirements.height} pixels`
+                    );
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
             } else {
-                resolve(true);
+                // Desk picture needs exact width but height within range
+                if (img.width !== requirements.width) {
+                    setError(imageType,
+                        `Image width must be exactly ${requirements.width} pixels`
+                    );
+                    resolve(false);
+                } else if (img.height < requirements.minHeight || img.height > requirements.maxHeight) {
+                    setError(imageType,
+                        `Image height must be between ${requirements.minHeight} and ${requirements.maxHeight} pixels`
+                    );
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
             }
 
             URL.revokeObjectURL(img.src);
@@ -588,6 +630,11 @@ function validateForm() {
     if (!formData.profilePicture) newErrors.profilePicture = 'Profile picture is required';
     if (!formData.deskPictures.some(img => img !== null)) {
         newErrors.deskPictures = 'At least one desk picture is required';
+        // Also set error on first empty desk picture box for visual feedback
+        const firstEmptyIndex = formData.deskPictures.findIndex(img => img === null);
+        if (firstEmptyIndex !== -1) {
+            newErrors[`deskPicture${firstEmptyIndex}`] = 'Desk picture is required';
+        }
     }
     if (!formData.agreeToTerms) newErrors.agreeToTerms = 'You must agree to the terms and conditions';
 
@@ -613,9 +660,12 @@ function validateForm() {
 async function handleSubmit() {
     audioManager.play('photoviewer_click');
 
-    if (!validateForm()) {
+    // Always run validation and set error states
+    const isValid = validateForm();
+
+    if (!isValid) {
         audioManager.play('gallery_hover'); // Error sound
-        return;
+        return; // Stop submission but errors are now visible
     }
 
     isSubmitting.value = true;
@@ -708,10 +758,14 @@ h2 {
     gap: 1rem;
 }
 
+// ==========================================
+// FORM SECTIONS
+// ==========================================
+
 .form-section {
     display: flex;
     width: 100%;
-    gap: 20px;
+    gap: 15px 20px;
 
     &.basic-fields {
         flex-wrap: wrap;
@@ -730,9 +784,18 @@ h2 {
     }
 }
 
+// ==========================================
+// FORM INPUTS & LABELS
+// ==========================================
+
 .form-field {
 
-    input {}
+    // Error state for form fields
+    &:has(.form-input.error) {
+        label {
+            color: #ee1100 !important;
+        }
+    }
 }
 
 label {
@@ -747,13 +810,8 @@ label {
     }
 }
 
-.required {
-    // color: #666;
-}
-
 .form-input {
     padding: 0.5rem;
-    // font-size: 1rem;
     display: block;
     width: 100%;
     border: none;
@@ -767,7 +825,7 @@ label {
     }
 
     &.error {
-        border-color: #ff6b6b;
+        background-color: #ee1100 !important;
     }
 
     &::placeholder {
@@ -781,7 +839,21 @@ label {
     margin-top: 0.25rem;
 }
 
+// ==========================================
+// SOCIAL MEDIA FIELDS
+// ==========================================
+
 .sns-fields {
+    .form-field {
+
+        // Error state for SNS fields
+        &:has(.form-input.error) {
+            label {
+                color: #ee1100 !important;
+            }
+        }
+    }
+
     label {
         color: #333;
     }
@@ -801,16 +873,11 @@ label {
     width: 100%;
     gap: 2rem;
 
-    @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
 }
 
 .upload-group {
     display: flex;
     flex-direction: column;
-    // gap: 1rem;
 
     label:has(+ .upload-container .upload-box:hover) {
         color: white;
@@ -823,21 +890,34 @@ label {
     &:has(.desk-upload-grid .upload-box:hover) .upload-specs {
         color: white;
     }
-}
 
-.upload-container {
-    // display: flex;
-    // flex-direction: column;
-    // gap: 0.5rem;
+    // Error states for image uploads
+    &:has(.upload-box.error) {
+        label {
+            color: #ee1100 !important;
+        }
+
+        .upload-specs {
+            color: #ee1100 !important;
+        }
+    }
+
+    // Specific error states for desk upload grid
+    &:has(.desk-upload-grid .upload-box.error) {
+        label {
+            color: #ee1100 !important;
+        }
+
+        .upload-specs {
+            color: #ee1100 !important;
+        }
+    }
 }
 
 .desk-upload-grid {
     display: flex;
     justify-content: space-between;
 
-    @media (max-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 .upload-box {
@@ -870,7 +950,11 @@ label {
     }
 
     &.error {
-        border-color: #ff6b6b;
+        border-color: #ee1100;
+
+        .upload-text {
+            color: #ee1100;
+        }
     }
 }
 
@@ -956,6 +1040,19 @@ label {
     cursor: pointer;
     font-size: 0.9rem;
     line-height: 1.4;
+    transition: all 0.3s ease;
+
+    &.error {
+        color: #ee1100;
+
+        .checkmark {
+            background-color: #ee1100;
+        }
+
+        .terms-link {
+            color: #ee1100;
+        }
+    }
 
     &:hover {
         color: white;
@@ -968,7 +1065,6 @@ label {
             color: white;
         }
     }
-
 }
 
 .checkbox {
@@ -997,9 +1093,6 @@ label {
 }
 
 .checkbox:checked+.checkmark {
-    // background: #667eea;
-    // border-color: #667eea;
-
     &::after {
         opacity: 1;
     }
