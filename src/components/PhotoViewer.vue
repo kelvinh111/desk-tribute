@@ -23,8 +23,8 @@ const isTransitioning = ref(false);
 const stripesRef = ref(null);
 const sliderContainer = ref(null);
 
-const STAGGER_DELAY = 0.01;
-const ANIMATION_DURATION = 1;
+const STAGGER_DELAY = 0.006;
+const ANIMATION_DURATION = 0.8;
 const ANIMATION_EASE = "power2.out";
 
 const sliderNaturalWidth = ref(600);
@@ -603,7 +603,70 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                         '--slider-height': sliderDisplayHeight + 'px'
                     }"
                 >
-                    <h3>{{ props.desk.name }}</h3>
+                    <div class="info-header">
+                        <h3>{{ props.desk.name }}</h3>
+                        <div
+                            class="social-links"
+                            v-if="props.desk.social"
+                        >
+                            <a
+                                v-if="props.desk.social.facebook"
+                                :href="props.desk.social.facebook"
+                                target="_blank"
+                                class="social-link facebook"
+                                @click="audioManager.play('photoviewer_click')"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
+                                title="Facebook"
+                            >
+                                <img
+                                    src="../assets/icon_facebook.svg"
+                                    alt="Facebook"
+                                />
+                            </a>
+                            <a
+                                v-if="props.desk.social.twitter"
+                                :href="props.desk.social.twitter"
+                                target="_blank"
+                                class="social-link twitter"
+                                @click="audioManager.play('photoviewer_click')"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
+                                title="X (Twitter)"
+                            >
+                                <img
+                                    src="../assets/icon_x.svg"
+                                    alt="X"
+                                />
+                            </a>
+                            <a
+                                v-if="props.desk.social.linkedin"
+                                :href="props.desk.social.linkedin"
+                                target="_blank"
+                                class="social-link linkedin"
+                                @click="audioManager.play('photoviewer_click')"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
+                                title="LinkedIn"
+                            >
+                                <img
+                                    src="../assets/icon_linkedin.svg"
+                                    alt="LinkedIn"
+                                />
+                            </a>
+                            <a
+                                v-if="props.desk.social.website"
+                                :href="props.desk.social.website"
+                                target="_blank"
+                                class="social-link website"
+                                @click="audioManager.play('photoviewer_click')"
+                                @mouseenter="audioManager.play('photoviewer_hover')"
+                                title="Website"
+                            >
+                                <img
+                                    src="../assets/icon_home.svg"
+                                    alt="Website"
+                                />
+                            </a>
+                        </div>
+                    </div>
                     <h4>{{ props.desk.title }} / {{ props.desk.location }}</h4>
                 </div>
                 <div
@@ -830,16 +893,67 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     color: white;
     z-index: 39;
 
+    .info-header {
+        display: flex;
+        // align-items: center;
+        align-items: flex-end;
+        gap: 1rem;
+        margin-bottom: 5px;
+    }
+
     h3 {
-        margin: 0 0 5px 0;
+        margin: 0;
         font-size: 1.3rem;
-        line-height: 0.8rem;
+        line-height: 1.1rem;
     }
 
     h4 {
         margin: 0;
         font-size: 0.7rem;
     }
+}
+
+.social-links {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    &:has(.social-link:hover) {
+        .social-link {
+            opacity: 0.5;
+        }
+    }
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // width: 10px;
+    // height: 10px;
+    // border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        //     background: white;
+        //     border-color: white;
+        opacity: 1 !important;
+    }
+
+    img {
+        width: 12px;
+        height: 12px;
+        filter: brightness(0) invert(1); // Make SVG icons white by default
+        transition: filter 0.3s ease;
+    }
+
+    // &:hover img {
+    //     filter: brightness(0) invert(0); // Make SVG icons black on hover
+    // }
 }
 
 .slider-pager {

@@ -944,7 +944,7 @@ label {
 
     &.has-image {
         border-style: solid;
-        border-color: #667eea;
+        border-color: #666;
     }
 
     &.error {
