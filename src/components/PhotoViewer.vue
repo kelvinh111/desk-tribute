@@ -38,6 +38,7 @@ const photoSizeCache = {}; // url -> {width, height}
 const isSliderReady = ref(false);
 const isSliderVisible = ref(false); // Controls actual slider visibility (delayed after flashing)
 const isProgressBarComplete = ref(false);
+const showCopyNotification = ref(false);
 
 // Reactive window dimensions
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
@@ -395,6 +396,86 @@ function handleResize() {
     windowHeight.value = window.innerHeight;
 }
 
+// ==========================================
+// SOCIAL SHARING FUNCTIONS
+// ==========================================
+
+function shareToFacebook() {
+    const currentUrl = window.location.href;
+    const shareText = `Check out ${props.desk.name}'s desk - ${props.desk.title} from ${props.desk.location}`;
+
+    // Basic Facebook sharer (no custom text pre-population due to platform restrictions)
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+    window.open(facebookUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+
+    console.log('Facebook sharing opened. Note: Custom text cannot be pre-populated due to Facebook security policies.');
+    console.log('Share text for reference:', shareText);
+}
+
+function shareToX() {
+    const currentUrl = window.location.href;
+    const shareText = `Check out ${props.desk.name}'s desk - ${props.desk.title} from ${props.desk.location}`;
+
+    // Twitter/X allows pre-populated text via URL parameters
+    const xUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(shareText)}`;
+    window.open(xUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+}
+
+function shareToLinkedin() {
+    const currentUrl = window.location.href;
+    const shareText = `Check out ${props.desk.name}'s desk - ${props.desk.title} from ${props.desk.location}`;
+
+    // Basic LinkedIn sharing (custom text limitations apply)
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+    window.open(linkedinUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+
+    console.log('LinkedIn sharing opened. Note: Custom text cannot be pre-populated due to LinkedIn security policies.');
+    console.log('Share text for reference:', shareText);
+}
+
+async function shareCopyLink() {
+    const currentUrl = window.location.href;
+
+    try {
+        // Try to use the modern Clipboard API
+        await navigator.clipboard.writeText(currentUrl);
+
+        // Show visual notification
+        showCopyNotification.value = true;
+        setTimeout(() => {
+            showCopyNotification.value = false;
+        }, 2000);
+
+        console.log('Link copied to clipboard:', currentUrl);
+
+    } catch (err) {
+        // Fallback for older browsers
+        try {
+            const textArea = document.createElement('textarea');
+            textArea.value = currentUrl;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+
+            // Show visual notification
+            showCopyNotification.value = true;
+            setTimeout(() => {
+                showCopyNotification.value = false;
+            }, 2000);
+
+            console.log('Link copied to clipboard (fallback):', currentUrl);
+        } catch (fallbackErr) {
+            console.error('Failed to copy link:', fallbackErr);
+            alert('Unable to copy link. Please copy manually: ' + currentUrl);
+        }
+    }
+}
+
 onMounted(() => {
     window.addEventListener('resize', handleResize);
 });
@@ -711,6 +792,33 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                 <div class="icon-line bottom"></div>
             </div>
         </div>
+
+        <!-- Copy Link Notification -->
+        <transition name="copy-notification">
+            <div
+                v-if="showCopyNotification"
+                class="copy-notification"
+            >
+                <div class="copy-notification-content">
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M20 6L9 17L4 12"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                    Link copied to clipboard!
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -1096,5 +1204,54 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 .fade-scale-leave-from {
     opacity: 1;
     transform: scale(1);
+}
+
+.copy-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
+    pointer-events: none;
+}
+
+.copy-notification-content {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    svg {
+        flex-shrink: 0;
+        color: #4ade80;
+        /* Green checkmark */
+    }
+}
+
+.copy-notification-enter-active,
+.copy-notification-leave-active {
+    transition: all 0.3s ease;
+}
+
+.copy-notification-enter-from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+.copy-notification-leave-to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+.copy-notification-enter-to,
+.copy-notification-leave-from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 </style>
