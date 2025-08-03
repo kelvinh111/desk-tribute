@@ -40,13 +40,13 @@ const deskScreenImages = reactive({});
 // Initialize desk screen images when component mounts
 function initializeDeskScreenImages() {
     props.desks.forEach(desk => {
-        deskScreenImages[desk.id] = desk.screen.img;
+        deskScreenImages[desk.id] = desk.profile;
     });
 }
 
 // Get current screen image for a desk
 function getCurrentScreenImage(deskId) {
-    return deskScreenImages[deskId] || props.desks.find(d => d.id === deskId)?.screen?.img;
+    return deskScreenImages[deskId] || props.desks.find(d => d.id === deskId)?.profile;
 }
 
 const selectionState = reactive({
@@ -511,10 +511,10 @@ function completeFlashingAnimation() {
     const { activeSliderItemContent, translateX, translateY } = pendingAnimation.value;
     const deskInfo = activeSliderItemContent.querySelector('.desk-info');
 
-    // Revert the screen image back to the original desk.screen.img
+    // Revert the screen image back to the original desk.profile
     const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
     if (currentDesk) {
-        deskScreenImages[currentDesk.id] = currentDesk.screen.img;
+        deskScreenImages[currentDesk.id] = currentDesk.profile;
     }
 
     // Complete the desk switching animation: animate back to slider
@@ -538,10 +538,10 @@ function completeFlashingAnimation() {
                 screenEl.style.filter = 'brightness(1)';
             }
 
-            // // After 1 second, revert the screen image back to the original desk.screen.img
+            // // After 1 second, revert the screen image back to the original desk.profile
             // const currentDesk = props.desks.find(d => d.id === props.selectedDeskId);
             // if (currentDesk) {
-            //     deskScreenImages[currentDesk.id] = currentDesk.screen.img;
+            //     deskScreenImages[currentDesk.id] = currentDesk.profile;
             // }
 
             isHoverable.value = true; // Re-enable hover effects

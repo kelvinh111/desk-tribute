@@ -50,8 +50,8 @@ async function preloadImages() {
 
     deskData.forEach(desk => {
         // Add desk screen thumbnail image (shown in gallery grid)
-        if (desk.screen && desk.screen.img) {
-            imagesToLoad.push(desk.screen.img);
+        if (desk.profile) {
+            imagesToLoad.push(desk.profile);
         }
 
         // Add first photo from each desk (used for screen flashing effect)

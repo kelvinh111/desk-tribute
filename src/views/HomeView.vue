@@ -248,8 +248,8 @@ function pick(desk, isDirectLoading = false) {
 
     // Restore the clone's screen to the original desk screen image
     const screenEl = cloneEl.querySelector('.desk-screen');
-    if (screenEl && desk.screen && desk.screen.img) {
-      screenEl.style.backgroundImage = `url(${desk.screen.img})`;
+    if (screenEl && desk.profile) {
+      screenEl.style.backgroundImage = `url(${desk.profile})`;
     }
 
     // Animate the clone back to its original position in the grid.

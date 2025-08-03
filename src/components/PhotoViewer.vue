@@ -404,12 +404,93 @@ function shareToFacebook() {
     const currentUrl = window.location.href;
     const shareText = `Check out ${props.desk.name}'s desk - ${props.desk.title} from ${props.desk.location}`;
 
-    // Basic Facebook sharer (no custom text pre-population due to platform restrictions)
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
-    window.open(facebookUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+    // Development note: Facebook sharing will be fully functional once deployed to a public domain
+    if (currentUrl.includes('localhost')) {
+        console.warn('🚨 Facebook Sharing Development Notice:');
+        console.warn('Facebook cannot access localhost URLs or show rich previews in development.');
+        console.warn('For full functionality:');
+        console.warn('1. Deploy this app to a public domain (Vercel, Netlify, etc.)');
+        console.warn('2. Configure the domain in Facebook Developer Dashboard');
+        console.warn('3. Test with Facebook Sharing Debugger');
+        console.warn('Current share text:', shareText);
 
-    console.log('Facebook sharing opened. Note: Custom text cannot be pre-populated due to Facebook security policies.');
-    console.log('Share text for reference:', shareText);
+        // Show user-friendly message
+        if (confirm('📋 Facebook sharing requires a public domain to show rich previews.\n\nWould you like to copy the share text to clipboard instead?\n\n"' + shareText + '"')) {
+            navigator.clipboard.writeText(`${shareText}\n\n${currentUrl}`).then(() => {
+                alert('✅ Share text copied to clipboard!');
+            }).catch(() => {
+                prompt('Copy this share text:', `${shareText}\n\n${currentUrl}`);
+            });
+        }
+        return;
+    }
+
+    // Update Open Graph meta tags dynamically for production
+    updateOpenGraphTags();
+
+    // Use the simple, reliable Facebook sharer URL
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+
+    // Open in popup with optimal dimensions
+    const width = 626;
+    const height = 436;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+
+    const popup = window.open(
+        facebookShareUrl,
+        'facebookShare',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=yes`
+    );
+
+    if (popup) {
+        popup.focus();
+        console.log('Facebook share dialog opened');
+        console.log('Note: Facebook will show rich preview based on page content. Users can add their own message.');
+        console.log('Share text for reference:', shareText);
+    } else {
+        console.warn('Popup blocked, opening in new tab');
+        window.open(facebookShareUrl, '_blank');
+    }
+}
+
+function updateOpenGraphTags() {
+    if (!props.desk) return;
+
+    const currentUrl = window.location.href;
+    const title = `${props.desk.name}'s Desk - ${props.desk.title}`;
+    const description = `Check out ${props.desk.name}'s desk setup - ${props.desk.title} from ${props.desk.location}. A creative workspace that inspires.`;
+    const image = props.desk.photos && props.desk.photos[0] ? props.desk.photos[0] : '';
+
+    // Update or create Open Graph meta tags
+    updateMetaTag('og:url', currentUrl);
+    updateMetaTag('og:title', title);
+    updateMetaTag('og:description', description);
+    if (image) {
+        updateMetaTag('og:image', image);
+    }
+
+    // Also update Twitter Card tags for better social sharing
+    updateMetaTag('twitter:title', title);
+    updateMetaTag('twitter:description', description);
+    if (image) {
+        updateMetaTag('twitter:image', image);
+    }
+}
+
+function updateMetaTag(property, content) {
+    let tag = document.querySelector(`meta[property="${property}"]`) ||
+        document.querySelector(`meta[name="${property}"]`);
+
+    if (tag) {
+        tag.setAttribute('content', content);
+    } else {
+        // Create new tag if it doesn't exist
+        tag = document.createElement('meta');
+        tag.setAttribute('property', property);
+        tag.setAttribute('content', content);
+        document.head.appendChild(tag);
+    }
 }
 
 function shareToX() {

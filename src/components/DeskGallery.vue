@@ -399,7 +399,7 @@ defineExpose({
                     <div
                         class="desk-screen glitch-container"
                         :style="{
-                            backgroundImage: `url(${desk.screen.img})`,
+                            backgroundImage: `url(${desk.profile})`,
                             top: desk.screen.y,
                             left: desk.screen.x,
                             width: desk.screen.width,
@@ -408,23 +408,23 @@ defineExpose({
                     >
                         <div
                             class="glitch-layer glitch-1"
-                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                            :style="{ backgroundImage: `url(${desk.profile})` }"
                         ></div>
                         <div
                             class="glitch-layer glitch-2"
-                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                            :style="{ backgroundImage: `url(${desk.profile})` }"
                         ></div>
                         <div
                             class="glitch-layer glitch-red"
-                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                            :style="{ backgroundImage: `url(${desk.profile})` }"
                         ></div>
                         <div
                             class="glitch-layer glitch-green"
-                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                            :style="{ backgroundImage: `url(${desk.profile})` }"
                         ></div>
                         <div
                             class="glitch-layer glitch-blue"
-                            :style="{ backgroundImage: `url(${desk.screen.img})` }"
+                            :style="{ backgroundImage: `url(${desk.profile})` }"
                         ></div>
                     </div>
                     <div class="desk-info">
