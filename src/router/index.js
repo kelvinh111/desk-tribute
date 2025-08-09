@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import AdminView from '../views/AdminView.vue';
 
 const router = createRouter({
   // createWebHistory uses the browser's History API to manage routing without a page reload.
@@ -11,6 +12,12 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView, // Renders the HomeView component.
+    },
+    {
+      // Admin dashboard route
+      path: '/admin',
+      name: 'admin',
+      component: AdminView,
     },
     {
       // This is a dynamic route. The ':deskId' part is a parameter that can be any string.

@@ -265,6 +265,7 @@
 <script setup>
 import { ref, computed, reactive, watch } from 'vue';
 import { audioManager } from '../utils/audioManager.js';
+import { supabase } from '../lib/supabase.js';
 
 /**
  * Desk Submission Form Component
@@ -658,54 +659,129 @@ async function handleSubmit() {
     isSubmitting.value = true;
 
     try {
-        // Create FormData for file upload
-        const submitData = new FormData();
+        // Step 1: Upload profile image to Supabase Storage
+        console.log('Uploading profile image...');
+        const profilePath = `profile-${Date.now()}-${formData.profilePicture.name}`;
+        const { data: profileUpload, error: profileError } = await supabase.storage
+            .from('desk-profiles')
+            .upload(profilePath, formData.profilePicture);
 
-        // Add text fields
-        Object.keys(formData).forEach(key => {
-            if (key !== 'profilePicture' && key !== 'deskPictures') {
-                submitData.append(key, formData[key]);
-            }
-        });
-
-        // Add profile picture
-        if (formData.profilePicture) {
-            submitData.append('profilePicture', formData.profilePicture);
+        if (profileError) {
+            throw new Error(`Profile upload failed: ${profileError.message}`);
         }
 
-        // Add desk pictures
-        formData.deskPictures.forEach((file, index) => {
+        // Get profile image public URL
+        const { data: profileUrlData } = supabase.storage
+            .from('desk-profiles')
+            .getPublicUrl(profileUpload.path);
+
+        // Step 2: Upload desk photos to Supabase Storage
+        console.log('Uploading desk photos...');
+        const photoUrls = [];
+        for (let i = 0; i < formData.deskPictures.length; i++) {
+            const file = formData.deskPictures[i];
             if (file) {
-                submitData.append(`deskPicture${index}`, file);
-            }
-        });
+                const photoPath = `photo-${Date.now()}-${i}-${file.name}`;
+                const { data: photoUpload, error: photoError } = await supabase.storage
+                    .from('desk-photos')
+                    .upload(photoPath, file);
 
-        // Debug: Log FormData contents
-        console.log('Submitting form data:');
-        for (let [key, value] of submitData.entries()) {
-            if (value instanceof File) {
-                console.log(`${key}:`, `File(${value.name}, ${value.size} bytes, ${value.type})`);
-            } else {
-                console.log(`${key}:`, value);
+                if (photoError) {
+                    throw new Error(`Photo ${i + 1} upload failed: ${photoError.message}`);
+                }
+
+                // Get photo public URL
+                const { data: photoUrlData } = supabase.storage
+                    .from('desk-photos')
+                    .getPublicUrl(photoUpload.path);
+
+                photoUrls.push(photoUrlData.publicUrl);
             }
         }
 
-        // Emit submission event with form data
-        emit('submit', submitData);
+        // Step 3: Submit to our API endpoint
+        console.log('Submitting to API...');
+        const submitData = {
+            name: formData.fullName,
+            title: formData.jobTitle,
+            location: formData.city,
+            profileImageUrl: profileUrlData.publicUrl,
+            photoUrls: photoUrls,
+            social: {
+                facebook: formData.facebook || null,
+                twitter: formData.twitter || null,
+                linkedin: formData.linkedin || null,
+                website: formData.website || null
+            }
+        };
 
+        const response = await fetch('https://uedlyafexdgfdqkjkygr.supabase.co/functions/v1/submit-desk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlZGx5YWZleGRnZmRxa2preWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0NzYzNTcsImV4cCI6MjA3MDA1MjM1N30.7d0_E1JmTKt1CLKIhoPR92rP8ncx7xTsluVSljMGD5E'}`
+            },
+            body: JSON.stringify(submitData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || 'Submission failed');
+        }
+
+        console.log('Submission successful:', result);
         audioManager.play('photoviewer_load'); // Success sound
 
-        // Close form after successful submission
-        setTimeout(() => {
-            emit('close');
-        }, 1000); // Brief delay to show success state
+        // Show success message
+        alert('Desk submitted successfully! We\'ll review it and get back to you soon.');
+
+        // Reset form
+        resetForm();
+
+        // Emit close event
+        emit('close');
 
     } catch (error) {
         console.error('Submission error:', error);
         audioManager.play('gallery_hover'); // Error sound
+        alert(`Submission failed: ${error.message}`);
     } finally {
         isSubmitting.value = false;
     }
+}
+
+/**
+ * Reset form to initial state
+ */
+function resetForm() {
+    // Reset form data
+    formData.fullName = '';
+    formData.email = '';
+    formData.jobTitle = '';
+    formData.city = '';
+    formData.facebook = '';
+    formData.twitter = '';
+    formData.linkedin = '';
+    formData.website = '';
+    formData.profilePicture = null;
+    formData.deskPictures.fill(null);
+    formData.agreeToTerms = false;
+
+    // Clear image previews
+    if (imagePreviews.profilePicture) {
+        URL.revokeObjectURL(imagePreviews.profilePicture);
+        imagePreviews.profilePicture = null;
+    }
+    imagePreviews.deskPictures.forEach((url, index) => {
+        if (url) {
+            URL.revokeObjectURL(url);
+            imagePreviews.deskPictures[index] = null;
+        }
+    });
+
+    // Clear errors
+    Object.keys(errors).forEach(key => delete errors[key]);
 }
 
 /**
