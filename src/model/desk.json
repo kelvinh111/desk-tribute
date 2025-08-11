@@ -4,26 +4,26 @@
         "name": "Alice",
         "title": "Designer",
         "location": "New York",
-        "profile": "../src/assets/generated/img-030.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-030.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-002.png"
+            "firstPhoto": "/src/assets/generated/img-002.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -37,26 +37,26 @@
         "name": "Bob",
         "title": "Developer",
         "location": "San Francisco",
-        "profile": "../src/assets/generated/img-139.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-139.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-004.png"
+            "firstPhoto": "/src/assets/generated/img-004.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -70,26 +70,26 @@
         "name": "Charlie",
         "title": "Product Manager",
         "location": "London",
-        "profile": "../src/assets/generated/img-248.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-248.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-006.png"
+            "firstPhoto": "/src/assets/generated/img-006.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -103,26 +103,26 @@
         "name": "Diana",
         "title": "QA Engineer",
         "location": "Berlin",
-        "profile": "../src/assets/generated/img-090.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-090.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-008.png"
+            "firstPhoto": "/src/assets/generated/img-008.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -136,26 +136,26 @@
         "name": "Ethan",
         "title": "DevOps",
         "location": "Toronto",
-        "profile": "../src/assets/generated/img-250.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-250.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-010.png"
+            "firstPhoto": "/src/assets/generated/img-010.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -169,26 +169,26 @@
         "name": "Fiona",
         "title": "UX Researcher",
         "location": "Paris",
-        "profile": "../src/assets/generated/img-157.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-157.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-012.png"
+            "firstPhoto": "/src/assets/generated/img-012.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -202,26 +202,26 @@
         "name": "George",
         "title": "Backend Developer",
         "location": "Sydney",
-        "profile": "../src/assets/generated/img-110.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-110.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-014.png"
+            "firstPhoto": "/src/assets/generated/img-014.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -235,26 +235,26 @@
         "name": "Hannah",
         "title": "Frontend Developer",
         "location": "Amsterdam",
-        "profile": "../src/assets/generated/img-002.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-002.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-016.png"
+            "firstPhoto": "/src/assets/generated/img-016.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -268,26 +268,26 @@
         "name": "Ian",
         "title": "Mobile Developer",
         "location": "Tokyo",
-        "profile": "../src/assets/generated/img-038.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-038.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-018.png"
+            "firstPhoto": "/src/assets/generated/img-018.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -301,26 +301,26 @@
         "name": "Julia",
         "title": "Scrum Master",
         "location": "Madrid",
-        "profile": "../src/assets/generated/img-203.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-203.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-020.png"
+            "firstPhoto": "/src/assets/generated/img-020.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -334,26 +334,26 @@
         "name": "Kevin",
         "title": "Full Stack Developer",
         "location": "Dublin",
-        "profile": "../src/assets/generated/img-169.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-169.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-022.png"
+            "firstPhoto": "/src/assets/generated/img-022.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -367,26 +367,26 @@
         "name": "Laura",
         "title": "UI Designer",
         "location": "Rome",
-        "profile": "../src/assets/generated/img-065.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-065.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-024.png"
+            "firstPhoto": "/src/assets/generated/img-024.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -400,26 +400,26 @@
         "name": "Mike",
         "title": "Cloud Architect",
         "location": "Zurich",
-        "profile": "../src/assets/generated/img-140.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-140.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-026.png"
+            "firstPhoto": "/src/assets/generated/img-026.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -433,26 +433,26 @@
         "name": "Nina",
         "title": "Security Analyst",
         "location": "Vienna",
-        "profile": "../src/assets/generated/img-007.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-007.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-028.png"
+            "firstPhoto": "/src/assets/generated/img-028.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -466,26 +466,26 @@
         "name": "Oscar",
         "title": "Data Scientist",
         "location": "Stockholm",
-        "profile": "../src/assets/generated/img-088.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-088.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-030.png"
+            "firstPhoto": "/src/assets/generated/img-030.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -499,26 +499,26 @@
         "name": "Paula",
         "title": "Business Analyst",
         "location": "Oslo",
-        "profile": "../src/assets/generated/img-009.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-009.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-032.png"
+            "firstPhoto": "/src/assets/generated/img-032.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -532,26 +532,26 @@
         "name": "Quentin",
         "title": "AI Engineer",
         "location": "Helsinki",
-        "profile": "../src/assets/generated/img-024.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-024.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-034.png"
+            "firstPhoto": "/src/assets/generated/img-034.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -565,26 +565,26 @@
         "name": "Rachel",
         "title": "Support Engineer",
         "location": "Brussels",
-        "profile": "../src/assets/generated/img-030.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-030.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-036.png"
+            "firstPhoto": "/src/assets/generated/img-036.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -598,26 +598,26 @@
         "name": "Sam",
         "title": "Network Engineer",
         "location": "Prague",
-        "profile": "../src/assets/generated/img-210.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-210.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-038.png"
+            "firstPhoto": "/src/assets/generated/img-038.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -631,26 +631,26 @@
         "name": "Tina",
         "title": "Content Strategist",
         "location": "Lisbon",
-        "profile": "../src/assets/generated/img-110.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-110.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-040.png"
+            "firstPhoto": "/src/assets/generated/img-040.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -664,26 +664,26 @@
         "name": "Uma",
         "title": "SEO Specialist",
         "location": "Budapest",
-        "profile": "../src/assets/generated/img-154.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-154.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-042.png"
+            "firstPhoto": "/src/assets/generated/img-042.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -697,26 +697,26 @@
         "name": "Victor",
         "title": "Growth Hacker",
         "location": "Warsaw",
-        "profile": "../src/assets/generated/img-083.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-083.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-044.png"
+            "firstPhoto": "/src/assets/generated/img-044.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -730,26 +730,26 @@
         "name": "Wendy",
         "title": "Copywriter",
         "location": "Copenhagen",
-        "profile": "../src/assets/generated/img-153.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-153.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-046.png"
+            "firstPhoto": "/src/assets/generated/img-046.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -763,26 +763,26 @@
         "name": "Xavier",
         "title": "Game Developer",
         "location": "Milan",
-        "profile": "../src/assets/generated/img-142.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-142.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-048.png"
+            "firstPhoto": "/src/assets/generated/img-048.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -796,26 +796,26 @@
         "name": "Yara",
         "title": "VR Specialist",
         "location": "Athens",
-        "profile": "../src/assets/generated/img-032.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-032.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-050.png"
+            "firstPhoto": "/src/assets/generated/img-050.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -829,26 +829,26 @@
         "name": "Zane",
         "title": "Blockchain Dev",
         "location": "Tallinn",
-        "profile": "../src/assets/generated/img-098.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-098.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-052.png"
+            "firstPhoto": "/src/assets/generated/img-052.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -862,26 +862,26 @@
         "name": "Ava",
         "title": "Marketing Lead",
         "location": "Edinburgh",
-        "profile": "../src/assets/generated/img-063.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-063.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-054.png"
+            "firstPhoto": "/src/assets/generated/img-054.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -895,26 +895,26 @@
         "name": "Ben",
         "title": "Sales Manager",
         "location": "Munich",
-        "profile": "../src/assets/generated/img-197.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-197.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-056.png"
+            "firstPhoto": "/src/assets/generated/img-056.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -928,26 +928,26 @@
         "name": "Cara",
         "title": "HR Specialist",
         "location": "Bratislava",
-        "profile": "../src/assets/generated/img-039.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-039.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-058.png"
+            "firstPhoto": "/src/assets/generated/img-058.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -961,26 +961,26 @@
         "name": "User30",
         "title": "Employee",
         "location": "Office",
-        "profile": "../src/assets/generated/img-197.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-197.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-060.png"
+            "firstPhoto": "/src/assets/generated/img-060.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -994,26 +994,26 @@
         "name": "Ella",
         "title": "Finance Manager",
         "location": "Luxembourg",
-        "profile": "../src/assets/generated/img-176.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-176.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-062.png"
+            "firstPhoto": "/src/assets/generated/img-062.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1027,26 +1027,26 @@
         "name": "Felix",
         "title": "Operations Lead",
         "location": "Reykjavik",
-        "profile": "../src/assets/generated/img-115.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-115.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-064.png"
+            "firstPhoto": "/src/assets/generated/img-064.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1060,26 +1060,26 @@
         "name": "Grace",
         "title": "Customer Success",
         "location": "Valletta",
-        "profile": "../src/assets/generated/img-099.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-099.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-066.png"
+            "firstPhoto": "/src/assets/generated/img-066.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1093,26 +1093,26 @@
         "name": "Henry",
         "title": "IT Support",
         "location": "Sofia",
-        "profile": "../src/assets/generated/img-090.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-090.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-068.png"
+            "firstPhoto": "/src/assets/generated/img-068.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1126,26 +1126,26 @@
         "name": "Isabel",
         "title": "Recruiter",
         "location": "Zagreb",
-        "profile": "../src/assets/generated/img-122.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-122.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-070.png"
+            "firstPhoto": "/src/assets/generated/img-070.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1159,26 +1159,26 @@
         "name": "Jack",
         "title": "Logistics Coordinator",
         "location": "Belgrade",
-        "profile": "../src/assets/generated/img-135.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-135.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-072.png"
+            "firstPhoto": "/src/assets/generated/img-072.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1192,26 +1192,26 @@
         "name": "Kara",
         "title": "Brand Manager",
         "location": "Krakow",
-        "profile": "../src/assets/generated/img-091.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-091.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-074.png"
+            "firstPhoto": "/src/assets/generated/img-074.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1225,26 +1225,26 @@
         "name": "Liam",
         "title": "Systems Analyst",
         "location": "Vilnius",
-        "profile": "../src/assets/generated/img-133.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-133.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-076.png"
+            "firstPhoto": "/src/assets/generated/img-076.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1258,26 +1258,26 @@
         "name": "User39",
         "title": "Employee",
         "location": "Office",
-        "profile": "../src/assets/generated/img-223.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-223.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-078.png"
+            "firstPhoto": "/src/assets/generated/img-078.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1291,26 +1291,26 @@
         "name": "User40",
         "title": "Employee",
         "location": "Office",
-        "profile": "../src/assets/generated/img-145.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-145.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-080.png"
+            "firstPhoto": "/src/assets/generated/img-080.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1324,26 +1324,26 @@
         "name": "Olivia",
         "title": "Procurement Lead",
         "location": "Bern",
-        "profile": "../src/assets/generated/img-104.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-104.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-082.png"
+            "firstPhoto": "/src/assets/generated/img-082.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1357,26 +1357,26 @@
         "name": "Peter",
         "title": "Legal Counsel",
         "location": "Oslo",
-        "profile": "../src/assets/generated/img-098.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-098.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-084.png"
+            "firstPhoto": "/src/assets/generated/img-084.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1390,26 +1390,26 @@
         "name": "Queenie",
         "title": "Event Planner",
         "location": "Helsinki",
-        "profile": "../src/assets/generated/img-197.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-197.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-086.png"
+            "firstPhoto": "/src/assets/generated/img-086.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1423,26 +1423,26 @@
         "name": "Ray",
         "title": "Data Analyst",
         "location": "Brussels",
-        "profile": "../src/assets/generated/img-240.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-240.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-088.png"
+            "firstPhoto": "/src/assets/generated/img-088.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1456,26 +1456,26 @@
         "name": "Dan",
         "title": "Legal Advisor",
         "location": "Ljubljana",
-        "profile": "../src/assets/generated/img-120.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-120.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-090.png"
+            "firstPhoto": "/src/assets/generated/img-090.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1489,26 +1489,26 @@
         "name": "Tom",
         "title": "Growth Marketer",
         "location": "Prague",
-        "profile": "../src/assets/generated/img-074.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-074.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-092.png"
+            "firstPhoto": "/src/assets/generated/img-092.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1522,26 +1522,26 @@
         "name": "Ursula",
         "title": "Content Writer",
         "location": "Budapest",
-        "profile": "../src/assets/generated/img-108.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-108.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-094.png"
+            "firstPhoto": "/src/assets/generated/img-094.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1555,26 +1555,26 @@
         "name": "User48",
         "title": "Employee",
         "location": "Office",
-        "profile": "../src/assets/generated/img-250.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-250.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-096.png"
+            "firstPhoto": "/src/assets/generated/img-096.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1588,26 +1588,26 @@
         "name": "Willa",
         "title": "UX Designer",
         "location": "Copenhagen",
-        "profile": "../src/assets/generated/img-218.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-218.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-098.png"
+            "firstPhoto": "/src/assets/generated/img-098.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1621,26 +1621,26 @@
         "name": "Xena",
         "title": "Mobile QA",
         "location": "Milan",
-        "profile": "../src/assets/generated/img-035.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-035.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-100.png"
+            "firstPhoto": "/src/assets/generated/img-100.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1654,26 +1654,26 @@
         "name": "User51",
         "title": "Employee",
         "location": "Office",
-        "profile": "../src/assets/generated/img-168.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-168.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-102.png"
+            "firstPhoto": "/src/assets/generated/img-102.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1687,26 +1687,26 @@
         "name": "Zara",
         "title": "AI Researcher",
         "location": "Tallinn",
-        "profile": "../src/assets/generated/img-179.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-179.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-104.png"
+            "firstPhoto": "/src/assets/generated/img-104.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1720,26 +1720,26 @@
         "name": "Aaron",
         "title": "Support Lead",
         "location": "Edinburgh",
-        "profile": "../src/assets/generated/img-238.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-238.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-106.png"
+            "firstPhoto": "/src/assets/generated/img-106.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1753,26 +1753,26 @@
         "name": "Bella",
         "title": "SEO Analyst",
         "location": "Munich",
-        "profile": "../src/assets/generated/img-250.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-250.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-108.png"
+            "firstPhoto": "/src/assets/generated/img-108.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1786,26 +1786,26 @@
         "name": "Caleb",
         "title": "Growth Analyst",
         "location": "Bratislava",
-        "profile": "../src/assets/generated/img-223.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-223.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-110.png"
+            "firstPhoto": "/src/assets/generated/img-110.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1819,26 +1819,26 @@
         "name": "Daisy",
         "title": "Copy Editor",
         "location": "Ljubljana",
-        "profile": "../src/assets/generated/img-206.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-206.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-112.png"
+            "firstPhoto": "/src/assets/generated/img-112.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1852,26 +1852,26 @@
         "name": "Eli",
         "title": "Game Designer",
         "location": "Luxembourg",
-        "profile": "../src/assets/generated/img-182.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-182.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-114.png"
+            "firstPhoto": "/src/assets/generated/img-114.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1885,26 +1885,26 @@
         "name": "Faith",
         "title": "VR Developer",
         "location": "Reykjavik",
-        "profile": "../src/assets/generated/img-204.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-204.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-116.png"
+            "firstPhoto": "/src/assets/generated/img-116.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1918,26 +1918,26 @@
         "name": "Mona",
         "title": "PR Specialist",
         "location": "Riga",
-        "profile": "../src/assets/generated/img-095.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-095.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-118.png"
+            "firstPhoto": "/src/assets/generated/img-118.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1951,26 +1951,26 @@
         "name": "Noah",
         "title": "Accountant",
         "location": "Tallinn",
-        "profile": "../src/assets/generated/img-154.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-154.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-120.png"
+            "firstPhoto": "/src/assets/generated/img-120.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -1984,26 +1984,26 @@
         "name": "Ivan",
         "title": "Sales Lead",
         "location": "Zagreb",
-        "profile": "../src/assets/generated/img-221.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-221.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-122.png"
+            "firstPhoto": "/src/assets/generated/img-122.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2017,26 +2017,26 @@
         "name": "Jade",
         "title": "HR Lead",
         "location": "Belgrade",
-        "profile": "../src/assets/generated/img-077.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-077.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-124.png"
+            "firstPhoto": "/src/assets/generated/img-124.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2050,26 +2050,26 @@
         "name": "Kyle",
         "title": "Legal Specialist",
         "location": "Krakow",
-        "profile": "../src/assets/generated/img-057.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-057.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-126.png"
+            "firstPhoto": "/src/assets/generated/img-126.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2083,26 +2083,26 @@
         "name": "Lila",
         "title": "Finance Analyst",
         "location": "Vilnius",
-        "profile": "../src/assets/generated/img-158.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-158.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-128.png"
+            "firstPhoto": "/src/assets/generated/img-128.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2116,26 +2116,26 @@
         "name": "Mason",
         "title": "Operations Analyst",
         "location": "Riga",
-        "profile": "../src/assets/generated/img-088.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-088.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-130.png"
+            "firstPhoto": "/src/assets/generated/img-130.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2149,26 +2149,26 @@
         "name": "Nora",
         "title": "Customer Support",
         "location": "Tallinn",
-        "profile": "../src/assets/generated/img-014.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-014.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-132.png"
+            "firstPhoto": "/src/assets/generated/img-132.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2182,26 +2182,26 @@
         "name": "Omar",
         "title": "IT Analyst",
         "location": "Bern",
-        "profile": "../src/assets/generated/img-117.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-117.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-134.png"
+            "firstPhoto": "/src/assets/generated/img-134.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2215,26 +2215,26 @@
         "name": "Pia",
         "title": "Procurement Analyst",
         "location": "Oslo",
-        "profile": "../src/assets/generated/img-239.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-239.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-136.png"
+            "firstPhoto": "/src/assets/generated/img-136.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2248,26 +2248,26 @@
         "name": "Quinn",
         "title": "Event Coordinator",
         "location": "Helsinki",
-        "profile": "../src/assets/generated/img-105.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-105.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-138.png"
+            "firstPhoto": "/src/assets/generated/img-138.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2281,26 +2281,26 @@
         "name": "Rita",
         "title": "PR Lead",
         "location": "Brussels",
-        "profile": "../src/assets/generated/img-079.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-079.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-140.png"
+            "firstPhoto": "/src/assets/generated/img-140.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2314,26 +2314,26 @@
         "name": "User71",
         "title": "Employee",
         "location": "Office",
-        "profile": "../src/assets/generated/img-025.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-025.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-142.png"
+            "firstPhoto": "/src/assets/generated/img-142.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2347,26 +2347,26 @@
         "name": "Viktor",
         "title": "QA Tester",
         "location": "Warsaw",
-        "profile": "../src/assets/generated/img-178.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-178.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-144.png"
+            "firstPhoto": "/src/assets/generated/img-144.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2380,26 +2380,26 @@
         "name": "Ulrich",
         "title": "Growth Specialist",
         "location": "Budapest",
-        "profile": "../src/assets/generated/img-246.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-246.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-146.png"
+            "firstPhoto": "/src/assets/generated/img-146.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2413,26 +2413,26 @@
         "name": "Vera",
         "title": "Content Analyst",
         "location": "Warsaw",
-        "profile": "../src/assets/generated/img-216.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-216.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-148.png"
+            "firstPhoto": "/src/assets/generated/img-148.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2446,26 +2446,26 @@
         "name": "Wes",
         "title": "QA Lead",
         "location": "Copenhagen",
-        "profile": "../src/assets/generated/img-175.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-175.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-150.png"
+            "firstPhoto": "/src/assets/generated/img-150.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2479,26 +2479,26 @@
         "name": "Ximena",
         "title": "UX Lead",
         "location": "Milan",
-        "profile": "../src/assets/generated/img-078.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-078.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-152.png"
+            "firstPhoto": "/src/assets/generated/img-152.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2512,26 +2512,26 @@
         "name": "Yusuf",
         "title": "Cloud Engineer",
         "location": "Athens",
-        "profile": "../src/assets/generated/img-111.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-111.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-154.png"
+            "firstPhoto": "/src/assets/generated/img-154.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2545,26 +2545,26 @@
         "name": "Zeke",
         "title": "Cloud Lead",
         "location": "Tallinn",
-        "profile": "../src/assets/generated/img-153.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-153.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-156.png"
+            "firstPhoto": "/src/assets/generated/img-156.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2578,26 +2578,26 @@
         "name": "Abby",
         "title": "AI Lead",
         "location": "Edinburgh",
-        "profile": "../src/assets/generated/img-178.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-178.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-158.png"
+            "firstPhoto": "/src/assets/generated/img-158.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2611,26 +2611,26 @@
         "name": "Blake",
         "title": "Support Analyst",
         "location": "Munich",
-        "profile": "../src/assets/generated/img-126.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-126.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-160.png"
+            "firstPhoto": "/src/assets/generated/img-160.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2644,26 +2644,26 @@
         "name": "Cleo",
         "title": "SEO Lead",
         "location": "Bratislava",
-        "profile": "../src/assets/generated/img-062.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-062.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-162.png"
+            "firstPhoto": "/src/assets/generated/img-162.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2677,26 +2677,26 @@
         "name": "Derek",
         "title": "Growth Lead",
         "location": "Ljubljana",
-        "profile": "../src/assets/generated/img-164.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-164.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-164.png"
+            "firstPhoto": "/src/assets/generated/img-164.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2710,26 +2710,26 @@
         "name": "Erin",
         "title": "Copy Lead",
         "location": "Luxembourg",
-        "profile": "../src/assets/generated/img-238.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-238.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-166.png"
+            "firstPhoto": "/src/assets/generated/img-166.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2743,26 +2743,26 @@
         "name": "Finn",
         "title": "Game Lead",
         "location": "Reykjavik",
-        "profile": "../src/assets/generated/img-010.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-010.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-168.png"
+            "firstPhoto": "/src/assets/generated/img-168.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2776,26 +2776,26 @@
         "name": "Gia",
         "title": "VR Lead",
         "location": "Valletta",
-        "profile": "../src/assets/generated/img-055.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-055.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-170.png"
+            "firstPhoto": "/src/assets/generated/img-170.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2809,26 +2809,26 @@
         "name": "Harvey",
         "title": "Blockchain Lead",
         "location": "Sofia",
-        "profile": "../src/assets/generated/img-009.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-009.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-172.png"
+            "firstPhoto": "/src/assets/generated/img-172.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2842,26 +2842,26 @@
         "name": "Ivy",
         "title": "Marketing Lead",
         "location": "Zagreb",
-        "profile": "../src/assets/generated/img-108.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-108.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-174.png"
+            "firstPhoto": "/src/assets/generated/img-174.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2875,26 +2875,26 @@
         "name": "Jonas",
         "title": "Sales Analyst",
         "location": "Belgrade",
-        "profile": "../src/assets/generated/img-196.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-196.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-176.png"
+            "firstPhoto": "/src/assets/generated/img-176.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2908,26 +2908,26 @@
         "name": "Kelsey",
         "title": "HR Analyst",
         "location": "Krakow",
-        "profile": "../src/assets/generated/img-109.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-109.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-178.png"
+            "firstPhoto": "/src/assets/generated/img-178.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2941,26 +2941,26 @@
         "name": "Leo",
         "title": "Legal Lead",
         "location": "Vilnius",
-        "profile": "../src/assets/generated/img-117.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-117.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-180.png"
+            "firstPhoto": "/src/assets/generated/img-180.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -2974,26 +2974,26 @@
         "name": "Mira",
         "title": "Finance Lead",
         "location": "Riga",
-        "profile": "../src/assets/generated/img-183.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-183.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-182.png"
+            "firstPhoto": "/src/assets/generated/img-182.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3007,26 +3007,26 @@
         "name": "Nate",
         "title": "Operations Lead",
         "location": "Tallinn",
-        "profile": "../src/assets/generated/img-207.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-207.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-184.png"
+            "firstPhoto": "/src/assets/generated/img-184.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3040,26 +3040,26 @@
         "name": "Opal",
         "title": "Customer Analyst",
         "location": "Bern",
-        "profile": "../src/assets/generated/img-205.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-205.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-186.png"
+            "firstPhoto": "/src/assets/generated/img-186.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3073,26 +3073,26 @@
         "name": "Parker",
         "title": "IT Lead",
         "location": "Oslo",
-        "profile": "../src/assets/generated/img-230.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-230.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-188.png"
+            "firstPhoto": "/src/assets/generated/img-188.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3106,26 +3106,26 @@
         "name": "Quincy",
         "title": "Procurement Lead",
         "location": "Helsinki",
-        "profile": "../src/assets/generated/img-095.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-095.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-190.png"
+            "firstPhoto": "/src/assets/generated/img-190.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3139,26 +3139,26 @@
         "name": "Renee",
         "title": "Event Lead",
         "location": "Brussels",
-        "profile": "../src/assets/generated/img-088.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-088.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-192.png"
+            "firstPhoto": "/src/assets/generated/img-192.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3172,26 +3172,26 @@
         "name": "Soren",
         "title": "PR Analyst",
         "location": "Vienna",
-        "profile": "../src/assets/generated/img-076.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-076.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-194.png"
+            "firstPhoto": "/src/assets/generated/img-194.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3205,26 +3205,26 @@
         "name": "Tessa",
         "title": "Account Analyst",
         "location": "Prague",
-        "profile": "../src/assets/generated/img-205.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-205.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-196.png"
+            "firstPhoto": "/src/assets/generated/img-196.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3238,26 +3238,26 @@
         "name": "Ugo",
         "title": "Communications Lead",
         "location": "Budapest",
-        "profile": "../src/assets/generated/img-093.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-093.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-198.png"
+            "firstPhoto": "/src/assets/generated/img-198.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
@@ -3271,26 +3271,26 @@
         "name": "User100",
         "title": "Employee",
         "location": "Office",
-        "profile": "../src/assets/generated/img-037.png",
-        "decor": "../src/assets/decor.svg",
+        "profile": "/src/assets/generated/img-037.png",
+        "decor": "/src/assets/decor.svg",
         "monitor": {
             "width": "37.54%",
             "height": "21.82%",
             "x": "20.70%",
             "y": "61.82%",
-            "img": "../src/assets/monitor.svg"
+            "img": "/src/assets/monitor.svg"
         },
         "screen": {
             "width": "25.26%",
             "height": "16.36%",
             "x": "27.02%",
             "y": "63.27%",
-            "firstPhoto": "../src/assets/generated/img-200.png"
+            "firstPhoto": "/src/assets/generated/img-200.png"
         },
         "photos": [
-            "../src/assets/800x400.jpg",
-            "../src/assets/600x400.jpg",
-            "../src/assets/600x600.jpg"
+            "/src/assets/800x400.jpg",
+            "/src/assets/600x400.jpg",
+            "/src/assets/600x600.jpg"
         ],
         "social": {
             "facebook": "https://www.facebook.com/some_user",
