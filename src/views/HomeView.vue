@@ -542,7 +542,7 @@ const updateCloneCenterTransform = () => {
             aria-label="Desk Tribute Home (click to close viewer)"
             @click="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && (audioManager.play('header_click'), handlePhotoViewerClose())"
             @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && audioManager.play('header_hover')"
-          >DESK Tribute <span>WHERE CREATIVITY IS BORN</span></div>
+          >DESK <em>Tribute</em> <span>WHERE CREATIVITY IS BORN</span></div>
 
           <nav class="nav-menu">
             <a
