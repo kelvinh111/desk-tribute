@@ -649,7 +649,8 @@ const updateCloneCenterTransform = () => {
                     tracking
                     or monetization. Original concept & design: Jongmin Kim (2011). New code implementation © 2025.
                     Submitted photos remain the property of their creators. For inclusion, removal, attribution changes
-                    or takedown requests email <a href="mailto:admin@example.com">admin@example.com</a>. If the original
+                    or takedown requests email <a href="mailto:kelvin@kelvinhung.uk">kelvin@kelvinhung.uk</a>. If the
+                    original
                     creator requests, this tribute will be modified or withdrawn.</p>
                   <p class="small-attrib">Unofficial homage. All trademarks & copyrights belong to their respective
                     owners.</p>
