@@ -120,30 +120,34 @@
   >
 
   <!-- SEO Meta Tags -->
-  <title>DESK</title>
+  <title>Desk Tribute – Unofficial Remake of Desk (2011) by Jongmin Kim</title>
   <meta
     name="title"
-    content="DESK where creativity is born"
+    content="Desk Tribute – Unofficial Remake of Desk (2011) by Jongmin Kim"
   />
   <meta
     name="description"
-    content="A desk isn't just a place people do their work—it's a whole other project for creators. Jongmin Kim used his desk to create a project that honors every creator's source of inspiration."
+    content="An unofficial, non‑profit tribute remake of the original Flash project 'Desk' (2011) by Jongmin Kim – preserving creative workspaces for modern browsers. Original project: https://desk.cmiscm.com"
   />
   <meta
     http-equiv="Keywords"
-    content="desk, creativity, cmiscm, interactive, internet, online media, websites, multimedia, flash, design, jongmin kim"
+    content="desk tribute, desk remake, desk 2011, jongmin kim, cmiscm, creative coding, flash preservation, workspace photos, interactive tribute"
   />
   <meta
     name="author"
-    content="jongmin kim"
+    content="Tribute to Jongmin Kim"
   />
   <meta
     name="copyright"
-    content="jongmin kim"
+    content="Original project © Jongmin Kim (2011) – This remake is unofficial"
   />
   <meta
     name="robots"
     content="index,follow"
+  >
+  <meta
+    name="original-project"
+    content="Original Desk (2011) by Jongmin Kim – https://desk.cmiscm.com"
   >
 
   <!-- Open Graph Meta Tags -->
@@ -157,11 +161,11 @@
   />
   <meta
     property="og:title"
-    content="DESK - Where creativity is born"
+    content="Desk Tribute – Preserving the 2011 Desk Experience"
   />
   <meta
     property="og:description"
-    content="A desk isn't just a place people do their work—it's a whole other project for creators. Explore creative workspaces that inspire."
+    content="Non‑profit tribute remake of 'Desk' (2011) by Jongmin Kim (original: https://desk.cmiscm.com). Explore creative desks submitted by people worldwide."
   />
   <meta
     property="og:image"
@@ -175,11 +179,11 @@
   />
   <meta
     name="twitter:title"
-    content="DESK - Where creativity is born"
+    content="Desk Tribute – Preserving the 2011 Desk Experience"
   />
   <meta
     name="twitter:description"
-    content="A desk isn't just a place people do their work—it's a whole other project for creators. Explore creative workspaces that inspire."
+    content="Non‑profit tribute remake of 'Desk' (2011) by Jongmin Kim (original: https://desk.cmiscm.com). Explore creative desks submitted by people worldwide."
   />
   <meta
     name="twitter:image"
@@ -193,13 +197,60 @@
     crossorigin="anonymous"
     src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v23.0"
   ></script>
+
+  <style>
+    .tribute-banner {
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      background: rgba(20, 20, 20, .9);
+      color: #bbb;
+      font: 12px/1.4 system-ui, sans-serif;
+      padding: 6px 12px;
+      text-align: center;
+      z-index: 9999;
+      backdrop-filter: blur(4px);
+    }
+
+    .tribute-banner a {
+      color: #5aa9ff;
+      text-decoration: none;
+    }
+
+    .tribute-banner a:hover,
+    .tribute-banner a:focus {
+      text-decoration: underline;
+      color: #8bc4ff;
+    }
+
+    @media (max-width:600px) {
+      .tribute-banner {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+    }
+
+    body.has-tribute-offset {
+      padding-bottom: 38px;
+    }
+  </style>
 </head>
 
-<body>
+<body class="has-tribute-offset">
   <!-- Facebook SDK root element -->
   <div id="fb-root"></div>
 
   <div id="app"></div>
+  <div
+    class="tribute-banner"
+    role="contentinfo"
+  >
+    Unofficial tribute remake of <a
+      href="https://desk.cmiscm.com"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Desk (2011)</a> by Jongmin Kim. Original site linked for reference.
+  </div>
   <script
     type="module"
     src="/src/main.js"

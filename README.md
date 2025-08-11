@@ -1,6 +1,8 @@
-# desk
+# Desk Tribute
 
-This template should help get you started developing with Vue 3 in Vite.
+Unofficial, non‑profit tribute remake of the original Flash project "Desk" (2011) by Jongmin Kim.
+
+> Original concept, design & spirit © Jongmin Kim (cmiscm). This project exists solely to preserve and honor the experience after the deprecation of Adobe Flash. If requested by the original creator, it will be removed.
 
 ## Recommended IDE Setup
 
