@@ -628,19 +628,33 @@ const updateCloneCenterTransform = () => {
               <div
                 v-if="overlays.isAboutOverlayVisible.value"
                 key="about"
-                class="overlay-content"
+                class="overlay-content about-content"
               >
                 <button
                   class="close-button"
                   @click="audioManager.play('photoviewer_click'), overlays.hideAboutOverlay()"
                   @mouseenter="audioManager.play('photoviewer_hover')"
                 >✕</button>
-                <div class="overlay-text">
-                  <h2>About DESK</h2>
-                  <p>WHERE CREATIVITY IS BORN</p>
-                  <p>A curated collection of creative workspaces that inspire productivity and imagination. Each desk
-                    tells a story of passion, dedication, and the beautiful chaos of creation.</p>
-                  <p>Discover the spaces where ideas come to life.</p>
+                <div class="overlay-text about-text">
+                  <h2>About Desk Tribute</h2>
+                  <h3>A quiet, nonprofit homage to the original Desk</h3>
+                  <p class="about-body">A place that simply let
+                    creative workspaces speak for themselves. Desks reflect the people who build at them: tools, scraps,
+                    screens, small personal artifacts; together they hint at process, personality, aspiration. This
+                    tribute preserves that mood while using a modern stack (performance, accessibility, moderation) and
+                    never monetizing or claiming authorship of the foundational idea. All photos remain owned by their
+                    creators. The original 2011 concept and inspiration belong to its creator (credited on prior public
+                    versions). If you are that creator and would like attribution adjusted or this project retired,
+                    contact the maintainer.</p>
+                  <p class="disclaimer">Unofficial tribute remake of <a
+                      href="https://desk.cmiscm.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Desk (2011)</a> by Jongmin Kim. Original site linked for reference.
+                    <br />
+                    <strong>Disclaimer:</strong> Independent, unofficial preservation; will comply
+                    with any takedown or adjustment request.
+                  </p>
                 </div>
               </div>
             </Transition>
@@ -946,30 +960,38 @@ button {
 
 .overlay-text {
   color: white;
+  text-align: left;
 }
 
 .overlay-text h2 {
-  font-size: 2.5rem;
-  font-weight: normal;
-  margin-bottom: 1rem;
-  letter-spacing: 2px;
+  font-size: 2.2rem;
+  font-weight: 200;
 }
 
-.overlay-text p:first-of-type {
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 3px;
+.overlay-text h3 {
+  font-size: 1.2rem;
+  font-weight: 200;
   color: #999;
   margin-bottom: 2rem;
 }
 
 .overlay-text p {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  color: #ccc;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
   margin-bottom: 1.5rem;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+}
+
+.overlay-text .disclaimer {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 1rem;
+
+  a {
+    color: #ccc;
+    font-weight: bold;
+  }
 }
 
 .close-button {
