@@ -3,6 +3,8 @@
 Unofficial, non‑profit tribute remake of the original Flash project "Desk" (2011) by Jongmin Kim.
 
 > Original concept, design & spirit © Jongmin Kim (cmiscm). This project exists solely to preserve and honor the experience after the deprecation of Adobe Flash. If requested by the original creator, it will be removed.
+>
+> Not affiliated with or endorsed by the original creator. No monetization. All new submissions remain property of their authors. This documentation is not legal advice.
 
 ## Recommended IDE Setup
 

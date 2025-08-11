@@ -539,9 +539,10 @@ const updateCloneCenterTransform = () => {
               'viewer-active': store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value,
               'logo-disabled': !store.isLogoClickable
             }"
+            aria-label="Desk Tribute Home (click to close viewer)"
             @click="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && (audioManager.play('header_click'), handlePhotoViewerClose())"
             @mouseenter="store.isLogoClickable && (store.isPhotoViewerVisible || overlays.isAnyOverlayVisible.value) && audioManager.play('header_hover')"
-          >DESK <span>WHERE CREATIVITY IS BORN</span></div>
+          >DESK Tribute <span>WHERE CREATIVITY IS BORN</span></div>
 
           <nav class="nav-menu">
             <a
@@ -637,24 +638,21 @@ const updateCloneCenterTransform = () => {
                 >✕</button>
                 <div class="overlay-text about-text">
                   <h2>About Desk Tribute</h2>
-                  <h3>A quiet, nonprofit homage to the original Desk</h3>
-                  <p class="about-body">A place that simply let
-                    creative workspaces speak for themselves. Desks reflect the people who build at them: tools, scraps,
-                    screens, small personal artifacts; together they hint at process, personality, aspiration. This
-                    tribute preserves that mood while using a modern stack (performance, accessibility, moderation) and
-                    never monetizing or claiming authorship of the foundational idea. All photos remain owned by their
-                    creators. The original 2011 concept and inspiration belong to its creator (credited on prior public
-                    versions). If you are that creator and would like attribution adjusted or this project retired,
-                    contact the maintainer.</p>
-                  <p class="disclaimer">Unofficial tribute remake of <a
+                  <h3>Preserving a 2011 creative web idea</h3>
+                  <p class="about-body">People who create spend long hours at a desk. The tools, screens and small
+                    artifacts gathered there quietly express process, taste and intent. This project rebuilds (for
+                    modern browsers) the mood of the original 2011 Flash site <a
                       href="https://desk.cmiscm.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                    >Desk (2011)</a> by Jongmin Kim. Original site linked for reference.
-                    <br />
-                    <strong>Disclaimer:</strong> Independent, unofficial preservation; will comply
-                    with any takedown or adjustment request.
-                  </p>
+                    >Desk</a> by Jongmin Kim. It is independent, unofficial and strictly non‑commercial - no ads,
+                    tracking
+                    or monetization. Original concept & design: Jongmin Kim (2011). New code implementation © 2025.
+                    Submitted photos remain the property of their creators. For inclusion, removal, attribution changes
+                    or takedown requests email <a href="mailto:admin@example.com">admin@example.com</a>. If the original
+                    creator requests, this tribute will be modified or withdrawn.</p>
+                  <p class="small-attrib">Unofficial homage. All trademarks & copyrights belong to their respective
+                    owners.</p>
                 </div>
               </div>
             </Transition>
@@ -987,11 +985,17 @@ button {
   font-size: 0.8rem;
   color: #999;
   margin-top: 1rem;
+}
 
-  a {
-    color: #ccc;
-    font-weight: bold;
-  }
+.overlay-text a {
+  color: #ccc;
+  font-weight: bold;
+}
+
+.overlay-text .small-attrib {
+  font-size: 0.7rem;
+  color: #777;
+  margin-top: .5rem;
 }
 
 .close-button {
