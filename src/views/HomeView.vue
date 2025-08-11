@@ -11,8 +11,8 @@ import DeskSlider from '../components/DeskSlider.vue';
 import PhotoViewer from '../components/PhotoViewer.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
 import DeskSubmissionForm from '../components/DeskSubmissionForm.vue';
-import IconSpeakerOn from '../assets/icon_speaker_on.svg';
-import IconSpeakerOff from '../assets/icon_speaker_off.svg';
+import IconSpeakerOn from '../assets/icon_speaker_on.svg?url';
+import IconSpeakerOff from '../assets/icon_speaker_off.svg?url';
 
 // Constants
 const ANIMATION_DURATION = 0.6;
@@ -645,9 +645,11 @@ const updateCloneCenterTransform = () => {
                       href="https://desk.cmiscm.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                    >Desk</a> by Jongmin Kim. It is independent, unofficial and strictly non‑commercial - no ads,
-                    tracking
-                    or monetization. Original concept & design: Jongmin Kim (2011). New code implementation © 2025.
+                    >Desk</a> by <a href="mailto:cmiscm@gmail.com">Jongmin Kim</a>. It is independent, unofficial and
+                    strictly non‑commercial - no ads,
+                    tracking or monetization. Original concept & design: <a href="mailto:cmiscm@gmail.com">Jongmin
+                      Kim</a> (2011). New code implementation ©
+                    2025.
                     Submitted photos remain the property of their creators. For inclusion, removal, attribution changes
                     or takedown requests email <a href="mailto:kelvin@kelvinhung.uk">kelvin@kelvinhung.uk</a>. If the
                     original

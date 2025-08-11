@@ -6,7 +6,8 @@
  * configured before mounting to the DOM.
  */
 
-import './assets/main.css';
+// Import CSS via HTML link tag instead of JS import to avoid MIME type issues
+// import '@/assets/main.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -35,15 +36,15 @@ app.use(router);         // Client-side routing with Vue Router
  * - photoviewer_*: Photo viewer sounds (click, hover, load)
  */
 audioManager.initialize({
-    gallery_click: '/src/assets/sounds/gallery_click.mp3',      // Desk item selection
-    gallery_hover: '/src/assets/sounds/gallery_hover.mp3',      // Desk item hover feedback
-    gallery_shuffle: '/src/assets/sounds/gallery_shuffle.mp3',  // Automatic gallery reordering
-    gallery_jump: '/src/assets/sounds/gallery_jump.mp3',        // Desk jump animation effect
-    header_click: '/src/assets/sounds/header_click.mp3',        // Navigation menu clicks
-    header_hover: '/src/assets/sounds/header_hover.mp3',        // Navigation menu hover feedback
-    photoviewer_click: '/src/assets/sounds/photoviewer_click.mp3', // Photo navigation clicks
-    photoviewer_hover: '/src/assets/sounds/photoviewer_hover.mp3', // Photo navigation hover feedback
-    photoviewer_load: '/src/assets/sounds/photoviewer_load.mp3'    // Photo viewer opening sound
+    gallery_click: new URL('./assets/sounds/gallery_click.mp3', import.meta.url).href,
+    gallery_hover: new URL('./assets/sounds/gallery_hover.mp3', import.meta.url).href,
+    gallery_shuffle: new URL('./assets/sounds/gallery_shuffle.mp3', import.meta.url).href,
+    gallery_jump: new URL('./assets/sounds/gallery_jump.mp3', import.meta.url).href,
+    header_click: new URL('./assets/sounds/header_click.mp3', import.meta.url).href,
+    header_hover: new URL('./assets/sounds/header_hover.mp3', import.meta.url).href,
+    photoviewer_click: new URL('./assets/sounds/photoviewer_click.mp3', import.meta.url).href,
+    photoviewer_hover: new URL('./assets/sounds/photoviewer_hover.mp3', import.meta.url).href,
+    photoviewer_load: new URL('./assets/sounds/photoviewer_load.mp3', import.meta.url).href
 });
 
 // Mount application to DOM

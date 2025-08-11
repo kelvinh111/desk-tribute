@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/',  // Use root path for custom domain
+  base: '/',
   plugins: [
     vue(),
     vueDevTools(),
@@ -16,7 +16,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.svg'],
+  server: {
+    port: 5173,
+    open: false
+  },
   build: {
     rollupOptions: {
       output: {
