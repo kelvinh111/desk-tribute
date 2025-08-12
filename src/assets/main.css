@@ -1,1 +1,28 @@
 @import './base.css';
+
+/* Global text selection color - with higher specificity */
+*::selection {
+  background-color: #e2366d !important;
+  color: white !important;
+}
+
+*::-moz-selection {
+  background-color: #e2366d !important;
+  color: white !important;
+}
+
+html::selection,
+body::selection,
+div::selection,
+span::selection,
+h1::selection,
+h2::selection,
+h3::selection,
+h4::selection,
+h5::selection,
+h6::selection,
+p::selection,
+a::selection {
+  background-color: #e2366d !important;
+  color: white !important;
+}

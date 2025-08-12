@@ -638,24 +638,23 @@ const updateCloneCenterTransform = () => {
                 >✕</button>
                 <div class="overlay-text about-text">
                   <h2>About Desk Tribute</h2>
-                  <h3>Preserving a 2011 creative web idea</h3>
-                  <p class="about-body">People who create spend long hours at a desk. The tools, screens and small
-                    artifacts gathered there quietly express process, taste and intent. This project rebuilds (for
-                    modern browsers) the mood of the original 2011 Flash site <a
+                  <h3>All work centers around the desk.</h3>
+                  <p class="about-body">People who create on a computer spend most of their time at a desk. They
+                    decorate it in their style, with items unique to them. The desk shows everything about the
+                    owner - what they're like, what they create. You can learn everything about a person by their desk.
+                  </p>
+
+                  <p class="about-body">This tribute preserves the original 2011 Flash project <a
                       href="https://desk.cmiscm.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                    >Desk</a> by <a href="mailto:cmiscm@gmail.com">Jongmin Kim</a>. It is independent, unofficial and
-                    strictly non‑commercial - no ads,
-                    tracking or monetization. Original concept & design: <a href="mailto:cmiscm@gmail.com">Jongmin
-                      Kim</a> (2011). New code implementation ©
-                    2025.
-                    Submitted photos remain the property of their creators. For inclusion, removal, attribution changes
-                    or takedown requests email <a href="mailto:kelvin@kelvinhung.uk">kelvin@kelvinhung.uk</a>. If the
-                    original
-                    creator requests, this tribute will be modified or withdrawn.</p>
-                  <p class="small-attrib">Unofficial homage. All trademarks & copyrights belong to their respective
-                    owners.</p>
+                    >DESK</a> by <a href="mailto:cmiscm@gmail.com">Jongmin Kim</a>, which is sadly no longer accessible
+                    due to Adobe Flash deprecation. Created for fun to keep this beautiful experience alive for modern
+                    browsers - independent, unofficial, and strictly non‑commercial.</p>
+
+                  <p class="legal-text">Original © 2011 <a href="mailto:cmiscm@gmail.com">Jongmin Kim</a>. Tribute ©
+                    2025. For content requests: <a
+                      href="mailto:kelvinh111.register@gmail.com">kelvinh111.register@gmail.com</a>.</p>
                 </div>
               </div>
             </Transition>
