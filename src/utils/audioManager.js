@@ -1,3 +1,5 @@
+import { logger } from './logger.js';
+
 /**
  * Global Audio Manager for handling sound effects across the application
  * 
@@ -85,9 +87,9 @@ class AudioManager {
 
             await Promise.all(unlockPromises);
             this.audioEnabled = true;
-            console.log('Audio system unlocked and ready');
+            logger.log('Audio system unlocked and ready');
         } catch (error) {
-            console.warn('Could not enable audio:', error);
+            logger.warn('Could not enable audio:', error);
         }
     }
 
@@ -119,7 +121,7 @@ class AudioManager {
         const audio = this.audioElements.get(soundName);
 
         if (!audio) {
-            console.warn(`🔇 Sound "${soundName}" not found in audio registry`);
+            logger.warn(`🔇 Sound "${soundName}" not found in audio registry`);
             return;
         }
 
@@ -144,10 +146,10 @@ class AudioManager {
             }
 
             audio.play().catch(error => {
-                console.warn(`🔇 Could not play "${soundName}":`, error);
+                logger.warn(`🔇 Could not play "${soundName}":`, error);
             });
         } catch (error) {
-            console.warn(`🔇 Error playing "${soundName}":`, error);
+            logger.warn(`🔇 Error playing "${soundName}":`, error);
         }
     }
 

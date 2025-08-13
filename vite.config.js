@@ -26,5 +26,9 @@ export default defineConfig({
         assetFileNames: 'assets/[name]-[hash][extname]'
       }
     }
+  },
+  esbuild: {
+    // Remove console statements in production builds
+    drop: ['console', 'debugger']
   }
 });
