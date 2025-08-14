@@ -427,9 +427,6 @@ function shareToFacebook() {
         return;
     }
 
-    // Update Open Graph meta tags dynamically for production
-    updateOpenGraphTags();
-
     // Use the simple, reliable Facebook sharer URL with the specific desk URL
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(deskUrl)}`;
 
@@ -453,46 +450,6 @@ function shareToFacebook() {
     } else {
         console.warn('Popup blocked, opening in new tab');
         window.open(facebookShareUrl, '_blank');
-    }
-}
-
-function updateOpenGraphTags() {
-    if (!props.desk) return;
-
-    const baseUrl = window.location.origin;
-    const deskUrl = `${baseUrl}/${props.desk.slug}`;
-    const title = `DESK Tribute - where creativity is born - ${props.desk.name}`;
-    const description = `Check out ${props.desk.name}'s desk setup - ${props.desk.title} from ${props.desk.location}. A creative workspace that inspires.`;
-    const image = props.desk.photos && props.desk.photos[0] ? props.desk.photos[0] : '';
-
-    // Update or create Open Graph meta tags
-    updateMetaTag('og:url', deskUrl);
-    updateMetaTag('og:title', title);
-    updateMetaTag('og:description', description);
-    if (image) {
-        updateMetaTag('og:image', image);
-    }
-
-    // Also update Twitter Card tags for better social sharing
-    updateMetaTag('twitter:title', title);
-    updateMetaTag('twitter:description', description);
-    if (image) {
-        updateMetaTag('twitter:image', image);
-    }
-}
-
-function updateMetaTag(property, content) {
-    let tag = document.querySelector(`meta[property="${property}"]`) ||
-        document.querySelector(`meta[name="${property}"]`);
-
-    if (tag) {
-        tag.setAttribute('content', content);
-    } else {
-        // Create new tag if it doesn't exist
-        tag = document.createElement('meta');
-        tag.setAttribute('property', property);
-        tag.setAttribute('content', content);
-        document.head.appendChild(tag);
     }
 }
 
