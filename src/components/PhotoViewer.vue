@@ -401,11 +401,13 @@ function handleResize() {
 // ==========================================
 
 function shareToFacebook() {
-    const currentUrl = window.location.href;
-    const shareText = `Check out ${props.desk.name}'s desk - ${props.desk.title} from ${props.desk.location}`;
+    // Create the specific desk URL using the slug
+    const baseUrl = window.location.origin;
+    const deskUrl = `${baseUrl}/${props.desk.slug}`;
+    const shareText = `DESK Tribute - where creativity is born - ${props.desk.name}`;
 
     // Development note: Facebook sharing will be fully functional once deployed to a public domain
-    if (currentUrl.includes('localhost')) {
+    if (deskUrl.includes('localhost')) {
         console.warn('🚨 Facebook Sharing Development Notice:');
         console.warn('Facebook cannot access localhost URLs or show rich previews in development.');
         console.warn('For full functionality:');
@@ -416,10 +418,10 @@ function shareToFacebook() {
 
         // Show user-friendly message
         if (confirm('📋 Facebook sharing requires a public domain to show rich previews.\n\nWould you like to copy the share text to clipboard instead?\n\n"' + shareText + '"')) {
-            navigator.clipboard.writeText(`${shareText}\n\n${currentUrl}`).then(() => {
+            navigator.clipboard.writeText(`${shareText}\n\n${deskUrl}`).then(() => {
                 alert('✅ Share text copied to clipboard!');
             }).catch(() => {
-                prompt('Copy this share text:', `${shareText}\n\n${currentUrl}`);
+                prompt('Copy this share text:', `${shareText}\n\n${deskUrl}`);
             });
         }
         return;
@@ -428,8 +430,8 @@ function shareToFacebook() {
     // Update Open Graph meta tags dynamically for production
     updateOpenGraphTags();
 
-    // Use the simple, reliable Facebook sharer URL
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+    // Use the simple, reliable Facebook sharer URL with the specific desk URL
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(deskUrl)}`;
 
     // Open in popup with optimal dimensions
     const width = 626;
@@ -457,13 +459,14 @@ function shareToFacebook() {
 function updateOpenGraphTags() {
     if (!props.desk) return;
 
-    const currentUrl = window.location.href;
-    const title = `${props.desk.name}'s Desk - ${props.desk.title}`;
+    const baseUrl = window.location.origin;
+    const deskUrl = `${baseUrl}/${props.desk.slug}`;
+    const title = `DESK Tribute - where creativity is born - ${props.desk.name}`;
     const description = `Check out ${props.desk.name}'s desk setup - ${props.desk.title} from ${props.desk.location}. A creative workspace that inspires.`;
     const image = props.desk.photos && props.desk.photos[0] ? props.desk.photos[0] : '';
 
     // Update or create Open Graph meta tags
-    updateMetaTag('og:url', currentUrl);
+    updateMetaTag('og:url', deskUrl);
     updateMetaTag('og:title', title);
     updateMetaTag('og:description', description);
     if (image) {
@@ -494,20 +497,22 @@ function updateMetaTag(property, content) {
 }
 
 function shareToX() {
-    const currentUrl = window.location.href;
-    const shareText = `Check out ${props.desk.name}'s desk - ${props.desk.title} from ${props.desk.location}`;
+    const baseUrl = window.location.origin;
+    const deskUrl = `${baseUrl}/${props.desk.slug}`;
+    const shareText = `DESK Tribute - where creativity is born - ${props.desk.name}`;
 
     // Twitter/X allows pre-populated text via URL parameters
-    const xUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(shareText)}`;
+    const xUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(deskUrl)}&text=${encodeURIComponent(shareText)}`;
     window.open(xUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
 }
 
 function shareToLinkedin() {
-    const currentUrl = window.location.href;
-    const shareText = `Check out ${props.desk.name}'s desk - ${props.desk.title} from ${props.desk.location}`;
+    const baseUrl = window.location.origin;
+    const deskUrl = `${baseUrl}/${props.desk.slug}`;
+    const shareText = `DESK Tribute - where creativity is born - ${props.desk.name}`;
 
     // Basic LinkedIn sharing (custom text limitations apply)
-    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(deskUrl)}`;
     window.open(linkedinUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
 
     console.log('LinkedIn sharing opened. Note: Custom text cannot be pre-populated due to LinkedIn security policies.');
@@ -515,11 +520,12 @@ function shareToLinkedin() {
 }
 
 async function shareCopyLink() {
-    const currentUrl = window.location.href;
+    const baseUrl = window.location.origin;
+    const deskUrl = `${baseUrl}/${props.desk.slug}`;
 
     try {
         // Try to use the modern Clipboard API
-        await navigator.clipboard.writeText(currentUrl);
+        await navigator.clipboard.writeText(deskUrl);
 
         // Show visual notification
         showCopyNotification.value = true;
@@ -527,13 +533,13 @@ async function shareCopyLink() {
             showCopyNotification.value = false;
         }, 2000);
 
-        console.log('Link copied to clipboard:', currentUrl);
+        console.log('Link copied to clipboard:', deskUrl);
 
     } catch (err) {
         // Fallback for older browsers
         try {
             const textArea = document.createElement('textarea');
-            textArea.value = currentUrl;
+            textArea.value = deskUrl;
             textArea.style.position = 'fixed';
             textArea.style.left = '-999999px';
             textArea.style.top = '-999999px';
@@ -549,10 +555,10 @@ async function shareCopyLink() {
                 showCopyNotification.value = false;
             }, 2000);
 
-            console.log('Link copied to clipboard (fallback):', currentUrl);
+            console.log('Link copied to clipboard (fallback):', deskUrl);
         } catch (fallbackErr) {
             console.error('Failed to copy link:', fallbackErr);
-            alert('Unable to copy link. Please copy manually: ' + currentUrl);
+            alert('Unable to copy link. Please copy manually: ' + deskUrl);
         }
     }
 }
