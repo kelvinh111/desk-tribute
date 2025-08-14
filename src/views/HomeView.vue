@@ -100,9 +100,9 @@ function onLoadingComplete() {
 }
 
 function handleDirectDeskLoading() {
-  if (route.params.deskId) {
-    const deskId = parseInt(route.params.deskId, 10);
-    const desk = store.desks.find(d => d.id === deskId);
+  if (route.params.deskSlug) {
+    const deskSlug = route.params.deskSlug;
+    const desk = store.desks.find(d => d.slug === deskSlug);
     if (desk) {
       galleryEffects.setEffectsEnabled(false);
 
@@ -113,7 +113,7 @@ function handleDirectDeskLoading() {
       const checkGalleryAndPick = () => {
         const galleryRef = galleryComponentRef.value?.galleryRef;
         if (galleryRef) {
-          const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${deskId}"]`);
+          const deskElement = galleryRef.querySelector(`.gallery-item[data-desk-id="${desk.id}"]`);
           if (deskElement) {
             // For direct loading, call pick with a flag to skip animation
             pick(desk, true); // true = direct loading, skip gallery animation
@@ -130,7 +130,7 @@ function handleDirectDeskLoading() {
       // Start checking for gallery availability immediately
       checkGalleryAndPick();
     } else {
-      console.warn('Desk not found with ID:', deskId);
+      console.warn('Desk not found with slug:', deskSlug);
       // If desk not found, redirect to home
       router.push('/');
     }
@@ -200,7 +200,7 @@ function changeDesk(desk) {
     }
 
     store.setSelectedDeskId(desk.id);
-    router.push('/' + desk.id);
+    router.push('/' + desk.slug);
 
     // Wait a moment, then fade the slider back in
     setTimeout(() => {
@@ -227,8 +227,8 @@ function pick(desk, isDirectLoading = false) {
     store.setPendingFlashEffect(null);
   } else {
     document.body.style.overflow = 'hidden'; // Disable scrolling
-    if (route.path !== '/' + desk.id) {
-      router.push('/' + desk.id); // Change the URL to the specific desk.
+    if (route.path !== '/' + desk.slug) {
+      router.push('/' + desk.slug); // Change the URL to the specific desk.
     }
     store.setSelectedDeskId(desk.id);
     store.setInitialPhotoLoading(true); // Lock UI until first photo loads

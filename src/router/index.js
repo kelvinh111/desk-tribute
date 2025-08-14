@@ -20,13 +20,13 @@ const router = createRouter({
       component: AdminView,
     },
     {
-      // This is a dynamic route. The ':deskId' part is a parameter that can be any string.
-      // For example, '/desk-1', '/desk-2', etc., will all match this route.
-      path: '/:deskId',
+      // This is a dynamic route. The ':deskSlug' part is a parameter that can be any string.
+      // For example, '/alice-nguyen', '/bob-james', etc., will all match this route.
+      path: '/:deskSlug',
       name: 'desk',
       // It also renders HomeView. This is a key part of the pop-out animation.
-      // When the URL changes to '/desk-1', HomeView is still the component being rendered,
-      // but inside HomeView, we can read the 'deskId' from the route to know which desk to "pop out".
+      // When the URL changes to '/alice-nguyen', HomeView is still the component being rendered,
+      // but inside HomeView, we can read the 'deskSlug' from the route to know which desk to "pop out".
       component: HomeView,
     },
   ],
