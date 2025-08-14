@@ -45,17 +45,17 @@ function generateDeskHtml(desk) {
         /property="og:url"\s+content="[^"]*"/,
         `property="og:url" content="${deskUrl}"`
     );
-    
+
     html = html.replace(
         /property="og:title"\s+content="[^"]*"/,
         `property="og:title" content="${title}"`
     );
-    
+
     html = html.replace(
         /property="og:description"\s+content="[^"]*"/,
         `property="og:description" content="${description}"`
     );
-    
+
     html = html.replace(
         /property="og:image"\s+content="[^"]*"/,
         `property="og:image" content="${image}"`
@@ -66,12 +66,12 @@ function generateDeskHtml(desk) {
         /name="twitter:title"\s+content="[^"]*"/,
         `name="twitter:title" content="${title}"`
     );
-    
+
     html = html.replace(
         /name="twitter:description"\s+content="[^"]*"/,
         `name="twitter:description" content="${description}"`
     );
-    
+
     html = html.replace(
         /name="twitter:image"\s+content="[^"]*"/,
         `name="twitter:image" content="${image}"`
@@ -90,10 +90,10 @@ for (const desk of deskData) {
         const html = generateDeskHtml(desk);
         const fileName = `${desk.slug}.html`;
         const filePath = path.join(__dirname, 'dist', fileName);
-        
+
         fs.writeFileSync(filePath, html);
         generatedCount++;
-        
+
         if (generatedCount % 20 === 0) {
             console.log(`✅ Generated ${generatedCount} pages...`);
         }

@@ -38,9 +38,9 @@ const router = createRouter({
 // Function to update meta tags
 function updateMetaTag(property, content) {
   // Try to find existing meta tag
-  let metaTag = document.querySelector(`meta[property="${property}"]`) || 
-                document.querySelector(`meta[name="${property}"]`);
-  
+  let metaTag = document.querySelector(`meta[property="${property}"]`) ||
+    document.querySelector(`meta[name="${property}"]`);
+
   if (metaTag) {
     metaTag.setAttribute('content', content);
   } else {
@@ -55,26 +55,26 @@ function updateMetaTag(property, content) {
 // Function to update page title and meta tags for desk pages
 function updatePageMeta(to) {
   const baseUrl = window.location.origin;
-  
+
   if (to.params.deskSlug) {
     // Find the desk by slug
     const desk = deskData.find(d => d.slug === to.params.deskSlug);
-    
+
     if (desk) {
       const deskUrl = `${baseUrl}/${desk.slug}`;
       const title = `DESK Tribute - where creativity is born - ${desk.name}`;
       const description = `Check out ${desk.name}'s desk setup - ${desk.title} from ${desk.location}. A creative workspace that inspires.`;
       const image = desk.photos && desk.photos[0] ? `${baseUrl}${desk.photos[0]}` : `${baseUrl}/favicon.ico`;
-      
+
       // Update document title
       document.title = title;
-      
+
       // Update Open Graph meta tags
       updateMetaTag('og:url', deskUrl);
       updateMetaTag('og:title', title);
       updateMetaTag('og:description', description);
       updateMetaTag('og:image', image);
-      
+
       // Update Twitter Card meta tags
       updateMetaTag('twitter:title', title);
       updateMetaTag('twitter:description', description);
@@ -85,16 +85,16 @@ function updatePageMeta(to) {
     const title = 'Desk Tribute – Preserving the 2011 Desk Experience';
     const description = 'Non‑profit tribute remake of \'Desk\' (2011) by Jongmin Kim. Explore creative desks submitted by people worldwide.';
     const image = `${baseUrl}/favicon.ico`;
-    
+
     // Update document title
     document.title = title;
-    
+
     // Update Open Graph meta tags
     updateMetaTag('og:url', baseUrl);
     updateMetaTag('og:title', title);
     updateMetaTag('og:description', description);
     updateMetaTag('og:image', image);
-    
+
     // Update Twitter Card meta tags
     updateMetaTag('twitter:title', title);
     updateMetaTag('twitter:description', description);
