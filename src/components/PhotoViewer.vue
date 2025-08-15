@@ -1252,7 +1252,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 
 .copy-notification {
     position: fixed;
-    top: 50%;
+    top: calc(50% + 85px);
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 50;
