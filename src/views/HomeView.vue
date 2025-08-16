@@ -954,9 +954,6 @@ button {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 100;
   min-width: 320px;
   overflow-x: hidden;
@@ -969,23 +966,23 @@ button {
 }
 
 .overlay-content {
-  position: relative;
-  /* Changed from absolute to relative */
-  top: auto;
-  /* Remove fixed positioning */
-  left: auto;
-  /* Remove fixed positioning */
-  transform: none;
-  /* Remove transform positioning */
+  position: absolute;
+  /* Use absolute positioning to stack overlays */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Center the content */
   text-align: center;
   max-width: 664px;
-  width: 100%;
-  /* Use full available width */
+  width: calc(100% - 40px);
+  /* Account for overlay padding */
   padding: 4rem 2rem;
-  margin: auto;
-  /* Center horizontally */
   box-sizing: border-box;
   /* Include padding in width calculation */
+  max-height: calc(100vh - 40px);
+  /* Prevent content from exceeding viewport height minus overlay padding */
+  overflow-y: auto;
+  /* Allow scrolling within content if needed */
 }
 
 /* Responsive overlay content for narrow screens */
@@ -1004,7 +1001,7 @@ button {
     /* Fill screen width with 10px margin on each side */
     width: calc(100vw - 20px);
     /* Force full width */
-    padding: 1.5rem;
+    padding: 5rem 1.5rem;
     margin-top: 0;
     /* Remove top margin for mobile */
   }
@@ -1129,11 +1126,6 @@ button {
   line-height: 1;
   z-index: 1;
   transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.5s ease;
-
-  @media screen and (max-width: 699px) {
-    top: 0;
-    right: 0;
-  }
 }
 
 .close-button:hover {
