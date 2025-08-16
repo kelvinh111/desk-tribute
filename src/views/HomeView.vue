@@ -959,27 +959,54 @@ button {
   justify-content: center;
   z-index: 100;
   min-width: 320px;
-  /* Allow mobile devices */
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Enable scrolling when content is too tall */
+  padding: 20px;
+  /* Add padding to prevent edge cropping */
+  box-sizing: border-box;
+  /* Include padding in size calculation */
 }
 
 .overlay-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  /* Changed from absolute to relative */
+  top: auto;
+  /* Remove fixed positioning */
+  left: auto;
+  /* Remove fixed positioning */
+  transform: none;
+  /* Remove transform positioning */
   text-align: center;
-  max-width: 800px;
-  padding: 2rem;
+  max-width: 664px;
+  width: 100%;
+  /* Use full available width */
+  padding: 4rem 2rem;
+  margin: auto;
+  /* Center horizontally */
+  box-sizing: border-box;
+  /* Include padding in width calculation */
 }
 
 /* Responsive overlay content for narrow screens */
 @media (max-width: 700px) {
+  .overlay {
+    padding: 10px;
+    /* Reduce padding on mobile for more space */
+    align-items: flex-start;
+    /* Align to top instead of center for better scrolling */
+    padding-top: 90px;
+    /* Add top padding for visual breathing room */
+  }
+
   .overlay-content {
-    max-width: calc(100vw - 40px);
-    /* Fill screen width with 20px margin on each side */
-    width: calc(100vw - 40px);
+    max-width: calc(100vw - 20px);
+    /* Fill screen width with 10px margin on each side */
+    width: calc(100vw - 20px);
     /* Force full width */
     padding: 1.5rem;
+    margin-top: 0;
+    /* Remove top margin for mobile */
   }
 
   .overlay-text {
@@ -1027,7 +1054,8 @@ button {
 /* Medium-large screens: 900px-1024px - Scale down proportionally */
 @media (max-width: 1024px) and (min-width: 901px) {
   .overlay-text p {
-    max-width: calc(100vw * 0.586); /* 600/1024 ≈ 0.586 */
+    max-width: calc(100vw * 0.586);
+    /* 600/1024 ≈ 0.586 */
     width: calc(100vw * 0.586);
   }
 }
@@ -1035,7 +1063,8 @@ button {
 /* Medium screens: 768px-900px - Scale down more */
 @media (max-width: 900px) and (min-width: 769px) {
   .overlay-text p {
-    max-width: calc(100vw * 0.667); /* 600/900 ≈ 0.667 */
+    max-width: calc(100vw * 0.667);
+    /* 600/900 ≈ 0.667 */
     width: calc(100vw * 0.667);
   }
 }
@@ -1043,7 +1072,8 @@ button {
 /* Small-medium screens: 700px-768px - Scale down further */
 @media (max-width: 768px) and (min-width: 701px) {
   .overlay-text p {
-    max-width: calc(100vw * 0.781); /* 600/768 ≈ 0.781 */
+    max-width: calc(100vw * 0.781);
+    /* 600/768 ≈ 0.781 */
     width: calc(100vw * 0.781);
   }
 }
@@ -1056,12 +1086,12 @@ button {
     font-size: 0.85rem;
     line-height: 1.4rem;
   }
-  
+
   .overlay-text h2 {
     font-size: 1.8rem;
     width: 100%;
   }
-  
+
   .overlay-text h3 {
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
@@ -1088,8 +1118,8 @@ button {
 
 .close-button {
   position: absolute;
-  top: -1rem;
-  right: -1rem;
+  top: 2rem;
+  right: 1rem;
   background: none;
   border: none;
   color: white;
@@ -1099,6 +1129,11 @@ button {
   line-height: 1;
   z-index: 1;
   transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.5s ease;
+
+  @media screen and (max-width: 699px) {
+    top: 0;
+    right: 0;
+  }
 }
 
 .close-button:hover {

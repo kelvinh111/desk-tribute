@@ -816,6 +816,10 @@ function showTerms() {
     width: 600px;
     color: #666;
     text-align: left;
+    overflow-x: hidden;
+    /* Disable horizontal scrolling */
+    box-sizing: border-box;
+    /* Include padding in width calculation */
 }
 
 h2 {
@@ -1074,9 +1078,9 @@ label {
 // ==========================================
 
 .terms-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    // display: flex;
+    // flex-direction: column;
+    // gap: 0.5rem;
     margin: 1rem 0;
     position: relative;
 }
@@ -1241,6 +1245,10 @@ label {
     display: flex;
     gap: 20px;
     padding-left: calc(50% + 10px);
+
+    @media screen and (max-width: 699px) {
+        padding-left: 0;
+    }
 }
 
 .btn {
@@ -1264,6 +1272,124 @@ label {
         pointer-events: none;
         opacity: 0.5;
         cursor: not-allowed;
+    }
+}
+
+// ==========================================
+// RESPONSIVE MOBILE LAYOUT
+// ==========================================
+
+/* Mobile responsive styles for screens < 700px */
+@media (max-width: 699px) {
+    .desk-submission-form {
+        width: calc(100vw - 40px);
+        /* Full width with 20px margins */
+        max-width: 600px;
+        /* Don't exceed original width */
+        min-width: 320px;
+        /* Minimum mobile width */
+        box-sizing: border-box;
+        /* Include padding in width calculation */
+    }
+
+    /* Basic fields: stack vertically on mobile */
+    .form-section.basic-fields {
+        flex-direction: column;
+
+        .form-field {
+            width: 100%;
+            /* Full width for all fields */
+            box-sizing: border-box;
+            /* Include padding/borders in width */
+        }
+    }
+
+    /* Social media fields: 2x2 grid on mobile */
+    .form-section.sns-fields {
+        flex-wrap: wrap;
+
+        .form-field {
+            width: calc(50% - 10px);
+            /* 2 fields per row */
+            box-sizing: border-box;
+            /* Include padding/borders in width */
+
+            /* Facebook and X on first row */
+            &:nth-child(1),
+            &:nth-child(2) {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+
+    /* Ensure all form inputs fit within container */
+    .form-input {
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100%;
+        /* Prevent overflow */
+    }
+
+    /* Image upload section: vertical layout */
+    .image-upload-section {
+        grid-template-columns: 1fr;
+        /* Single column */
+        gap: 1.5rem;
+    }
+
+    /* Desk upload grid: 3 images per row instead of 5 */
+    .desk-upload-grid {
+        justify-content: start;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .upload-box {
+            width: calc(33.333% - 7px);
+            /* 3 per row with gaps */
+            aspect-ratio: 3/2;
+        }
+    }
+
+    /* Profile picture upload: match desk upload box size */
+    .upload-container {
+        .upload-box {
+            width: calc(33.333% - 7px);
+            /* Same size as desk upload boxes */
+            aspect-ratio: 3/2;
+        }
+    }
+
+    /* Buttons: stack vertically on very small screens */
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .btn {
+            width: 100%;
+        }
+    }
+}
+
+/* For screens smaller than 640px - ensure form fits completely within overlay */
+@media (max-width: 639px) {
+    .desk-submission-form {
+        width: calc(100vw - 68px);
+        /* Account for overlay padding (10px * 2) + overlay-content padding (24px * 2) = 68px total */
+        max-width: none;
+        /* Remove max-width restriction */
+        min-width: 280px;
+        /* Minimum mobile width */
+        box-sizing: border-box;
+        /* Include padding in width calculation */
+    }
+}
+
+/* Tablet/medium screens: 700px-900px */
+@media (min-width: 700px) and (max-width: 899px) {
+    .desk-submission-form {
+        width: calc(100vw - 60px);
+        /* Use more screen space */
+        max-width: 600px;
     }
 }
 </style>
