@@ -760,12 +760,23 @@ main {
   }
 }
 
+/* Hide logo tagline on screens narrower than 660px */
+@media (max-width: 659px) {
+  .logo span {
+    display: none;
+  }
+}
+
 .nav-menu {
   position: static; // Changed from fixed
   margin-top: 9px; // Adjust to align with logo baseline
   display: flex;
   gap: 30px;
   pointer-events: auto; // Enable clicks on nav items
+
+  @media (max-width: 659px) {
+    gap: 20px; // Reduce gap on smaller screens
+  }
 
   .nav-item {
     color: black;
