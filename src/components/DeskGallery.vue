@@ -89,6 +89,67 @@ let lastJumpedDeskId = null;
 const displayDesks = ref([]);
 
 // ==========================================
+// TOUCH HANDLING FOR MOBILE SWIPE
+// ==========================================
+
+/** @type {import('vue').Ref<number>} Touch start X coordinate */
+const touchStartX = ref(0);
+
+/** @type {import('vue').Ref<number>} Touch start Y coordinate */
+const touchStartY = ref(0);
+
+/** @type {import('vue').Ref<number>} Current scroll position for swipe navigation */
+const currentScrollX = ref(0);
+
+/**
+ * Handle touch start for swipe navigation
+ * @param {TouchEvent} event - Touch start event
+ */
+function handleTouchStart(event) {
+    const touch = event.touches[0];
+    touchStartX.value = touch.clientX;
+    touchStartY.value = touch.clientY;
+    currentScrollX.value = galleryRef.value ? galleryRef.value.scrollLeft : 0;
+}
+
+/**
+ * Handle touch end for swipe navigation
+ * @param {TouchEvent} event - Touch end event
+ */
+function handleTouchEnd(event) {
+    if (!touchStartX.value || !touchStartY.value) return;
+    
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX.value;
+    const deltaY = touch.clientY - touchStartY.value;
+    
+    // Reset touch coordinates
+    touchStartX.value = 0;
+    touchStartY.value = 0;
+    
+    // Only handle horizontal swipes (more horizontal than vertical movement)
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (galleryRef.value) {
+            const scrollAmount = 300; // Amount to scroll per swipe
+            
+            if (deltaX > 0) {
+                // Swipe right - scroll left
+                galleryRef.value.scrollTo({
+                    left: Math.max(0, galleryRef.value.scrollLeft - scrollAmount),
+                    behavior: 'smooth'
+                });
+            } else {
+                // Swipe left - scroll right
+                galleryRef.value.scrollTo({
+                    left: galleryRef.value.scrollLeft + scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
+}
+
+// ==========================================
 // GALLERY DATA MANAGEMENT
 // ==========================================
 

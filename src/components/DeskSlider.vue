@@ -230,6 +230,68 @@ function handlePointerDown(event) {
     window.addEventListener('pointerup', handlePointerUp);
 }
 
+// Touch handlers for mobile devices
+function handleTouchStart(event) {
+    if (!props.isInteractive || store.isCarouselLocked) return;
+    const touch = event.touches[0];
+    gsap.killTweensOf(carousel);
+    carousel.isDragging = true;
+    carousel.isPointerDown = true;
+    carousel.hasDragged = false;
+    carousel.startX = touch.clientX;
+    carousel.startScrollX = carousel.x;
+    carousel.lastX = carousel.x;
+    carousel.lastTime = Date.now();
+    carousel.velocityX = 0;
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+}
+
+function handleTouchMove(event) {
+    if (!carousel.isDragging) return;
+    const touch = event.touches[0];
+    const dx = touch.clientX - carousel.startX;
+    if (!carousel.hasDragged && Math.abs(dx) > 5) {
+        carousel.hasDragged = true;
+    }
+    if (carousel.hasDragged) {
+        event.preventDefault(); // Prevent scrolling when dragging
+    }
+    const newX = carousel.startScrollX + dx;
+    const bounds = getCarouselBounds();
+    carousel.x = gsap.utils.clamp(bounds.minX, bounds.maxX, newX);
+    markForUpdate();
+    const now = Date.now();
+    const dt = now - carousel.lastTime;
+    if (dt > 0) {
+        carousel.velocityX = (carousel.x - carousel.lastX) / dt;
+    }
+    carousel.lastX = carousel.x;
+    carousel.lastTime = now;
+}
+
+function handleTouchEnd() {
+    if (!carousel.isDragging) return;
+    carousel.isDragging = false;
+    carousel.isPointerDown = false;
+    window.removeEventListener('touchmove', handleTouchMove);
+    window.removeEventListener('touchend', handleTouchEnd);
+
+    const throwDistance = carousel.velocityX * THROW_MULTIPLIER;
+    let targetX = carousel.x + throwDistance;
+    const bounds = getCarouselBounds();
+    const originalTargetX = targetX;
+    targetX = gsap.utils.clamp(bounds.minX, bounds.maxX, targetX);
+    const hitBoundary = originalTargetX < bounds.minX || originalTargetX > bounds.maxX;
+
+    gsap.to(carousel, {
+        x: targetX,
+        duration: hitBoundary ? ANIMATION_DURATION : ANIMATION_DURATION * 1.5,
+        ease: hitBoundary ? 'back.out(1.7)' : 'power3.out',
+        onUpdate: markForUpdate,
+    });
+}
+
 function handlePointerMove(event) {
     if (!carousel.isDragging) return;
     const dx = event.clientX - carousel.startX;
@@ -695,6 +757,8 @@ onMounted(() => {
     });
 
     slider.addEventListener('pointerdown', handlePointerDown);
+    // Add touch support for mobile devices
+    slider.addEventListener('touchstart', handleTouchStart, { passive: false });
     positionSliderItems(0);
     markForUpdate();
 });
@@ -703,6 +767,8 @@ onBeforeUnmount(() => {
     gsap.ticker.remove(onTick);
     window.removeEventListener('pointermove', handlePointerMove);
     window.removeEventListener('pointerup', handlePointerUp);
+    window.removeEventListener('touchmove', handleTouchMove);
+    window.removeEventListener('touchend', handleTouchEnd);
 });
 
 </script>
@@ -802,6 +868,13 @@ onBeforeUnmount(() => {
     overflow: visible;
     z-index: 25;
     cursor: grab;
+
+    /* Touch-friendly properties for mobile */
+    touch-action: pan-y;
+    /* Allow vertical scrolling but capture horizontal touches */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 
     &:active {
         cursor: grabbing;
