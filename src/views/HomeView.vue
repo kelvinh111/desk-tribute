@@ -688,7 +688,8 @@ const updateCloneCenterTransform = () => {
 main {
   background-color: #E8E8E8;
   padding-bottom: 3rem; // Add some padding to the bottom
-  min-width: 650px;
+  min-width: 320px;
+  /* Allow mobile devices */
 }
 
 /* App fade-in transition */
@@ -715,7 +716,8 @@ main {
   top: 0;
   left: 0;
   right: 0;
-  min-width: 650px;
+  min-width: 320px;
+  /* Allow mobile devices */
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -945,7 +947,8 @@ button {
   align-items: center;
   justify-content: center;
   z-index: 100;
-  min-width: 650px;
+  min-width: 320px;
+  /* Allow mobile devices */
 }
 
 .overlay-content {

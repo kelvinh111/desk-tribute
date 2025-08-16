@@ -118,20 +118,20 @@ function handleTouchStart(event) {
  */
 function handleTouchEnd(event) {
     if (!touchStartX.value || !touchStartY.value) return;
-    
+
     const touch = event.changedTouches[0];
     const deltaX = touch.clientX - touchStartX.value;
     const deltaY = touch.clientY - touchStartY.value;
-    
+
     // Reset touch coordinates
     touchStartX.value = 0;
     touchStartY.value = 0;
-    
+
     // Only handle horizontal swipes (more horizontal than vertical movement)
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
         if (galleryRef.value) {
             const scrollAmount = 300; // Amount to scroll per swipe
-            
+
             if (deltaX > 0) {
                 // Swipe right - scroll left
                 galleryRef.value.scrollTo({
@@ -349,8 +349,13 @@ const galleryWidth = () => {
         return `${calculatedWidth}px`;
     } else {
         const singleColumnWidth = COLUMN_WIDTH + GUTTER;
-        const numCols = Math.floor(windowWidth.value / singleColumnWidth);
-        return `${numCols * singleColumnWidth - GUTTER}px`;
+        const numCols = Math.max(1, Math.floor(windowWidth.value / singleColumnWidth)); // Ensure at least 1 column
+        const finalWidth = numCols * singleColumnWidth - GUTTER;
+        // On very narrow screens, use a single column with reduced width
+        if (windowWidth.value < 320) {
+            return `${Math.max(285, windowWidth.value - 40)}px`; // 285px is COLUMN_WIDTH, with 20px padding on each side
+        }
+        return `${finalWidth}px`;
     }
 };
 
@@ -505,7 +510,8 @@ defineExpose({
     transition: opacity 0.6s ease;
     margin: 0 auto;
     max-width: 100vw;
-    min-width: 650px;
+    min-width: 285px;
+    /* Match single column width */
     z-index: 1;
 }
 
