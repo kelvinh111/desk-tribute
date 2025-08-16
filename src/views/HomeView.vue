@@ -972,6 +972,24 @@ button {
   padding: 2rem;
 }
 
+/* Responsive overlay content for narrow screens */
+@media (max-width: 700px) {
+  .overlay-content {
+    max-width: calc(100vw - 40px);
+    /* Fill screen width with 20px margin on each side */
+    width: calc(100vw - 40px);
+    /* Force full width */
+    padding: 1.5rem;
+  }
+
+  .overlay-text {
+    width: 100%;
+    /* Force text container to use full width */
+    max-width: none;
+    /* Remove any max-width restrictions */
+  }
+}
+
 .overlay-text {
   color: white;
   text-align: left;
@@ -995,6 +1013,60 @@ button {
   line-height: 1.5rem;
   margin-bottom: 1.5rem;
   max-width: 600px;
+}
+
+/* Detailed responsive overlay text for different screen sizes */
+/* Large screens: 1024px+ - Fixed 600px width */
+@media (min-width: 1025px) {
+  .overlay-text p {
+    max-width: 600px;
+    width: 600px;
+  }
+}
+
+/* Medium-large screens: 900px-1024px - Scale down proportionally */
+@media (max-width: 1024px) and (min-width: 901px) {
+  .overlay-text p {
+    max-width: calc(100vw * 0.586); /* 600/1024 ≈ 0.586 */
+    width: calc(100vw * 0.586);
+  }
+}
+
+/* Medium screens: 768px-900px - Scale down more */
+@media (max-width: 900px) and (min-width: 769px) {
+  .overlay-text p {
+    max-width: calc(100vw * 0.667); /* 600/900 ≈ 0.667 */
+    width: calc(100vw * 0.667);
+  }
+}
+
+/* Small-medium screens: 700px-768px - Scale down further */
+@media (max-width: 768px) and (min-width: 701px) {
+  .overlay-text p {
+    max-width: calc(100vw * 0.781); /* 600/768 ≈ 0.781 */
+    width: calc(100vw * 0.781);
+  }
+}
+
+/* Small screens: 700px and below - Use full width with margins */
+@media (max-width: 700px) {
+  .overlay-text p {
+    max-width: 100% !important;
+    width: 100%;
+    font-size: 0.85rem;
+    line-height: 1.4rem;
+  }
+  
+  .overlay-text h2 {
+    font-size: 1.8rem;
+    width: 100%;
+  }
+  
+  .overlay-text h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
 }
 
 .overlay-text .disclaimer {
