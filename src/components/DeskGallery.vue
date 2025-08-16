@@ -54,6 +54,9 @@ const COLUMN_WIDTH = 285;
 /** @type {number} Spacing between gallery items in the Masonry layout (pixels) */
 const GUTTER = 35;
 
+/** @type {boolean} Enable/disable the desk shuffling effect */
+const ENABLE_SHUFFLING = false; // Set to true to enable shuffling
+
 /** @type {number} Interval for desk cycling/shuffling effect (milliseconds) */
 const CYCLE_INTERVAL = 8000; // 8 seconds
 
@@ -177,6 +180,11 @@ const initializeDisplayDesks = () => {
  * cycle to maintain proper positioning.
  */
 const cycleDeskOrder = () => {
+    // Check if shuffling is enabled
+    if (!ENABLE_SHUFFLING) {
+        return; // Exit early if shuffling is disabled
+    }
+
     if (displayDesks.value.length > 1) {
         // Move last desk to beginning of array
         const lastDesk = displayDesks.value.pop();
