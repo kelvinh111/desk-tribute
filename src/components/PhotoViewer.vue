@@ -49,6 +49,9 @@ const progressColors = ['#F76997', '#F8851F', '#9E7DF5', '#78BD4A', '#38C8E8'];
 const currentProgressColor = ref('#F76997');
 const backdropColor = ref('#222222'); // Separate color for backdrop, starts with default
 
+// Mobile overlay visibility state
+const isMobileOverlayVisible = ref(false);
+
 // Helper function to calculate scaled dimensions that fill 70% viewport while maintaining aspect ratio
 function getScaledDimensions(imageWidth, imageHeight) {
     const maxWidth = windowWidth.value * 0.7;
@@ -397,6 +400,24 @@ function handleResize() {
 }
 
 // ==========================================
+// MOBILE OVERLAY TOGGLE
+// ==========================================
+
+function toggleMobileOverlay() {
+    // Only toggle on touch devices (mobile)
+    if (window.matchMedia('(hover: none)').matches) {
+        isMobileOverlayVisible.value = !isMobileOverlayVisible.value;
+    }
+}
+
+function closeMobileOverlay() {
+    // Only close on touch devices (mobile) and only if overlay is visible
+    if (window.matchMedia('(hover: none)').matches && isMobileOverlayVisible.value) {
+        isMobileOverlayVisible.value = false;
+    }
+}
+
+// ==========================================
 // SOCIAL SHARING FUNCTIONS
 // ==========================================
 
@@ -583,6 +604,12 @@ watch(() => props.visible, (newVal) => {
 });
 watch(() => props.desk, () => {
     currentIndex.value = 0;
+    isMobileOverlayVisible.value = false; // Hide mobile overlay when desk changes
+});
+
+// Hide mobile overlay when photo changes
+watch(currentIndex, () => {
+    isMobileOverlayVisible.value = false;
 });
 
 watch(() => props.desk, (newDesk, oldDesk) => {
@@ -639,11 +666,13 @@ watch(() => props.desk, (newDesk, oldDesk) => {
             <div
                 v-if="isSliderVisible && visible && props.isSliderVisible"
                 class="slider-wrapper"
+                @click="closeMobileOverlay"
             >
                 <div
                     v-if="props.desk && props.desk.photos && props.desk.photos.length"
                     class="slider-container"
                     ref="sliderContainer"
+                    @click.stop="toggleMobileOverlay"
                     :style="{
                         aspectRatio: sliderNaturalWidth + '/' + sliderNaturalHeight,
                         width: sliderDisplayWidth + 'px',
@@ -652,13 +681,16 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                 >
                     <div
                         class="slider-overlay"
-                        :class="{ 'disabled': !isSliderReady || isTransitioning }"
+                        :class="{
+                            'disabled': !isSliderReady || isTransitioning,
+                            'mobile-visible': isMobileOverlayVisible
+                        }"
                     >
                         <h3>Share this Desk</h3>
                         <h4>Use the buttons below to post this desk to a social network</h4>
                         <div class="social-buttons">
                             <a
-                                @click="audioManager.play('photoviewer_click'), shareToFacebook()"
+                                @click.stop="audioManager.play('photoviewer_click'), shareToFacebook()"
                                 @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
@@ -668,7 +700,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                                 />
                             </a>
                             <a
-                                @click="audioManager.play('photoviewer_click'), shareToX()"
+                                @click.stop="audioManager.play('photoviewer_click'), shareToX()"
                                 @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
@@ -678,7 +710,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                                 />
                             </a>
                             <a
-                                @click="audioManager.play('photoviewer_click'), shareToLinkedin()"
+                                @click.stop="audioManager.play('photoviewer_click'), shareToLinkedin()"
                                 @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
@@ -688,7 +720,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                                 />
                             </a>
                             <a
-                                @click="audioManager.play('photoviewer_click'), shareCopyLink()"
+                                @click.stop="audioManager.play('photoviewer_click'), shareCopyLink()"
                                 @mouseenter="audioManager.play('photoviewer_hover')"
                                 class="social-icon"
                             >
@@ -806,7 +838,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
                         :key="idx"
                         class="slider-pager-item"
                         :class="{ active: idx === currentIndex, disabled: !isSliderReady }"
-                        @click="!isSliderReady ? null : (audioManager.play('photoviewer_click'), goToSlide(idx))"
+                        @click.stop="!isSliderReady ? null : (audioManager.play('photoviewer_click'), goToSlide(idx))"
                         @mouseenter="!isSliderReady ? null : audioManager.play('photoviewer_hover')"
                     ></div>
                 </div>
@@ -815,7 +847,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         <div
             class="nav-button prev"
             :class="{ 'disabled': !isSliderReady || isTransitioning || currentIndex === 0 }"
-            @click="(!isSliderReady || isTransitioning || currentIndex === 0) ? null : (audioManager.play('photoviewer_click'), prevSlide())"
+            @click.stop="(!isSliderReady || isTransitioning || currentIndex === 0) ? null : (audioManager.play('photoviewer_click'), prevSlide())"
             @mouseenter="(!isSliderReady || isTransitioning || currentIndex === 0) ? null : audioManager.play('photoviewer_hover')"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
         >
@@ -826,7 +858,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         </div>
         <div
             class="nav-button next"
-            @click="(!isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1)) ? null : (audioManager.play('photoviewer_click'), nextSlide())"
+            @click.stop="(!isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1)) ? null : (audioManager.play('photoviewer_click'), nextSlide())"
             @mouseenter="(!isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1)) ? null : audioManager.play('photoviewer_hover')"
             v-if="props.desk && props.desk.photos && props.desk.photos.length > 1"
             :class="{ 'disabled': !isSliderReady || isTransitioning || currentIndex === (props.desk.photos.length - 1) }"
@@ -956,8 +988,23 @@ watch(() => props.desk, (newDesk, oldDesk) => {
         pointer-events: none;
     }
 
-    &:hover {
-        opacity: 1;
+    /* Desktop: Enable hover interactions */
+    @media (hover: hover) {
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    /* Mobile: Show overlay when mobile-visible class is added */
+    @media (hover: none) {
+        &.mobile-visible {
+            opacity: 1;
+        }
+
+        /* Prevent clicks on social buttons when overlay is not visible */
+        &:not(.mobile-visible) {
+            pointer-events: none;
+        }
     }
 
     h3 {

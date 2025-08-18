@@ -728,6 +728,7 @@ main {
 .logo {
   position: static; // Changed from fixed
   font-size: 1.2rem;
+  line-height: 1.5rem;
   letter-spacing: 0.05rem;
   font-weight: bold;
   color: black; // Dark gray

@@ -17,6 +17,7 @@ export default defineConfig({
     },
   },
   server: {
+    host: true, // Alternative way to expose to network
     port: 5173,
     open: false
   },
