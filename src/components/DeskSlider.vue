@@ -416,7 +416,7 @@ watch(() => props.selectedDeskId, (newId, oldId) => {
             }, {
                 scale: 2.04,
                 x: translateX,
-                y: translateY,
+                y: translateY - 50,
                 duration: ANIMATION_DURATION,
                 ease: 'bounce.out',
                 onComplete: () => {
@@ -517,7 +517,7 @@ function completePhotoLoadAnimation() {
             scale: 2.04,
             // x: translateX,
             x: window.innerWidth / 2 - activeSliderItemContent.getBoundingClientRect().left - 70,
-            y: translateY,
+            y: translateY + 50,
         }, {
             autoAlpha: 1,
             scale: 1,

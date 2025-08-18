@@ -359,7 +359,7 @@ function pick(desk, isDirectLoading = false) {
     const cloneWidth = cloneEl.offsetWidth;
     const cloneHeight = cloneEl.offsetHeight;
     const targetLeft = (window.innerWidth - cloneWidth) / 2;
-    const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY;
+    const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY - 50;
 
     // Set clone immediately to center position
     cloneEl.style.top = targetTop + 'px';
@@ -402,7 +402,7 @@ function pick(desk, isDirectLoading = false) {
     const targetTop = (window.innerHeight - cloneHeight) / 2 + window.scrollY;
 
     gsap.to(cloneEl, {
-      top: targetTop,
+      top: targetTop - 50,
       left: targetLeft,
       duration: 1,
       // ease: 'power2.inOut',
@@ -484,7 +484,6 @@ function onFlashingComplete() {
   if (store.selectedDeskClone) {
     gsap.to(store.selectedDeskClone.cloneEl, {
       opacity: 0,
-      // duration: 0.8,
       duration: 0,
       delay: 0.3, // Small delay after slider appears for smooth transition
       ease: 'power2.inOut',
