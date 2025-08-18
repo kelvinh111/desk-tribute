@@ -976,13 +976,32 @@ button {
   max-width: 664px;
   width: calc(100% - 40px);
   /* Account for overlay padding */
-  padding: 4rem 2rem;
+  // padding: 4rem 2rem;
+  padding: 15vh 2vh;
   box-sizing: border-box;
   /* Include padding in width calculation */
   max-height: calc(100vh - 40px);
   /* Prevent content from exceeding viewport height minus overlay padding */
   overflow-y: auto;
+
   /* Allow scrolling within content if needed */
+  /* Custom scrollbar styles for overlay content */
+  &::-webkit-scrollbar {
+    width: 4px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  // scrollbar-width: thin;
+  // scrollbar-color: white transparent;
 }
 
 /* Responsive overlay content for narrow screens */
@@ -1001,7 +1020,7 @@ button {
     /* Fill screen width with 10px margin on each side */
     width: calc(100vw - 20px);
     /* Force full width */
-    padding: 5rem 1.5rem;
+    // padding: 5rem 1.5rem;
     margin-top: 0;
     /* Remove top margin for mobile */
   }
@@ -1115,7 +1134,7 @@ button {
 
 .close-button {
   position: absolute;
-  top: 2rem;
+  top: 10vh;
   right: 1rem;
   background: none;
   border: none;

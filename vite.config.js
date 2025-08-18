@@ -17,9 +17,12 @@ export default defineConfig({
     },
   },
   server: {
-    host: true, // Alternative way to expose to network
+    host: '0.0.0.0', // Explicitly bind to all interfaces
     port: 5173,
-    open: false
+    open: false,
+    cors: true, // Enable CORS
+    strictPort: false, // Allow port switching if needed
+    allowedHosts: ['56eb0318f763.ngrok-free.app'] // Allow ngrok host
   },
   build: {
     rollupOptions: {

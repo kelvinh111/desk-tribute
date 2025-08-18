@@ -950,7 +950,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100vh - 110px);
+    height: calc(100dvh - 110px);
     display: flex;
     align-items: center;
     justify-content: center;
