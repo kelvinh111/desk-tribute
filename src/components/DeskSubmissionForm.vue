@@ -950,6 +950,10 @@ label {
     display: flex;
     flex-direction: column;
 
+    label {
+        white-space: nowrap;
+    }
+
     label:has(+ .upload-container .upload-box:hover) {
         color: white;
     }
