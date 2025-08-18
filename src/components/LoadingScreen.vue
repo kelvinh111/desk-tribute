@@ -183,7 +183,7 @@ onMounted(() => {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     background-color: #E8E8E8;
     display: flex;
     align-items: center;

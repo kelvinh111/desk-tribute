@@ -619,7 +619,7 @@ function formatDate(dateString) {
     border-radius: 8px;
     max-width: 900px;
     width: 100%;
-    max-height: 90vh;
+    max-height: 90dvh;
     overflow-y: auto;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
@@ -932,7 +932,7 @@ function formatDate(dateString) {
 .image-preview-content {
     position: relative;
     max-width: 90vw;
-    max-height: 90vh;
+    max-height: 90dvh;
 
     img {
         max-width: 100%;

@@ -388,7 +388,7 @@ function formatDate(dateString) {
 
 <style scoped lang="scss">
 .admin-dashboard {
-    min-height: 100vh;
+    min-height: 100dvh;
     background: #f5f5f5;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }

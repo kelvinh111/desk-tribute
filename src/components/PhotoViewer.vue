@@ -904,7 +904,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     background-color: #222222;
     z-index: 1;
     transition: background-color 0.4s ease;
@@ -929,7 +929,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 .progress-bar {
     position: fixed;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     z-index: 5;
     /* Above backdrop but below cloned desk and photoviewer */
     background: transparent;
@@ -962,7 +962,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 .slider-container {
     position: relative;
     max-width: 70vw;
-    max-height: 70vh;
+    max-height: 70dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1081,7 +1081,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
 
 .slider-info {
     position: absolute;
-    top: calc(50vh + var(--slider-height) / 2);
+    top: calc(50dvh + var(--slider-height) / 2);
     left: calc(50vw - var(--slider-width) / 2);
     width: var(--slider-width);
     display: flex;
@@ -1158,7 +1158,7 @@ watch(() => props.desk, (newDesk, oldDesk) => {
     position: absolute;
     color: white;
     display: flex;
-    top: calc(50vh + var(--slider-height) / 2);
+    top: calc(50dvh + var(--slider-height) / 2);
     right: calc(50vw - var(--slider-width) / 2);
     z-index: 40;
     gap: 3px;

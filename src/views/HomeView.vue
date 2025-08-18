@@ -977,10 +977,10 @@ button {
   width: calc(100% - 40px);
   /* Account for overlay padding */
   // padding: 4rem 2rem;
-  padding: 15vh 2vh;
+  padding: 15dvh 2dvh;
   box-sizing: border-box;
   /* Include padding in width calculation */
-  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
   /* Prevent content from exceeding viewport height minus overlay padding */
   overflow-y: auto;
 
@@ -1134,7 +1134,7 @@ button {
 
 .close-button {
   position: absolute;
-  top: 10vh;
+  top: 10dvh;
   right: 1rem;
   background: none;
   border: none;

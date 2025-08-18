@@ -61,12 +61,12 @@ function handleLogout() {
 
 <style scoped lang="scss">
 .admin-view {
-    min-height: 100vh;
+    min-height: 100dvh;
     background: #f5f5f5;
 }
 
 .authenticated-admin {
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .admin-header {
