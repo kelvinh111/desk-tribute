@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import deskData from '../model/desk.json';
+import { useDeskViewerStore } from '../stores/deskViewer.js';
 
 /**
  * LoadingScreen Component
@@ -36,6 +36,9 @@ import deskData from '../model/desk.json';
 // Define emitted events for parent component communication
 const emit = defineEmits(['loading-complete']);
 
+// Get the store instance
+const store = useDeskViewerStore();
+
 // Reactive state for controlling loading screen visibility and progress display
 const isLoading = ref(true);  // Controls component visibility and CSS transitions
 const progress = ref(0);      // Percentage value (0-100) for user feedback
@@ -48,7 +51,7 @@ async function preloadImages() {
      */
     const imagesToLoad = [];
 
-    deskData.forEach(desk => {
+    store.desks.forEach(desk => {
         // Add desk screen thumbnail image (shown in gallery grid)
         if (desk.profile) {
             imagesToLoad.push(desk.profile);
@@ -172,8 +175,18 @@ function completeLoading() {
 
 // Initialize image preloading process when component mounts
 // This ensures images start loading as early as possible in the app lifecycle
-onMounted(() => {
-    preloadImages();
+onMounted(async () => {
+    try {
+        // First, fetch desk data from Supabase
+        await store.fetchDesks();
+
+        // Then preload images once we have the desk data
+        await preloadImages();
+    } catch (error) {
+        console.error('Error during loading process:', error);
+        // Still complete loading even if there are errors
+        completeLoading();
+    }
 });
 </script>
 

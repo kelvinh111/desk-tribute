@@ -57,16 +57,29 @@ Deno.serve(async (req) => {
       title: desk.title,
       location: desk.location,
       profile: desk.profile_image_url,
-      decor: desk.decor_svg_url,
-      monitor: desk.monitor_config,
-      screen: desk.screen_config,
+      decor: desk.decor_svg_url || "/src/assets/decor.svg",
+      monitor: desk.monitor_config || {
+        width: "37.54%",
+        height: "21.82%",
+        x: "20.70%",
+        y: "61.82%",
+        img: "/src/assets/monitor.svg"
+      },
+      screen: desk.screen_config || {
+        width: "25.26%",
+        height: "16.36%",
+        x: "27.02%",
+        y: "63.27%",
+        firstPhoto: desk.submitted_photos?.[0] || "/src/assets/800x400.jpg"
+      },
       photos: desk.submitted_photos || [],
       social: {
         facebook: desk.social_facebook || null,
         twitter: desk.social_twitter || null,
         linkedin: desk.social_linkedin || null,
         website: desk.social_website || null
-      }
+      },
+      slug: desk.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
     }))
 
     return new Response(JSON.stringify(transformedDesks), {

@@ -323,7 +323,7 @@ async function approveSubmission(submission) {
             .update({
                 status: 'approved',
                 approved_at: new Date().toISOString(),
-                approved_by: 'admin' // You can add proper user management later
+                // approved_by: null // Remove this until proper user management is implemented
             })
             .eq('id', submission.id);
 

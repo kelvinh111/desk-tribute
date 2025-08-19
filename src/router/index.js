@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import AdminView from '../views/AdminView.vue';
-
-// Import desk data for meta tag updates
-import deskData from '../model/desk.json';
+import { useDeskViewerStore } from '../stores/deskViewer.js';
 
 const router = createRouter({
   // createWebHistory uses the browser's History API to manage routing without a page reload.
@@ -53,10 +51,10 @@ function updateMetaTag(property, content) {
 }
 
 // Function to update page title and meta tags for desk pages
-function updatePageMeta(to) {
+function updatePageMeta(to, deskData = []) {
   const baseUrl = window.location.origin;
 
-  if (to.params.deskSlug) {
+  if (to.params.deskSlug && deskData.length > 0) {
     // Find the desk by slug
     const desk = deskData.find(d => d.slug === to.params.deskSlug);
 
@@ -104,8 +102,12 @@ function updatePageMeta(to) {
 
 // Navigation guard to update meta tags before each route
 router.beforeEach((to, from, next) => {
-  // Update meta tags as early as possible
-  updatePageMeta(to);
+  // Get the store instance
+  const store = useDeskViewerStore();
+
+  // Update meta tags with current desk data (may be empty if not loaded yet)
+  updatePageMeta(to, store.desks);
+
   next();
 });
 
