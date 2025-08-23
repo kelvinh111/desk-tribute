@@ -977,7 +977,7 @@ button {
   width: calc(100% - 40px);
   /* Account for overlay padding */
   // padding: 4rem 2rem;
-  padding: 15dvh 2dvh;
+  padding: 10dvh 2dvh;
   box-sizing: border-box;
   /* Include padding in width calculation */
   max-height: calc(100dvh - 40px);

@@ -22,7 +22,7 @@ export default defineConfig({
     open: false,
     cors: true, // Enable CORS
     strictPort: false, // Allow port switching if needed
-    allowedHosts: ['56eb0318f763.ngrok-free.app'] // Allow ngrok host
+    allowedHosts: ['256a2f18ac41.ngrok-free.app'] // Allow ngrok host
   },
   build: {
     rollupOptions: {

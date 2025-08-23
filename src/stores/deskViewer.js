@@ -7,7 +7,7 @@ import { supabase } from '../lib/supabase.js';
  * Set to true to use local desk.json file
  * Set to false to use Supabase API
  */
-const USE_LOCAL_DATA = false;
+const USE_LOCAL_DATA = true;
 
 /**
  * API Configuration - Choose your API endpoint
